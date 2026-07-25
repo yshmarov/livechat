@@ -82,7 +82,10 @@
     .reply textarea { flex: 1; resize: vertical; min-height: 44px; max-height: 200px; padding: 8px 10px;
                       border: 1px solid var(--border); border-radius: 10px; font: inherit;
                       background: var(--bg); color: var(--text); }
-    .reply button { align-self: flex-end; }
+    .reply button.send { align-self: flex-end; width: 42px; min-width: 42px; height: 42px; padding: 0;
+                         display: flex; align-items: center; justify-content: center;
+                         background: var(--accent); border-color: var(--accent); color: var(--accent-text);
+                         border-radius: 10px; }
   </style>
 </head>
 <body>

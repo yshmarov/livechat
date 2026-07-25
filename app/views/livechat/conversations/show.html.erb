@@ -67,6 +67,11 @@
   <%= form_with url: conversation_messages_path(@conversation), method: :post, class: 'reply' do |form| %>
     <%= form.text_area :body, rows: 2, autofocus: true, required: true,
                        placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
-    <%= form.button t('livechat.dashboard.send', default: 'Send'), class: 'primary' %>
+    <button type="submit" class="primary send"
+            aria-label="<%= t('livechat.dashboard.send', default: 'Send') %>"
+            title="<%= t('livechat.dashboard.send', default: 'Send') %>">
+      <%# Paper airplane (Heroicons, MIT) — same icon as the widget. %>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"/></svg>
+    </button>
   <% end %>
 </div>
