@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.4
+
+- Docs: show how to wire `current_user` with Rails 8's built-in authentication
+  (`bin/rails generate authentication`), alongside the existing Devise/Warden
+  example — in the README and the generated initializer.
+
 ## 0.3.3
 
 - Accessibility: on phones (where the panel is a full-screen modal) focus is

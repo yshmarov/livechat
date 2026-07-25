@@ -16,7 +16,15 @@ Livechat.configure do |config|
   # Resolve the current user (optional). Return an object responding to #id,
   # or nil. Signed-in visitors keep one conversation across devices; guests
   # are tracked with a cookie. The same user is the agent when replying.
+  #
+  # Devise / Warden:
   # config.current_user = ->(request) { request.env["warden"]&.user }
+  #
+  # Rails 8 built-in auth (bin/rails generate authentication):
+  # config.current_user = lambda do |request|
+  #   token = request.cookies["session_token"]
+  #   Session.find_signed(token)&.user if token
+  # end
 
   # How visitors appear in the inbox.
   # config.visitor_label = ->(user) { user.name.presence || user.email }

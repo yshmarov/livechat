@@ -91,6 +91,20 @@ Livechat.configure do |config|
 end
 ```
 
+`current_user` (and any admin gate) receives the raw request, so it works
+with whatever auth you have:
+
+```ruby
+# Devise / Warden:
+config.current_user = ->(request) { request.env["warden"]&.user }
+
+# Rails 8 built-in auth (bin/rails generate authentication):
+config.current_user = lambda do |request|
+  token = request.cookies["session_token"]
+  Session.find_signed(token)&.user if token
+end
+```
+
 ### Brand color
 
 ```ruby
