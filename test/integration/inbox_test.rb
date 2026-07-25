@@ -20,9 +20,24 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'Grace'
     assert_includes response.body, 'anyone there?'
     assert_includes response.body, 'badge unread-count'
+    assert_includes response.body, ">##{conversation.id}</a>"
 
     get '/livechat?status=resolved'
     assert_includes response.body, 'Visitor #'
+  end
+
+  test 'index and thread expose email and case id for referencing' do
+    conversation = start_conversation(visitor_label: 'Grace', visitor_email: 'grace@example.com')
+    conversation.post_visitor_message!('hello')
+
+    as_agent!
+    get '/livechat'
+    assert_includes response.body, 'grace@example.com'
+
+    get "/livechat/#{conversation.id}"
+    assert_includes response.body, "#{conversation.display_name} <span class=\"case-id\">##{conversation.id}</span>"
+    assert_includes response.body, 'grace@example.com'
+    refute_includes response.body, 'Started'
   end
 
   test 'opening a thread marks visitor messages as read' do

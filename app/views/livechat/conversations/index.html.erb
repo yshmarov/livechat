@@ -17,6 +17,7 @@
     <table>
       <thead>
         <tr>
+          <th>#</th>
           <th><%= t('livechat.dashboard.visitor', default: 'Visitor') %></th>
           <th><%= t('livechat.dashboard.last_message', default: 'Last message') %></th>
           <th><%= t('livechat.dashboard.updated', default: 'Updated') %></th>
@@ -26,10 +27,14 @@
         <% @conversations.each do |conversation| %>
           <% unread = @unread.fetch(conversation.id, 0) %>
           <tr class="<%= 'unread' if unread.positive? %>">
+            <td class="muted"><%= link_to "##{conversation.id}", conversation_path(conversation), class: 'case-id' %></td>
             <td>
               <%= link_to conversation.display_name, conversation_path(conversation) %>
               <% if unread.positive? %>
                 <span class="badge unread-count"><%= unread %></span>
+              <% end %>
+              <% if conversation.visitor_email.present? && conversation.visitor_email != conversation.display_name %>
+                <div class="muted"><%= conversation.visitor_email %></div>
               <% end %>
             </td>
             <td class="muted"><%= conversation.last_message_preview %></td>

@@ -3,7 +3,7 @@
 </p>
 
 <div class="head-row">
-  <h1><%= @conversation.display_name %></h1>
+  <h1><%= @conversation.display_name %> <span class="case-id">#<%= @conversation.id %></span></h1>
   <span class="badge status-<%= @conversation.status %>">
     <%= t("livechat.statuses.#{@conversation.status}", default: @conversation.status.humanize) %>
   </span>
@@ -16,22 +16,18 @@
   <% end %>
 </div>
 
-<dl class="context">
-  <% if @conversation.visitor_email.present? %>
-    <dt><%= t('livechat.dashboard.email', default: 'Email') %></dt>
-    <dd><%= mail_to @conversation.visitor_email %></dd>
-  <% end %>
+<%# One quiet line of live context: who to email, the language to answer in,
+    and the page of their LAST message (refreshed on every visitor write). %>
+<p class="muted context-line">
+  <% context = [] %>
+  <% context << mail_to(@conversation.visitor_email) if @conversation.visitor_email.present? %>
+  <% context << @conversation.locale if @conversation.locale.present? %>
   <% if @conversation.page_url.present? %>
-    <dt><%= t('livechat.dashboard.page', default: 'Page') %></dt>
-    <dd><%= link_to @conversation.page_url, @conversation.page_url, target: '_blank', rel: 'noopener' %></dd>
+    <% context << link_to(@conversation.page_url.sub(%r{\Ahttps?://}, ''), @conversation.page_url,
+                          target: '_blank', rel: 'noopener') %>
   <% end %>
-  <% if @conversation.locale.present? %>
-    <dt><%= t('livechat.dashboard.locale', default: 'Locale') %></dt>
-    <dd><%= @conversation.locale %></dd>
-  <% end %>
-  <dt><%= t('livechat.dashboard.started', default: 'Started') %></dt>
-  <dd><%= @conversation.created_at.to_fs(:long) %></dd>
-</dl>
+  <%= safe_join(context, ' · ') %>
+</p>
 
 <div class="card">
   <div class="thread" id="thread"

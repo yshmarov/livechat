@@ -23,10 +23,13 @@ class VisitorApiTest < ActionDispatch::IntegrationTest
     assert_equal 'http://example.com/pricing', conversation.page_url
     assert_nil conversation.visitor_id
 
-    # The follow-up lands in the same thread.
-    post '/livechat/widget/messages', params: { body: 'again' }, as: :json
+    # The follow-up lands in the same thread — and refreshes the context to
+    # the visitor's latest page, not the one they started on.
+    post '/livechat/widget/messages',
+         params: { body: 'again', page_url: 'http://example.com/billing' }, as: :json
     assert_equal 1, Livechat::Conversation.count
     assert_equal 2, conversation.messages.count
+    assert_equal 'http://example.com/billing', conversation.reload.page_url
   end
 
   test 'signed-in visitors are attributed and get no cookie' do

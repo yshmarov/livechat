@@ -42,6 +42,7 @@ module Livechat
         conversation = find_conversation || start_conversation
         message = conversation.post_visitor_message!(params[:body].to_s.strip)
       end
+      refresh_context(message.conversation)
       Notifications.visitor_message(message)
 
       render json: { message: message.as_widget_json }, status: :created
@@ -90,6 +91,15 @@ module Livechat
       return unless current_visitor
 
       Livechat.config.visitor_label.call(current_visitor).presence
+    end
+
+    # page_url and locale track the visitor's LAST message, not the first —
+    # "where are they stuck right now" is what an answering agent needs.
+    def refresh_context(conversation)
+      updates = {}
+      updates[:page_url] = params[:page_url].to_s.first(255) if params[:page_url].present?
+      updates[:locale] = params[:locale].to_s.first(10) if params[:locale].present?
+      conversation.update_columns(updates) if updates.any?
     end
 
     def empty_state
