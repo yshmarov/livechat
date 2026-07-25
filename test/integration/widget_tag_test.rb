@@ -57,6 +57,15 @@ class WidgetTagTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'hi \u003c/script'
   end
 
+  test 'accent_color rides the widget config' do
+    get '/sample'
+    assert_includes response.body, '"accentColor":null'
+
+    Livechat.config.accent_color = '#7c3aed'
+    get '/sample'
+    assert_includes response.body, '"accentColor":"#7c3aed"'
+  end
+
   test 'livechat_button renders a plain opener' do
     get '/sample'
     assert_includes response.body, 'data-livechat-open'

@@ -33,6 +33,10 @@ Livechat.configure do |config|
   # config.reply_time_text = "We usually reply within a few hours."
   # config.launcher_label = "Chat with us"
 
+  # Brand color (hex) for the launcher, header, bubbles and send button.
+  # Text flips black/white automatically for contrast. nil = built-in blue.
+  # config.accent_color = "#7c3aed"
+
   # The floating bubble. Set false and open the widget from your own
   # elements carrying data-livechat-open, or window.Livechat.open().
   # config.show_launcher = true

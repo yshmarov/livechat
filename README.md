@@ -91,6 +91,16 @@ Livechat.configure do |config|
 end
 ```
 
+### Brand color
+
+```ruby
+config.accent_color = "#7c3aed"
+```
+
+One hex value restyles the launcher, header, visitor bubbles and send
+button; the widget picks black or white text automatically for contrast,
+in light and dark mode alike.
+
 ### Who visitors talk to
 
 Replies are signed. What visitors see is up to you:

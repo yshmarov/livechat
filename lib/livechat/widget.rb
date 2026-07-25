@@ -67,6 +67,7 @@ module Livechat
           authenticated: authenticated ? true : false,
           launcher: config.show_launcher ? true : false,
           appName: Livechat.app_name,
+          accentColor: config.accent_color,
           labels: labels
         }
         # Escape "</" so a value can't close the <script> block early.
