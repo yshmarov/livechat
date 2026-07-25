@@ -56,4 +56,39 @@ class MessageTest < ActiveSupport::TestCase
 
     assert_equal [second], @conversation.messages.after_id(first.id).to_a
   end
+
+  test 'a message with a file needs no body, but a bare message still does' do
+    png = fixture_file_upload('pixel.png', 'image/png')
+    with_file = @conversation.messages.new(author_type: 'visitor')
+    with_file.files.attach(png)
+    assert_predicate with_file, :valid?
+
+    assert_not @conversation.messages.new(author_type: 'visitor').valid?
+  end
+
+  test 'preview names the attachment when a message is files-only' do
+    png = fixture_file_upload('pixel.png', 'image/png')
+    message = @conversation.messages.new(author_type: 'visitor')
+    message.files.attach(png)
+    message.save!
+
+    assert_equal '📎 pixel.png', message.preview
+  end
+
+  test 'attachments_json and the widget/inbox JSON expose gated urls' do
+    png = fixture_file_upload('pixel.png', 'image/png')
+    message = @conversation.post_visitor_message!('look', files: [png])
+
+    attachment = message.attachments_json.first
+    assert_equal 'pixel.png', attachment[:name]
+    assert attachment[:image]
+    assert_match %r{\A/livechat/attachments/\d+\z}, attachment[:url]
+    assert_equal attachment[:url], message.as_widget_json[:attachments].first[:url]
+    assert_equal attachment[:url], message.as_inbox_json[:attachments].first[:url]
+  end
+
+  test 'a message carrying no files exposes an empty attachments array' do
+    message = @conversation.post_visitor_message!('plain text')
+    assert_equal [], message.as_widget_json[:attachments]
+  end
 end

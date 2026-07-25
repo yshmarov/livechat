@@ -17,6 +17,13 @@ uk:
     error_send: "Не вдалося надіслати. Будь ласка, спробуйте ще раз."
     error_rate_limited: "Забагато повідомлень. Зачекайте трохи та спробуйте ще раз."
     unread_aria: "непрочитані повідомлення"
+    attach: "Прикріпити файли"
+    remove_file: "Видалити файл"
+    attachment_error: "Деякі файли не вдалося надіслати."
+    attachments:
+      too_many: "Забагато файлів (максимум %{count})."
+      too_large: "%{name} завеликий."
+      type_rejected: "Тип файлу %{name} не дозволено."
     statuses:
       open: "Відкрита"
       resolved: "Завершена"
@@ -36,6 +43,7 @@ uk:
       reopen: "Відновити"
       reply_placeholder: "Напишіть відповідь…"
       send: "Надіслати"
+      attach: "Прикріпити файли"
       newer: "Новіші"
       older: "Старіші"
     mail:

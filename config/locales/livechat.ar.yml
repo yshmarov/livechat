@@ -17,6 +17,13 @@ ar:
     error_send: "تعذر الإرسال. يرجى المحاولة مرة أخرى."
     error_rate_limited: "رسائل كثيرة جدًا. يرجى الانتظار قليلًا والمحاولة مرة أخرى."
     unread_aria: "رسائل غير مقروءة"
+    attach: "إرفاق ملفات"
+    remove_file: "إزالة الملف"
+    attachment_error: "تعذر إرسال بعض الملفات."
+    attachments:
+      too_many: "ملفات كثيرة جدًا (بحد أقصى %{count})."
+      too_large: "%{name} كبير جدًا."
+      type_rejected: "نوع %{name} غير مسموح به."
     statuses:
       open: "مفتوحة"
       resolved: "محلولة"
@@ -36,6 +43,7 @@ ar:
       reopen: "إعادة فتح"
       reply_placeholder: "اكتب ردك…"
       send: "إرسال"
+      attach: "إرفاق ملفات"
       newer: "الأحدث"
       older: "الأقدم"
     mail:

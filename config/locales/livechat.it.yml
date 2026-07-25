@@ -17,6 +17,13 @@ it:
     error_send: "Invio non riuscito. Riprova."
     error_rate_limited: "Troppi messaggi. Attendi un momento e riprova."
     unread_aria: "messaggi non letti"
+    attach: "Allega file"
+    remove_file: "Rimuovi file"
+    attachment_error: "Non è stato possibile inviare alcuni file."
+    attachments:
+      too_many: "Troppi file (max %{count})."
+      too_large: "%{name} è troppo grande."
+      type_rejected: "Il tipo di %{name} non è consentito."
     statuses:
       open: "Aperta"
       resolved: "Risolta"
@@ -36,6 +43,7 @@ it:
       reopen: "Riapri"
       reply_placeholder: "Scrivi la tua risposta…"
       send: "Invia"
+      attach: "Allega file"
       newer: "Più recenti"
       older: "Più vecchi"
     mail:

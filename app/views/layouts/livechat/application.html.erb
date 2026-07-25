@@ -85,12 +85,20 @@
     .thread .msg.agent { align-self: flex-end; background: var(--accent); color: var(--accent-text);
                          border-bottom-right-radius: 4px; }
     .thread .system { align-self: center; color: var(--muted); font-size: 12px; margin: 8px 0; }
+    .thread .msg .atts { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+    .thread .msg .att-img img { max-width: 100%; max-height: 240px; border-radius: 8px; display: block; }
+    .thread .msg .att-file { display: inline-block; padding: 6px 10px; border-radius: 8px;
+                             background: rgba(0,0,0,.06); color: inherit; font-size: 13px;
+                             overflow-wrap: anywhere; }
+    .thread .msg.agent .att-file { background: rgba(255,255,255,.2); }
     #new-messages { margin: 12px 0 0; }
     #new-messages a { font-weight: 600; }
     .reply { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); }
-    .reply textarea { flex: 1; resize: vertical; min-height: 44px; max-height: 200px; padding: 8px 10px;
+    .reply .compose { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .reply textarea { resize: vertical; min-height: 44px; max-height: 200px; padding: 8px 10px;
                       border: 1px solid var(--border); border-radius: 10px; font: inherit;
                       background: var(--bg); color: var(--text); }
+    .reply input[type=file] { font-size: 12px; color: var(--muted); }
     .reply button.send { align-self: flex-end; width: 42px; min-width: 42px; height: 42px; padding: 0;
                          display: flex; align-items: center; justify-content: center;
                          background: var(--accent); border-color: var(--accent); color: var(--accent-text);

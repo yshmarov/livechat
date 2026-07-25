@@ -28,6 +28,7 @@ module Livechat
         status: conversation.status,
         unread: conversation.messages.from_agent.unread.count,
         email: conversation.visitor_email.present?,
+        cable: cable_payload(conversation),
         messages: messages.map(&:as_widget_json)
       }
     end
@@ -40,7 +41,7 @@ module Livechat
       # conversation behind.
       ActiveRecord::Base.transaction do
         conversation = find_conversation || start_conversation
-        message = conversation.post_visitor_message!(params[:body].to_s.strip)
+        message = conversation.post_visitor_message!(params[:body].to_s.strip, files: params[:files])
       end
       refresh_context(message.conversation)
       Notifications.visitor_message(message)
@@ -102,7 +103,17 @@ module Livechat
     end
 
     def empty_state
-      { status: nil, unread: 0, email: false, messages: [] }
+      { status: nil, unread: 0, email: false, cable: nil, messages: [] }
+    end
+
+    # The signed stream token and cable URL the widget subscribes with, or nil
+    # when push is off. The token is scoped to this conversation and only
+    # reaches a visitor who already passed the gate to read it.
+    def cable_payload(conversation)
+      return unless Livechat.action_cable_enabled?
+
+      { url: Livechat.config.action_cable_url,
+        stream: Livechat.sign_stream("livechat:conversation:#{conversation.id}") }
     end
   end
 end

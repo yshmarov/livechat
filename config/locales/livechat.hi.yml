@@ -17,6 +17,13 @@ hi:
     error_send: "भेजा नहीं जा सका। कृपया फिर से कोशिश करें।"
     error_rate_limited: "बहुत सारे संदेश। कृपया थोड़ी देर रुककर फिर से कोशिश करें।"
     unread_aria: "अपठित संदेश"
+    attach: "फ़ाइलें संलग्न करें"
+    remove_file: "फ़ाइल हटाएं"
+    attachment_error: "कुछ फ़ाइलें भेजी नहीं जा सकीं।"
+    attachments:
+      too_many: "बहुत सारी फ़ाइलें (अधिकतम %{count})।"
+      too_large: "%{name} बहुत बड़ी है।"
+      type_rejected: "%{name} का प्रकार अनुमत नहीं है।"
     statuses:
       open: "खुली"
       resolved: "सुलझी हुई"
@@ -36,6 +43,7 @@ hi:
       reopen: "फिर से खोलें"
       reply_placeholder: "अपना जवाब लिखें…"
       send: "भेजें"
+      attach: "फ़ाइलें संलग्न करें"
       newer: "नए"
       older: "पुराने"
     mail:

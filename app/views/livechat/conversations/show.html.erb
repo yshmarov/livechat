@@ -31,10 +31,12 @@
 
 <div class="card">
   <% last = @messages.last %>
+  <% cable = livechat_cable_data("livechat:conversation:#{@conversation.id}") %>
   <div class="thread" id="thread"
        data-poll-url="<%= poll_conversation_path(@conversation) %>"
        data-latest="<%= last&.id.to_i %>"
-       data-last-author="<%= (last && !last.system?) ? "#{last.author_type}:#{last.agent_label}" : '' %>">
+       data-last-author="<%= (last && !last.system?) ? "#{last.author_type}:#{last.agent_label}" : '' %>"
+       <%= tag.attributes(data: cable) if cable.any? %>>
     <% previous_author = nil %>
     <% @messages.each do |message| %>
       <% if message.system? %>
@@ -53,14 +55,21 @@
           </p>
           <% previous_author = author_key %>
         <% end %>
-        <div class="msg <%= message.author_type %>" id="message-<%= message.id %>"><%= message.body %></div>
+        <div class="msg <%= message.author_type %>" id="message-<%= message.id %>"><%= message.body %><%= livechat_message_attachments(message) %></div>
       <% end %>
     <% end %>
   </div>
 
-  <%= form_with url: conversation_messages_path(@conversation), method: :post, class: 'reply' do |form| %>
-    <%= form.text_area :body, rows: 2, autofocus: true, required: true,
-                       placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
+  <%= form_with url: conversation_messages_path(@conversation), method: :post,
+                multipart: true, class: 'reply' do |form| %>
+    <div class="compose">
+      <%= form.text_area :body, rows: 2, autofocus: true, required: !Livechat.attachments_enabled?,
+                         placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
+      <% if Livechat.attachments_enabled? %>
+        <%= form.file_field :files, multiple: true,
+                            aria: { label: t('livechat.dashboard.attach', default: 'Attach files') } %>
+      <% end %>
+    </div>
     <button type="submit" class="primary send"
             aria-label="<%= t('livechat.dashboard.send', default: 'Send') %>"
             title="<%= t('livechat.dashboard.send', default: 'Send') %>">

@@ -17,6 +17,13 @@ en:
     error_send: "Could not send. Please try again."
     error_rate_limited: "Too many messages. Please wait a moment and try again."
     unread_aria: "unread messages"
+    attach: "Attach files"
+    remove_file: "Remove file"
+    attachment_error: "Some files could not be sent."
+    attachments:
+      too_many: "Too many files (max %{count})."
+      too_large: "%{name} is too large."
+      type_rejected: "%{name}'s type isn't allowed."
     statuses:
       open: "Open"
       resolved: "Resolved"
@@ -36,6 +43,7 @@ en:
       reopen: "Reopen"
       reply_placeholder: "Write your reply…"
       send: "Send"
+      attach: "Attach files"
       newer: "Newer"
       older: "Older"
     mail:

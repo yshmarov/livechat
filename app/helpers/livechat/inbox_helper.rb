@@ -14,5 +14,37 @@ module Livechat
 
       tag.span(initials, class: "avatar color-#{color}", title: label)
     end
+
+    # A message's attachments, rendered like the widget: images inline as
+    # thumbnails, everything else as a download link. Both point at the gated
+    # engine route, never a public blob URL.
+    def livechat_message_attachments(message)
+      attachments = message.attachments_json
+      return if attachments.empty?
+
+      tag.div(class: 'atts') do
+        safe_join(attachments.map { |attachment| livechat_attachment_link(attachment) })
+      end
+    end
+
+    # data-* attributes that hand dashboard.js a signed cable stream to watch,
+    # or {} when push is off. Merge into the element that already polls, so a
+    # nudge just fires its existing refresh sooner.
+    def livechat_cable_data(stream_name)
+      return {} unless Livechat.action_cable_enabled?
+
+      { 'cable-url' => Livechat.config.action_cable_url,
+        'cable-stream' => Livechat.sign_stream(stream_name) }
+    end
+
+    def livechat_attachment_link(attachment)
+      if attachment[:image]
+        link_to image_tag(attachment[:url], alt: attachment[:name], loading: 'lazy'),
+                attachment[:url], target: '_blank', rel: 'noopener', class: 'att-img'
+      else
+        link_to attachment[:name], attachment[:url],
+                target: '_blank', rel: 'noopener', class: 'att-file'
+      end
+    end
   end
 end

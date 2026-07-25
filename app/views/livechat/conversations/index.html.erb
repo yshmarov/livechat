@@ -19,9 +19,11 @@
 
 <%# The list keeps itself fresh (dashboard.js reloads when the token moves) —
     unless the agent is mid-search, whose typing must never be eaten. %>
+<% cable = livechat_cable_data('livechat:inbox') %>
 <div id="lvc-index" data-poll-url="<%= poll_conversations_path %>"
      data-token="<%= [Livechat::Message.maximum(:id).to_i, Livechat::Conversation.count,
-                      @counts.fetch('open', 0)].join('-') %>"></div>
+                      @counts.fetch('open', 0)].join('-') %>"
+     <%= tag.attributes(data: cable) if cable.any? %>></div>
 
 <div class="card">
   <% if @conversations.empty? %>

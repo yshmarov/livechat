@@ -17,6 +17,13 @@ bn:
     error_send: "পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
     error_rate_limited: "অনেক বেশি বার্তা। একটু অপেক্ষা করে আবার চেষ্টা করুন।"
     unread_aria: "অপঠিত বার্তা"
+    attach: "ফাইল সংযুক্ত করুন"
+    remove_file: "ফাইল সরান"
+    attachment_error: "কিছু ফাইল পাঠানো যায়নি।"
+    attachments:
+      too_many: "অনেক বেশি ফাইল (সর্বোচ্চ %{count})।"
+      too_large: "%{name} খুব বড়।"
+      type_rejected: "%{name}-এর ধরন অনুমোদিত নয়।"
     statuses:
       open: "খোলা"
       resolved: "সমাধান হয়েছে"
@@ -36,6 +43,7 @@ bn:
       reopen: "আবার খুলুন"
       reply_placeholder: "আপনার উত্তর লিখুন…"
       send: "পাঠান"
+      attach: "ফাইল সংযুক্ত করুন"
       newer: "নতুনতর"
       older: "পুরনো"
     mail:

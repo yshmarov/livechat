@@ -17,6 +17,13 @@ hr:
     error_send: "Slanje nije uspjelo. Pokušajte ponovno."
     error_rate_limited: "Previše poruka. Pričekajte trenutak i pokušajte ponovno."
     unread_aria: "nepročitane poruke"
+    attach: "Priloži datoteke"
+    remove_file: "Ukloni datoteku"
+    attachment_error: "Neke datoteke nije bilo moguće poslati."
+    attachments:
+      too_many: "Previše datoteka (najviše %{count})."
+      too_large: "%{name} je prevelika."
+      type_rejected: "Vrsta datoteke %{name} nije dopuštena."
     statuses:
       open: "Otvoren"
       resolved: "Riješen"
@@ -36,6 +43,7 @@ hr:
       reopen: "Ponovno otvori"
       reply_placeholder: "Napišite svoj odgovor…"
       send: "Pošalji"
+      attach: "Priloži datoteke"
       newer: "Novije"
       older: "Starije"
     mail:

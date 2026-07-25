@@ -17,6 +17,13 @@ ru:
     error_send: "Не удалось отправить. Пожалуйста, попробуйте ещё раз."
     error_rate_limited: "Слишком много сообщений. Подождите немного и попробуйте ещё раз."
     unread_aria: "непрочитанные сообщения"
+    attach: "Прикрепить файлы"
+    remove_file: "Удалить файл"
+    attachment_error: "Некоторые файлы не удалось отправить."
+    attachments:
+      too_many: "Слишком много файлов (макс. %{count})."
+      too_large: "%{name} слишком большой."
+      type_rejected: "Тип файла %{name} не разрешён."
     statuses:
       open: "Открыт"
       resolved: "Завершён"
@@ -36,6 +43,7 @@ ru:
       reopen: "Возобновить"
       reply_placeholder: "Напишите ответ…"
       send: "Отправить"
+      attach: "Прикрепить файлы"
       newer: "Новее"
       older: "Старше"
     mail:

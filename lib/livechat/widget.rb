@@ -68,6 +68,8 @@ module Livechat
           launcher: config.show_launcher ? true : false,
           appName: Livechat.app_name,
           accentColor: config.accent_color,
+          attachments: Livechat.attachments_enabled?,
+          maxAttachments: config.max_attachments,
           labels: labels
         }
         # Escape "</" so a value can't close the <script> block early.
@@ -99,7 +101,10 @@ module Livechat
           eventResolved: t(:event_resolved, 'Conversation resolved'),
           eventReopened: t(:event_reopened, 'Conversation reopened'),
           errorSend: t(:error_send, 'Could not send. Please try again.'),
-          unreadAria: t(:unread_aria, 'unread messages')
+          unreadAria: t(:unread_aria, 'unread messages'),
+          attach: t(:attach, 'Attach files'),
+          removeFile: t(:remove_file, 'Remove file'),
+          attachmentError: t(:attachment_error, 'Some files could not be sent.')
         }
       end
 

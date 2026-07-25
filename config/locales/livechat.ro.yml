@@ -17,6 +17,13 @@ ro:
     error_send: "Nu s-a putut trimite. Vă rugăm să încercați din nou."
     error_rate_limited: "Prea multe mesaje. Așteptați puțin și încercați din nou."
     unread_aria: "mesaje necitite"
+    attach: "Atașează fișiere"
+    remove_file: "Elimină fișierul"
+    attachment_error: "Unele fișiere nu au putut fi trimise."
+    attachments:
+      too_many: "Prea multe fișiere (max. %{count})."
+      too_large: "%{name} este prea mare."
+      type_rejected: "Tipul fișierului %{name} nu este permis."
     statuses:
       open: "Deschisă"
       resolved: "Rezolvată"
@@ -36,6 +43,7 @@ ro:
       reopen: "Redeschide"
       reply_placeholder: "Scrieți răspunsul…"
       send: "Trimite"
+      attach: "Atașează fișiere"
       newer: "Mai noi"
       older: "Mai vechi"
     mail:

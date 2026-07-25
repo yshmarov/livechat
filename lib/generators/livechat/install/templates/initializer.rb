@@ -62,6 +62,21 @@ Livechat.configure do |config|
   # Per-IP throttle for the widget endpoints (Rails 7.2+; ignored on 7.1).
   # config.rate_limit = { to: 30, within: 1.minute }
 
+  # File attachments. On by default, but only take effect where the app has
+  # Active Storage (run `rails active_storage:install` once). Files are served
+  # through the engine — gated the same as the chat — never a public blob URL.
+  # config.attach_files = true
+  # config.max_attachments = 5
+  # config.max_attachment_size = 10.megabytes
+  # config.allowed_attachment_types = nil # e.g. %w[image/png image/jpeg application/pdf]
+
+  # Realtime push over Action Cable. Off by default — the widget and inbox
+  # poll, which needs nothing from your app. Turn this on to push new messages
+  # the instant they arrive; polling stays the fallback. Requires Action Cable
+  # mounted (the default `mount ActionCable... => "/cable"` in your routes).
+  # config.action_cable = true
+  # config.action_cable_url = "/cable"
+
   # Keep in sync with the `mount` in config/routes.rb.
   # config.mount_path = "/livechat"
 end

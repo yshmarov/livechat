@@ -9,7 +9,8 @@ module Livechat
       message = conversation.post_agent_message!(
         body: params[:body].to_s.strip,
         agent_id: current_agent_id,
-        agent_label: current_agent_label
+        agent_label: current_agent_label,
+        files: params[:files]
       )
       Notifications.agent_message(message)
 

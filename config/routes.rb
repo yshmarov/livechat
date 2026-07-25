@@ -13,6 +13,12 @@ Livechat::Engine.routes.draw do
     post 'read', to: 'visitor#read'
   end
 
+  # Message attachments, gated by the engine (never a public blob URL). One
+  # route for both sides — the controller decides whether you're the visitor
+  # who owns the thread or an agent. Above the conversations catch-all, and
+  # id-constrained so it never shadows a numeric conversation path.
+  get 'attachments/:id', to: 'attachments#show', as: :attachment, constraints: { id: /\d+/ }
+
   # The inbox. Flat, human URLs: the mount path IS the conversation list.
   resources :conversations, path: '', only: %i[index show], constraints: { id: /\d+/ } do
     collection do

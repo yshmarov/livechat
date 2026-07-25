@@ -17,6 +17,13 @@ pl:
     error_send: "Nie udało się wysłać. Spróbuj ponownie."
     error_rate_limited: "Zbyt wiele wiadomości. Poczekaj chwilę i spróbuj ponownie."
     unread_aria: "nieprzeczytane wiadomości"
+    attach: "Załącz pliki"
+    remove_file: "Usuń plik"
+    attachment_error: "Nie udało się wysłać niektórych plików."
+    attachments:
+      too_many: "Zbyt wiele plików (maks. %{count})."
+      too_large: "%{name} jest za duży."
+      type_rejected: "Typ pliku %{name} jest niedozwolony."
     statuses:
       open: "Otwarta"
       resolved: "Rozwiązana"
@@ -36,6 +43,7 @@ pl:
       reopen: "Wznów"
       reply_placeholder: "Napisz odpowiedź…"
       send: "Wyślij"
+      attach: "Załącz pliki"
       newer: "Nowsze"
       older: "Starsze"
     mail:

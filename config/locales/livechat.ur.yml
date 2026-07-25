@@ -17,6 +17,13 @@ ur:
     error_send: "بھیجا نہیں جا سکا۔ براہ کرم دوبارہ کوشش کریں۔"
     error_rate_limited: "بہت زیادہ پیغامات۔ براہ کرم تھوڑا انتظار کریں اور دوبارہ کوشش کریں۔"
     unread_aria: "غیر پڑھے گئے پیغامات"
+    attach: "فائلیں منسلک کریں"
+    remove_file: "فائل ہٹائیں"
+    attachment_error: "کچھ فائلیں نہیں بھیجی جا سکیں۔"
+    attachments:
+      too_many: "بہت زیادہ فائلیں (زیادہ سے زیادہ %{count})۔"
+      too_large: "%{name} بہت بڑی ہے۔"
+      type_rejected: "%{name} کی قسم کی اجازت نہیں ہے۔"
     statuses:
       open: "کھلی"
       resolved: "حل شدہ"
@@ -36,6 +43,7 @@ ur:
       reopen: "دوبارہ کھولیں"
       reply_placeholder: "اپنا جواب لکھیں…"
       send: "بھیجیں"
+      attach: "فائلیں منسلک کریں"
       newer: "نئے"
       older: "پرانے"
     mail:

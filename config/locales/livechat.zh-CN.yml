@@ -17,6 +17,13 @@
     error_send: "发送失败，请重试。"
     error_rate_limited: "消息过多，请稍等片刻再重试。"
     unread_aria: "条未读消息"
+    attach: "附加文件"
+    remove_file: "移除文件"
+    attachment_error: "部分文件无法发送。"
+    attachments:
+      too_many: "文件过多（最多 %{count} 个）。"
+      too_large: "%{name} 太大。"
+      type_rejected: "不允许 %{name} 的类型。"
     statuses:
       open: "进行中"
       resolved: "已解决"
@@ -36,6 +43,7 @@
       reopen: "重新打开"
       reply_placeholder: "输入您的回复…"
       send: "发送"
+      attach: "附加文件"
       newer: "较新"
       older: "较旧"
     mail:

@@ -17,6 +17,13 @@ th:
     error_send: "ส่งไม่สำเร็จ โปรดลองอีกครั้ง"
     error_rate_limited: "ข้อความมากเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง"
     unread_aria: "ข้อความที่ยังไม่ได้อ่าน"
+    attach: "แนบไฟล์"
+    remove_file: "นำไฟล์ออก"
+    attachment_error: "ไม่สามารถส่งไฟล์บางไฟล์ได้"
+    attachments:
+      too_many: "ไฟล์มากเกินไป (สูงสุด %{count})"
+      too_large: "%{name} มีขนาดใหญ่เกินไป"
+      type_rejected: "ไม่อนุญาตประเภทของ %{name}"
     statuses:
       open: "เปิดอยู่"
       resolved: "แก้ไขแล้ว"
@@ -36,6 +43,7 @@ th:
       reopen: "เปิดอีกครั้ง"
       reply_placeholder: "เขียนคำตอบของคุณ…"
       send: "ส่ง"
+      attach: "แนบไฟล์"
       newer: "ใหม่กว่า"
       older: "เก่ากว่า"
     mail:

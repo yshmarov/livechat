@@ -17,6 +17,13 @@ de:
     error_send: "Senden fehlgeschlagen. Bitte versuchen Sie es erneut."
     error_rate_limited: "Zu viele Nachrichten. Bitte warten Sie einen Moment und versuchen Sie es erneut."
     unread_aria: "ungelesene Nachrichten"
+    attach: "Dateien anhängen"
+    remove_file: "Datei entfernen"
+    attachment_error: "Einige Dateien konnten nicht gesendet werden."
+    attachments:
+      too_many: "Zu viele Dateien (max. %{count})."
+      too_large: "%{name} ist zu groß."
+      type_rejected: "Der Typ von %{name} ist nicht zulässig."
     statuses:
       open: "Offen"
       resolved: "Gelöst"
@@ -36,6 +43,7 @@ de:
       reopen: "Wieder öffnen"
       reply_placeholder: "Antwort schreiben…"
       send: "Senden"
+      attach: "Dateien anhängen"
       newer: "Neuere"
       older: "Ältere"
     mail:

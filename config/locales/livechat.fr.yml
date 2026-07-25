@@ -17,6 +17,13 @@ fr:
     error_send: "Échec de l'envoi. Veuillez réessayer."
     error_rate_limited: "Trop de messages. Veuillez patienter un instant et réessayer."
     unread_aria: "messages non lus"
+    attach: "Joindre des fichiers"
+    remove_file: "Retirer le fichier"
+    attachment_error: "Certains fichiers n'ont pas pu être envoyés."
+    attachments:
+      too_many: "Trop de fichiers (max %{count})."
+      too_large: "%{name} est trop volumineux."
+      type_rejected: "Le type de %{name} n'est pas autorisé."
     statuses:
       open: "Ouverte"
       resolved: "Résolue"
@@ -36,6 +43,7 @@ fr:
       reopen: "Rouvrir"
       reply_placeholder: "Écrivez votre réponse…"
       send: "Envoyer"
+      attach: "Joindre des fichiers"
       newer: "Plus récents"
       older: "Plus anciens"
     mail:

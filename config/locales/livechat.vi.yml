@@ -17,6 +17,13 @@ vi:
     error_send: "Không thể gửi. Vui lòng thử lại."
     error_rate_limited: "Quá nhiều tin nhắn. Vui lòng đợi một lát rồi thử lại."
     unread_aria: "tin nhắn chưa đọc"
+    attach: "Đính kèm tệp"
+    remove_file: "Xóa tệp"
+    attachment_error: "Không thể gửi một số tệp."
+    attachments:
+      too_many: "Quá nhiều tệp (tối đa %{count})."
+      too_large: "%{name} quá lớn."
+      type_rejected: "Loại tệp %{name} không được phép."
     statuses:
       open: "Đang mở"
       resolved: "Đã giải quyết"
@@ -36,6 +43,7 @@ vi:
       reopen: "Mở lại"
       reply_placeholder: "Viết câu trả lời của bạn…"
       send: "Gửi"
+      attach: "Đính kèm tệp"
       newer: "Mới hơn"
       older: "Cũ hơn"
     mail:

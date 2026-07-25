@@ -17,6 +17,13 @@ tr:
     error_send: "Gönderilemedi. Lütfen tekrar deneyin."
     error_rate_limited: "Çok fazla mesaj. Lütfen biraz bekleyip tekrar deneyin."
     unread_aria: "okunmamış mesaj"
+    attach: "Dosya ekle"
+    remove_file: "Dosyayı kaldır"
+    attachment_error: "Bazı dosyalar gönderilemedi."
+    attachments:
+      too_many: "Çok fazla dosya (en fazla %{count})."
+      too_large: "%{name} çok büyük."
+      type_rejected: "%{name} dosyasının türüne izin verilmiyor."
     statuses:
       open: "Açık"
       resolved: "Çözüldü"
@@ -36,6 +43,7 @@ tr:
       reopen: "Yeniden aç"
       reply_placeholder: "Yanıtınızı yazın…"
       send: "Gönder"
+      attach: "Dosya ekle"
       newer: "Daha yeni"
       older: "Daha eski"
     mail:

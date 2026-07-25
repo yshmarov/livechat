@@ -35,11 +35,47 @@ ActiveRecord::Schema.define do
     t.timestamps
   end
   add_index :livechat_messages, %i[conversation_id id]
+
+  # Active Storage — the host provides these in a real app (rails
+  # active_storage:install); defined here so attachment tests have somewhere
+  # to write.
+  create_table :active_storage_blobs, force: true do |t|
+    t.string   :key,          null: false
+    t.string   :filename,     null: false
+    t.string   :content_type
+    t.text     :metadata
+    t.string   :service_name, null: false
+    t.bigint   :byte_size,    null: false
+    t.string   :checksum
+    t.datetime :created_at, null: false
+  end
+  add_index :active_storage_blobs, :key, unique: true
+
+  create_table :active_storage_attachments, force: true do |t|
+    t.string     :name,        null: false
+    t.references :record,      null: false, polymorphic: true, index: false
+    t.references :blob,        null: false
+    t.datetime   :created_at,  null: false
+  end
+  add_index :active_storage_attachments,
+            %i[record_type record_id name blob_id],
+            name: :index_active_storage_attachments_uniqueness, unique: true
+
+  create_table :active_storage_variant_records, force: true do |t|
+    t.references :blob, null: false, index: false
+    t.string     :variation_digest, null: false
+  end
+  add_index :active_storage_variant_records,
+            %i[blob_id variation_digest],
+            name: :index_active_storage_variant_records_uniqueness, unique: true
 end
 
 module ActiveSupport
   class TestCase
+    include ActionDispatch::TestProcess::FixtureFile # fixture_file_upload in model tests
+
     self.use_transactional_tests = true
+    self.file_fixture_path = File.expand_path('fixtures/files', __dir__)
 
     # Start every test from a fresh config, so a tweak in one test can never
     # leak into another. The rate limiter counts per IP in Rails.cache, so

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0
+
+- **File attachments.** Visitors and agents can attach images and documents to
+  a message — a paperclip in the widget composer, a file field on the inbox
+  reply. Images render inline in the thread; other files show as download
+  links. Every file is served through the engine's own gated route (agent, or
+  the visitor who owns the conversation) and streamed inline — never a public,
+  long-lived Active Storage URL. A message can carry files with no text.
+  On by default wherever the host has Active Storage; where it's absent the
+  widget quietly stays text-only. Tunable: `attach_files`, `max_attachments`,
+  `max_attachment_size`, `allowed_attachment_types`.
+- **Optional Action Cable push.** Off by default — polling remains the
+  transport and needs nothing from your app. Turn on `config.action_cable` and
+  a new message nudges the widget and the inbox to refresh the instant it's
+  sent, with polling still the fallback (a dropped socket never means a missed
+  message). The widget speaks the Action Cable protocol over a plain
+  WebSocket — no `@rails/actioncable`, no build step — and only ever subscribes
+  to a per-conversation stream the server cryptographically signed for it, so
+  no one can listen to a thread they weren't shown.
+- New attachment strings translated across all 26 shipped locales.
+
 ## 0.3.6
 
 - The opening greeting is now styled as a support message bubble (with a

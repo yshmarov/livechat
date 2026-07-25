@@ -17,6 +17,13 @@ nl:
     error_send: "Versturen is niet gelukt. Probeer het opnieuw."
     error_rate_limited: "Te veel berichten. Wacht even en probeer het opnieuw."
     unread_aria: "ongelezen berichten"
+    attach: "Bestanden bijvoegen"
+    remove_file: "Bestand verwijderen"
+    attachment_error: "Sommige bestanden konden niet worden verzonden."
+    attachments:
+      too_many: "Te veel bestanden (max. %{count})."
+      too_large: "%{name} is te groot."
+      type_rejected: "Het type van %{name} is niet toegestaan."
     statuses:
       open: "Open"
       resolved: "Opgelost"
@@ -36,6 +43,7 @@ nl:
       reopen: "Heropenen"
       reply_placeholder: "Schrijf je antwoord…"
       send: "Versturen"
+      attach: "Bestanden bijvoegen"
       newer: "Nieuwer"
       older: "Ouder"
     mail:

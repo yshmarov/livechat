@@ -6,7 +6,7 @@ class VisitorApiTest < ActionDispatch::IntegrationTest
   test 'empty state for a visitor without a thread' do
     get '/livechat/widget/conversation'
     assert_response :ok
-    assert_equal({ 'status' => nil, 'unread' => 0, 'email' => false, 'messages' => [] },
+    assert_equal({ 'status' => nil, 'unread' => 0, 'email' => false, 'cable' => nil, 'messages' => [] },
                  response.parsed_body)
   end
 

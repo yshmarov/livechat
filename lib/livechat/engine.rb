@@ -9,5 +9,12 @@ module Livechat
         include Livechat::WidgetHelper
       end
     end
+
+    # The channel lives under lib/ (not app/channels), required only where
+    # Action Cable exists — so eager-load in an app without it never fails on
+    # a missing ActionCable::Channel::Base.
+    initializer 'livechat.action_cable' do
+      require 'livechat/channels' if defined?(ActionCable)
+    end
   end
 end

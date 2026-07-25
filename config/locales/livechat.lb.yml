@@ -17,6 +17,13 @@ lb:
     error_send: "Konnt net geschéckt ginn. Probéiert w.e.g. nach eng Kéier."
     error_rate_limited: "Ze vill Noriichten. Waart w.e.g. e Moment a probéiert nach eng Kéier."
     unread_aria: "ongelies Noriichten"
+    attach: "Dateien uschléissen"
+    remove_file: "Datei ewechhuelen"
+    attachment_error: "E puer Dateie konnten net geschéckt ginn."
+    attachments:
+      too_many: "Ze vill Dateien (max %{count})."
+      too_large: "%{name} ass ze grouss."
+      type_rejected: "Den Typ vun %{name} ass net erlaabt."
     statuses:
       open: "Op"
       resolved: "Geléist"
@@ -36,6 +43,7 @@ lb:
       reopen: "Nees opmaachen"
       reply_placeholder: "Schreift Är Äntwert…"
       send: "Schécken"
+      attach: "Dateien uschléissen"
       newer: "Méi nei"
       older: "Méi al"
     mail:

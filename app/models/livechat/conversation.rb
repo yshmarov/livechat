@@ -42,16 +42,22 @@ module Livechat
         .update_all(visitor_id: visitor_id.to_s, visitor_label: visitor_label)
     end
 
-    def post_visitor_message!(body)
+    def post_visitor_message!(body, files: nil)
       transaction do
         update!(status: 'open') if resolved?
-        messages.create!(author_type: 'visitor', body: body)
+        message = messages.new(author_type: 'visitor', body: body)
+        attach(message, files)
+        message.save!
+        message
       end
     end
 
-    def post_agent_message!(body:, agent_id:, agent_label:)
-      messages.create!(author_type: 'agent', body: body,
-                       agent_id: agent_id.to_s, agent_label: agent_label)
+    def post_agent_message!(body:, agent_id:, agent_label:, files: nil)
+      message = messages.new(author_type: 'agent', body: body,
+                             agent_id: agent_id.to_s, agent_label: agent_label)
+      attach(message, files)
+      message.save!
+      message
     end
 
     def resolve_by!(agent_label)
@@ -76,7 +82,7 @@ module Livechat
     # with update_columns: cheap, no callbacks, no updated_at churn.
     def register_message(message)
       updates = { last_activity_at: message.created_at }
-      updates[:last_message_preview] = message.body.to_s.truncate(140) unless message.system?
+      updates[:last_message_preview] = message.preview unless message.system?
       update_columns(updates)
     end
 
@@ -95,6 +101,16 @@ module Livechat
     end
 
     private
+
+    # Attach only real uploads, and only where attachments are enabled — a
+    # host without Active Storage (or with attachments off) drops the files
+    # silently and the text message still goes through.
+    def attach(message, files)
+      return unless Livechat.attachments_enabled?
+
+      uploads = Array(files).select { |file| file.respond_to?(:read) }
+      message.files.attach(uploads) if uploads.any?
+    end
 
     # Every conversation belongs to someone — a signed-in user or at least a
     # guest cookie. An unattributable thread could never be shown to its

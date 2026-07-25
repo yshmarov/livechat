@@ -28,6 +28,10 @@ there. Every word stays in your database.
 - **Real attribution.** Signed-in visitors are identified server-side against
   your user records and keep their thread across devices. Guests get a
   cookie, and keep their history when they sign up.
+- **Send files, both ways.** Visitors and agents attach images and documents;
+  images show inline. Files are served through the engine — gated exactly like
+  the chat — never a public blob URL. Needs Active Storage; degrades to
+  text-only where it's absent.
 - **26 languages.** The widget follows your app's locale, RTL included.
 
 ## How it works
@@ -45,7 +49,9 @@ there. Every word stays in your database.
 Realtime is polling, on purpose: ~4s while the panel is open, ~30s in the
 background, nothing at all for visitors who never wrote. No Action Cable,
 no Redis, no infrastructure. At support-chat volume you will not notice;
-your ops person will notice there is nothing new to run.
+your ops person will notice there is nothing new to run. If you already run
+Action Cable and want replies to land the instant they're sent, turn it on
+(`config.action_cable = true`) — polling stays the fallback.
 
 ## Requirements
 
@@ -138,6 +144,46 @@ For anything else, hook in:
 ```ruby
 config.on_visitor_message = ->(message) { SlackNotifier.ping(message) }
 ```
+
+### File attachments
+
+On by default wherever the app has Active Storage. If you don't already:
+
+```bash
+bin/rails active_storage:install && bin/rails db:migrate
+```
+
+Visitors get a paperclip in the composer; agents get a file field on the
+reply form. Images render inline in the thread, other files as download
+links. Every file is served through the engine's own route and gated the
+same way the chat is — an agent, or the visitor who owns that conversation —
+so nothing leaks through a guessable or long-lived blob URL.
+
+```ruby
+config.attach_files = true               # false turns it off even with Active Storage
+config.max_attachments = 5               # per message
+config.max_attachment_size = 10.megabytes
+config.allowed_attachment_types = nil    # or an allowlist, e.g. %w[image/png image/jpeg application/pdf]
+```
+
+Where Active Storage isn't installed, the widget quietly stays text-only.
+
+### Realtime with Action Cable (optional)
+
+Polling is the default and needs nothing from your app. If you already run
+Action Cable, turn on push so a reply appears the instant it's sent:
+
+```ruby
+config.action_cable = true
+config.action_cable_url = "/cable" # match your `mount ActionCable... => ...`
+```
+
+A new message nudges the widget and the inbox to refresh at once; polling
+stays the fallback, so a dropped socket or a proxy that blocks WebSockets
+never means a missed message. The widget speaks the Action Cable protocol
+over a plain WebSocket — no `@rails/actioncable`, no build step — and only
+ever subscribes to a stream the server signed for it. Under a strict CSP,
+allow the socket with `connect-src 'self'`.
 
 ## The inbox
 

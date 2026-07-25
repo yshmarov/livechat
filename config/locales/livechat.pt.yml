@@ -17,6 +17,13 @@ pt:
     error_send: "Não foi possível enviar. Tente novamente."
     error_rate_limited: "Muitas mensagens. Aguarde um momento e tente novamente."
     unread_aria: "mensagens não lidas"
+    attach: "Anexar arquivos"
+    remove_file: "Remover arquivo"
+    attachment_error: "Não foi possível enviar alguns arquivos."
+    attachments:
+      too_many: "Muitos arquivos (máx. %{count})."
+      too_large: "%{name} é muito grande."
+      type_rejected: "O tipo de %{name} não é permitido."
     statuses:
       open: "Aberta"
       resolved: "Resolvida"
@@ -36,6 +43,7 @@ pt:
       reopen: "Reabrir"
       reply_placeholder: "Escreva sua resposta…"
       send: "Enviar"
+      attach: "Anexar arquivos"
       newer: "Mais recentes"
       older: "Mais antigas"
     mail:

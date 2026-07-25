@@ -17,6 +17,13 @@ id:
     error_send: "Tidak dapat mengirim. Silakan coba lagi."
     error_rate_limited: "Terlalu banyak pesan. Mohon tunggu sebentar dan coba lagi."
     unread_aria: "pesan belum dibaca"
+    attach: "Lampirkan file"
+    remove_file: "Hapus file"
+    attachment_error: "Beberapa file tidak dapat dikirim."
+    attachments:
+      too_many: "Terlalu banyak file (maks. %{count})."
+      too_large: "%{name} terlalu besar."
+      type_rejected: "Tipe %{name} tidak diizinkan."
     statuses:
       open: "Terbuka"
       resolved: "Selesai"
@@ -36,6 +43,7 @@ id:
       reopen: "Buka kembali"
       reply_placeholder: "Tulis balasan Anda…"
       send: "Kirim"
+      attach: "Lampirkan file"
       newer: "Lebih baru"
       older: "Lebih lama"
     mail:

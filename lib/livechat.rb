@@ -32,6 +32,37 @@ module Livechat
       !!config.authorize_agent.call(request)
     end
 
+    # File attachments are on only when the host has Active Storage AND hasn't
+    # switched them off. Guards every attachment path so the widget degrades
+    # to text-only rather than erroring where Active Storage is absent.
+    def attachments_enabled?
+      config.attach_files && Message.attachments_supported?
+    end
+
+    # Realtime push is opt-in and needs Action Cable loaded. Off by default:
+    # the widget and inbox poll, and only speed up when a host turns this on.
+    def action_cable_enabled?
+      config.action_cable && defined?(ActionCable) ? true : false
+    end
+
+    # Signs the Action Cable stream names handed to clients, so a subscriber
+    # can only listen to a conversation the server already let it see — the
+    # widget receives its stream token through the gated /conversation
+    # endpoint, never guessing one. Same idea as Turbo's signed streams.
+    def stream_verifier
+      @stream_verifier ||= Rails.application.message_verifier('livechat/stream')
+    end
+
+    def sign_stream(name)
+      stream_verifier.generate(name.to_s)
+    end
+
+    def verify_stream(token)
+      stream_verifier.verify(token.to_s)
+    rescue StandardError
+      nil
+    end
+
     def app_name
       config.app_name.presence || rails_app_name
     end

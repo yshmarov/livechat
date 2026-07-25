@@ -58,7 +58,7 @@ module Livechat
 
       render json: {
         status: @conversation.status,
-        messages: messages.map { |message| thread_message_json(message) }
+        messages: messages.map { |message| message.as_inbox_json(@conversation) }
       }
     end
 
@@ -76,22 +76,6 @@ module Livechat
 
     def set_conversation
       @conversation = Conversation.find(params[:id])
-    end
-
-    # The fields dashboard.js needs to render a message bubble, matching the
-    # thread partial: system events carry a ready localized line; visitor and
-    # agent messages carry a display name (for the author header) and body.
-    def thread_message_json(message)
-      if message.system?
-        { id: message.id, author: 'system',
-          text: t("livechat.events.#{message.event}", agent: message.agent_label,
-                                                      default: "%{agent} #{message.event} the conversation"),
-          at: message.created_at.to_fs(:short) }
-      else
-        { id: message.id, author: message.author_type,
-          name: message.agent? ? message.agent_label : @conversation.display_name,
-          body: message.body, at: message.created_at.to_fs(:short) }
-      end
     end
 
     # Case-insensitive match on who the visitor is or anything anyone wrote.

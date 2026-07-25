@@ -65,6 +65,28 @@ module Livechat
     # Rails' rate limiter (Rails 7.2+; ignored on 7.1). nil disables it.
     attr_accessor :rate_limit
 
+    # Let visitors and agents attach files to messages. Requires Active
+    # Storage in the host app (rails active_storage:install); silently
+    # ignored when it isn't present, so the widget keeps working. Set false
+    # to turn attachments off even where Active Storage exists.
+    attr_accessor :attach_files
+
+    # Cap on attachments per message, on the size of each file (bytes), and
+    # an optional content-type allowlist (nil accepts any type). Enforced on
+    # the server; a rejected upload comes back as a validation error.
+    attr_accessor :max_attachments, :max_attachment_size, :allowed_attachment_types
+
+    # Push new messages over Action Cable instead of waiting for the next
+    # poll. Opt-in and off by default: polling stays the transport, so a
+    # host that never mounts a cable keeps working; when on (and Action Cable
+    # is present) a new message nudges the widget and the inbox to refresh at
+    # once. Requires `/cable` mounted in the host's routes.
+    attr_accessor :action_cable
+
+    # Where the host mounts Action Cable. Only consulted when action_cable is
+    # on. Keep in sync with the `mount ActionCable... => "/cable"` in routes.
+    attr_accessor :action_cable_url
+
     # Where the engine is mounted. The widget calls paths under it, so keep
     # this in sync with the `mount` line in your routes.
     attr_accessor :mount_path
@@ -88,6 +110,12 @@ module Livechat
       @on_agent_message = ->(_message) {}
       @rate_limit = { to: 30, within: 60 }
       @mount_path = '/livechat'
+      @attach_files = true
+      @max_attachments = 5
+      @max_attachment_size = 10 * 1024 * 1024
+      @allowed_attachment_types = nil
+      @action_cable = false
+      @action_cable_url = '/cable'
     end
 
     def widget_endpoint = "#{mount_path.chomp('/')}/widget"

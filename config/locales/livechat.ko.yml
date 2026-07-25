@@ -17,6 +17,13 @@ ko:
     error_send: "전송하지 못했습니다. 다시 시도해 주세요."
     error_rate_limited: "메시지가 너무 많습니다. 잠시 후 다시 시도해 주세요."
     unread_aria: "읽지 않은 메시지"
+    attach: "파일 첨부"
+    remove_file: "파일 제거"
+    attachment_error: "일부 파일을 보내지 못했습니다."
+    attachments:
+      too_many: "파일이 너무 많습니다 (최대 %{count}개)."
+      too_large: "%{name}이(가) 너무 큽니다."
+      type_rejected: "%{name}의 형식은 허용되지 않습니다."
     statuses:
       open: "진행 중"
       resolved: "해결됨"
@@ -36,6 +43,7 @@ ko:
       reopen: "다시 열기"
       reply_placeholder: "답장을 입력하세요…"
       send: "보내기"
+      attach: "파일 첨부"
       newer: "최신"
       older: "이전"
     mail:
