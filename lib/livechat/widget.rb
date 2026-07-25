@@ -85,7 +85,7 @@ module Livechat
           launcher: config.launcher_label.presence || t(:launcher, 'Chat with us'),
           greeting: config.greeting.presence || t(:greeting, 'Hi! How can we help?'),
           replyTime: config.reply_time_text.presence ||
-                     t(:reply_time, 'We usually reply within a few hours.'),
+            t(:reply_time, 'We usually reply within a few hours.'),
           placeholder: t(:placeholder, 'Write a message…'),
           send: t(:send, 'Send'),
           close: t(:close, 'Close'),

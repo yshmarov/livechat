@@ -1,0 +1,37 @@
+# frozen_string_literal: true
+
+class CreateLivechatTables < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :livechat_conversations do |t|
+      t.string :visitor_token
+      t.string :visitor_id
+      t.string :visitor_label
+      t.string :visitor_email
+      t.string :status, null: false, default: 'open'
+      t.string :last_message_preview
+      t.datetime :last_activity_at
+      t.string :page_url
+      t.string :user_agent
+      t.string :locale
+
+      t.timestamps
+    end
+    add_index :livechat_conversations, :visitor_token
+    add_index :livechat_conversations, :visitor_id
+    add_index :livechat_conversations, :status
+    add_index :livechat_conversations, :last_activity_at
+
+    create_table :livechat_messages do |t|
+      t.references :conversation, null: false
+      t.string :author_type, null: false
+      t.string :agent_id
+      t.string :agent_label
+      t.text :body
+      t.string :event
+      t.datetime :read_at
+
+      t.timestamps
+    end
+    add_index :livechat_messages, %i[conversation_id id]
+  end
+end
