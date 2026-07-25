@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.1
+
+- Consistent attachment UI across both sides. The inbox reply now shows the
+  same quiet paperclip + file chips (with per-file remove) as the visitor
+  widget, instead of the browser's raw "Choose Files" control — progressively
+  enhanced, so the native input still works without JavaScript. Also fixed the
+  widget's attach button rendering as a solid-blue second button (a CSS
+  specificity slip); it's now a quiet paperclip, with the accent reserved for
+  Send.
+
 ## 0.4.0
 
 - **File attachments.** Visitors and agents can attach images and documents to
