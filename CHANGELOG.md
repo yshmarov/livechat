@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2
+
+- Breathing room between the widget's pending-file chips and the composer —
+  the chip row now has bottom padding, so it no longer sits flush against the
+  message input.
+
 ## 0.4.1
 
 - Consistent attachment UI across both sides. The inbox reply now shows the
