@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- With `show_launcher = false` the panel now sits in the corner instead of
+  hovering 66px above a launcher bubble that isn't there.
+
 ## 0.2.0
 
 - Unread count badges on `data-livechat-open` elements, so launcher-less
