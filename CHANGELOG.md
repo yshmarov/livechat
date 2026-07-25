@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- Unread count badges on `data-livechat-open` elements, so launcher-less
+  setups (`show_launcher = false`) still surface waiting replies.
+- Message prefill: `data-livechat-message="…"` on any opener, or
+  `window.Livechat.open("…")` — seeds the message box for contextual asks,
+  never overwriting a visitor's draft.
+
 ## 0.1.0
 
 - Initial release: floating chat widget (guests + signed-in visitors, one
