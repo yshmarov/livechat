@@ -134,8 +134,14 @@ reply. Gated by `config.authorize_agent` (development-only until you set it).
 
 ## Widget API
 
-- `window.Livechat.open()` / `window.Livechat.close()`
-- Any element with `data-livechat-open` opens the panel on click
+- `window.Livechat.open()` / `window.Livechat.close()` —
+  `open("Hi, I need help with…")` prefills the message box (never over a
+  visitor's draft)
+- Any element with `data-livechat-open` opens the panel on click; add
+  `data-livechat-message="…"` to prefill — great for contextual buttons
+  ("Request verification", "Ask about billing")
+- While replies are unread, every `data-livechat-open` element carries a
+  small count badge — so hiding the launcher doesn't hide the answer
 - `<%= livechat_button %>` renders a plain, unstyled opener button
 - `config.show_launcher = false` hides the bubble entirely — bring your own
   entry point
