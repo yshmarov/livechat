@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2
+
+- The chat panel is full-screen on phones (≤480px) — a conversation is an
+  app screen, not a floating card. Inputs are 16px on mobile so iOS Safari
+  never zoom-jumps on focus; the composer respects the home-indicator safe
+  area; thread scrolling no longer rubber-bands the page behind it.
+
 ## 0.3.1
 
 - The Agents column shows initials avatars (deterministic colors, full name
