@@ -3,6 +3,7 @@
 require 'livechat/version'
 require 'livechat/configuration'
 require 'livechat/widget'
+require 'livechat/notifications'
 require 'livechat/engine'
 
 # Live chat for Rails. A floating widget lets visitors — signed-in or

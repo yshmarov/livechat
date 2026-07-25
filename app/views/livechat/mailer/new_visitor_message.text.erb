@@ -1,0 +1,7 @@
+<%= @conversation.display_name %>:
+
+<%= @message.body %>
+
+<% if @inbox_url %>
+<%= t('livechat.mail.answer', default: 'Answer') %>: <%= @inbox_url %>
+<% end %>

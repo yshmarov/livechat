@@ -1,0 +1,7 @@
+<%= @message.public_label %>:
+
+<%= @message.body %>
+
+<% if @conversation.page_url.present? %>
+<%= t('livechat.mail.continue', default: 'Continue the conversation') %>: <%= @conversation.page_url %>
+<% end %>
