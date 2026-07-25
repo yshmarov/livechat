@@ -36,7 +36,6 @@ lb:
       reopen: "Nees opmaachen"
       reply_placeholder: "Schreift Är Äntwert…"
       send: "Schécken"
-      new_messages: "Nei Noriichten — aktualiséieren"
       newer: "Méi nei"
       older: "Méi al"
     mail:

@@ -30,9 +30,11 @@
 </p>
 
 <div class="card">
+  <% last = @messages.last %>
   <div class="thread" id="thread"
        data-poll-url="<%= poll_conversation_path(@conversation) %>"
-       data-latest="<%= @messages.last&.id.to_i %>">
+       data-latest="<%= last&.id.to_i %>"
+       data-last-author="<%= (last && !last.system?) ? "#{last.author_type}:#{last.agent_label}" : '' %>">
     <% previous_author = nil %>
     <% @messages.each do |message| %>
       <% if message.system? %>
@@ -55,10 +57,6 @@
       <% end %>
     <% end %>
   </div>
-
-  <p id="new-messages" class="system" hidden>
-    <a href=""><%= t('livechat.dashboard.new_messages', default: 'New messages — refresh') %></a>
-  </p>
 
   <%= form_with url: conversation_messages_path(@conversation), method: :post, class: 'reply' do |form| %>
     <%= form.text_area :body, rows: 2, autofocus: true, required: true,

@@ -36,7 +36,6 @@ bn:
       reopen: "আবার খুলুন"
       reply_placeholder: "আপনার উত্তর লিখুন…"
       send: "পাঠান"
-      new_messages: "নতুন বার্তা — রিফ্রেশ করুন"
       newer: "নতুনতর"
       older: "পুরনো"
     mail:

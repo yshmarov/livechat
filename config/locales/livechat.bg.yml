@@ -36,7 +36,6 @@ bg:
       reopen: "Отвори отново"
       reply_placeholder: "Напишете отговора си…"
       send: "Изпрати"
-      new_messages: "Нови съобщения — обновете"
       newer: "По-нови"
       older: "По-стари"
     mail:

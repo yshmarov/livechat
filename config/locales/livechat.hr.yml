@@ -36,7 +36,6 @@ hr:
       reopen: "Ponovno otvori"
       reply_placeholder: "Napišite svoj odgovor…"
       send: "Pošalji"
-      new_messages: "Nove poruke — osvježite"
       newer: "Novije"
       older: "Starije"
     mail:

@@ -36,7 +36,6 @@ th:
       reopen: "เปิดอีกครั้ง"
       reply_placeholder: "เขียนคำตอบของคุณ…"
       send: "ส่ง"
-      new_messages: "มีข้อความใหม่ — รีเฟรช"
       newer: "ใหม่กว่า"
       older: "เก่ากว่า"
     mail:

@@ -36,7 +36,6 @@ it:
       reopen: "Riapri"
       reply_placeholder: "Scrivi la tua risposta…"
       send: "Invia"
-      new_messages: "Nuovi messaggi — aggiorna"
       newer: "Più recenti"
       older: "Più vecchi"
     mail:

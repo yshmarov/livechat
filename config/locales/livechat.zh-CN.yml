@@ -36,7 +36,6 @@
       reopen: "重新打开"
       reply_placeholder: "输入您的回复…"
       send: "发送"
-      new_messages: "有新消息 — 请刷新"
       newer: "较新"
       older: "较旧"
     mail:

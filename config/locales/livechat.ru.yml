@@ -36,7 +36,6 @@ ru:
       reopen: "Возобновить"
       reply_placeholder: "Напишите ответ…"
       send: "Отправить"
-      new_messages: "Новые сообщения — обновите"
       newer: "Новее"
       older: "Старше"
     mail:

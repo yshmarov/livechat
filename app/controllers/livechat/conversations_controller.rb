@@ -46,10 +46,20 @@ module Livechat
       @conversation.mark_read_for_agent!
     end
 
-    # Polled by dashboard.js: has anything new arrived in this thread?
+    # Polled by dashboard.js on the open thread: returns messages newer than
+    # ?after=<id> so they can be appended live — no reload, so an agent's
+    # half-written reply is never lost. Marks the visitor's messages read,
+    # since the agent is looking right at them.
     def poll
-      render json: { latest: @conversation.messages.maximum(:id).to_i,
-                     status: @conversation.status }
+      messages = @conversation.messages.chronological
+      messages = messages.after_id(params[:after]) if params[:after].present?
+      messages = messages.to_a
+      @conversation.mark_read_for_agent! if messages.any?(&:visitor?)
+
+      render json: {
+        status: @conversation.status,
+        messages: messages.map { |message| thread_message_json(message) }
+      }
     end
 
     def resolve
@@ -66,6 +76,22 @@ module Livechat
 
     def set_conversation
       @conversation = Conversation.find(params[:id])
+    end
+
+    # The fields dashboard.js needs to render a message bubble, matching the
+    # thread partial: system events carry a ready localized line; visitor and
+    # agent messages carry a display name (for the author header) and body.
+    def thread_message_json(message)
+      if message.system?
+        { id: message.id, author: 'system',
+          text: t("livechat.events.#{message.event}", agent: message.agent_label,
+                                                      default: "%{agent} #{message.event} the conversation"),
+          at: message.created_at.to_fs(:short) }
+      else
+        { id: message.id, author: message.author_type,
+          name: message.agent? ? message.agent_label : @conversation.display_name,
+          body: message.body, at: message.created_at.to_fs(:short) }
+      end
     end
 
     # Case-insensitive match on who the visitor is or anything anyone wrote.

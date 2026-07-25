@@ -36,7 +36,6 @@ hi:
       reopen: "फिर से खोलें"
       reply_placeholder: "अपना जवाब लिखें…"
       send: "भेजें"
-      new_messages: "नए संदेश — रीफ़्रेश करें"
       newer: "नए"
       older: "पुराने"
     mail:

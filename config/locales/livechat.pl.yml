@@ -36,7 +36,6 @@ pl:
       reopen: "Wznów"
       reply_placeholder: "Napisz odpowiedź…"
       send: "Wyślij"
-      new_messages: "Nowe wiadomości — odśwież"
       newer: "Nowsze"
       older: "Starsze"
     mail:

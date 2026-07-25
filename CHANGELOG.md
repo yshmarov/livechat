@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.5
+
+- The inbox thread now appends new messages live instead of showing a
+  "New messages — refresh" link — no page reload, so an agent's half-written
+  reply is never lost, and scroll position is kept unless you're at the
+  bottom. Visitor messages are marked read as they stream in. Still polling
+  (no Action Cable), still draft-safe.
+
 ## 0.3.4
 
 - Docs: show how to wire `current_user` with Rails 8's built-in authentication

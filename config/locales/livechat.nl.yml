@@ -36,7 +36,6 @@ nl:
       reopen: "Heropenen"
       reply_placeholder: "Schrijf je antwoord…"
       send: "Versturen"
-      new_messages: "Nieuwe berichten — vernieuwen"
       newer: "Nieuwer"
       older: "Ouder"
     mail:

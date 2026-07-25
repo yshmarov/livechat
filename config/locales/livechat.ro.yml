@@ -36,7 +36,6 @@ ro:
       reopen: "Redeschide"
       reply_placeholder: "Scrieți răspunsul…"
       send: "Trimite"
-      new_messages: "Mesaje noi — reîmprospătați"
       newer: "Mai noi"
       older: "Mai vechi"
     mail:

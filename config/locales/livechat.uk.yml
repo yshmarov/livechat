@@ -36,7 +36,6 @@ uk:
       reopen: "Відновити"
       reply_placeholder: "Напишіть відповідь…"
       send: "Надіслати"
-      new_messages: "Нові повідомлення — оновіть"
       newer: "Новіші"
       older: "Старіші"
     mail:

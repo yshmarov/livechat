@@ -36,7 +36,6 @@ ko:
       reopen: "다시 열기"
       reply_placeholder: "답장을 입력하세요…"
       send: "보내기"
-      new_messages: "새 메시지 — 새로고침"
       newer: "최신"
       older: "이전"
     mail:

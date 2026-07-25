@@ -164,13 +164,34 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'flash alert'
   end
 
-  test 'poll reports the latest message id' do
+  test 'poll returns new messages after an id for live append, and marks them read' do
     conversation = start_conversation
-    message = conversation.post_visitor_message!('hello')
+    first = conversation.post_visitor_message!('hello')
 
     as_agent!
-    get "/livechat/#{conversation.id}/poll"
-    assert_equal message.id, response.parsed_body['latest']
+    conversation.post_agent_message!(body: 'hi there', agent_id: 1, agent_label: 'Ada')
+    visitor_reply = conversation.post_visitor_message!('one more thing')
+
+    get "/livechat/#{conversation.id}/poll?after=#{first.id}"
+    body = response.parsed_body
+    assert_equal(%w[agent visitor], body['messages'].map { |m| m['author'] })
+    assert_equal 'hi there', body['messages'].first['body']
+    assert_equal 'Ada', body['messages'].first['name']
+    assert_equal 'one more thing', body['messages'].last['body']
+
+    # The agent is viewing the thread, so the visitor's message is now read.
+    assert visitor_reply.reload.read?
+  end
+
+  test 'poll renders system events as ready localized lines' do
+    conversation = start_conversation
+    conversation.post_visitor_message!('hello')
+    conversation.resolve_by!('Ada')
+
+    as_agent!
+    get "/livechat/#{conversation.id}/poll?after=0"
+    system = response.parsed_body['messages'].find { |m| m['author'] == 'system' }
+    assert_match(/Ada resolved/, system['text'])
   end
 
   test 'agent replies notify the visitor by email' do

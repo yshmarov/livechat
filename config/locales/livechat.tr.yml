@@ -36,7 +36,6 @@ tr:
       reopen: "Yeniden aç"
       reply_placeholder: "Yanıtınızı yazın…"
       send: "Gönder"
-      new_messages: "Yeni mesajlar — yenileyin"
       newer: "Daha yeni"
       older: "Daha eski"
     mail:

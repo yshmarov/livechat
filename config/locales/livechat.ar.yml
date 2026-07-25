@@ -36,7 +36,6 @@ ar:
       reopen: "إعادة فتح"
       reply_placeholder: "اكتب ردك…"
       send: "إرسال"
-      new_messages: "رسائل جديدة — تحديث"
       newer: "الأحدث"
       older: "الأقدم"
     mail:
