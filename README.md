@@ -4,8 +4,8 @@
 [![CI](https://github.com/yshmarov/livechat/actions/workflows/ci.yml/badge.svg)](https://github.com/yshmarov/livechat/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](MIT-LICENSE)
 
-Open-source live chat for Rails. Self-hosted alternative to Crisp, Intercom
-and Chatwoot — as a gem, not another service to deploy.
+Open-source live chat for Rails. Alternative to Crisp, Intercom and
+Chatwoot — inside your Rails app, as a gem, not another service to deploy.
 
 Your users already have questions. `livechat` gives them a chat bubble and
 gives you an inbox, inside the app you already run. Visitors write — signed

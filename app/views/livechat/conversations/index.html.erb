@@ -53,7 +53,13 @@
               <% end %>
             </td>
             <td class="muted"><%= conversation.last_message_preview %></td>
-            <td class="muted"><%= @agents.fetch(conversation.id, []).join(', ') %></td>
+            <td>
+              <span class="avatars">
+                <% @agents.fetch(conversation.id, []).each do |label| %>
+                  <%= livechat_agent_avatar(label) %>
+                <% end %>
+              </span>
+            </td>
             <td class="muted">
               <% if conversation.last_activity_at %>
                 <%= time_ago_in_words(conversation.last_activity_at) %>

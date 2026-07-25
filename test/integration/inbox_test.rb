@@ -71,7 +71,11 @@ class InboxTest < ActionDispatch::IntegrationTest
 
     as_agent!
     get '/livechat'
-    assert_includes response.body, 'Ada, Grace'
+    assert_includes response.body, '<span class="avatar color-'
+    assert_includes response.body, 'title="Ada"'
+    assert_includes response.body, 'title="Grace"'
+    # Deduplicated: Ada wrote twice, appears once.
+    assert_equal 1, response.body.scan('title="Ada"').size
   end
 
   test 'index poll token moves when anything changes' do

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- The Agents column shows initials avatars (deterministic colors, full name
+  on hover) instead of a comma-joined list.
+
 ## 0.3.0
 
 - Inbox search: visitor name, email, and full message text, scoped to the
