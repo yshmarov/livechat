@@ -29,6 +29,8 @@
       visitor: "访客"
       last_message: "最后一条消息"
       updated: "更新时间"
+      agents: "客服"
+      search: "搜索"
       back: "所有对话"
       resolve: "解决"
       reopen: "重新打开"

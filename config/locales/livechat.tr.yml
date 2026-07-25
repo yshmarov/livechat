@@ -29,6 +29,8 @@ tr:
       visitor: "Ziyaretçi"
       last_message: "Son mesaj"
       updated: "Güncellendi"
+      agents: "Temsilciler"
+      search: "Ara"
       back: "Tüm görüşmeler"
       resolve: "Çöz"
       reopen: "Yeniden aç"

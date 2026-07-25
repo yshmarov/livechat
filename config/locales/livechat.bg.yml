@@ -29,6 +29,8 @@ bg:
       visitor: "Посетител"
       last_message: "Последно съобщение"
       updated: "Обновено"
+      agents: "Агенти"
+      search: "Търсене"
       back: "Всички разговори"
       resolve: "Разреши"
       reopen: "Отвори отново"

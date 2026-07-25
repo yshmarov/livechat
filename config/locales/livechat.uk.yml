@@ -29,6 +29,8 @@ uk:
       visitor: "Відвідувач"
       last_message: "Останнє повідомлення"
       updated: "Оновлено"
+      agents: "Агенти"
+      search: "Пошук"
       back: "Усі розмови"
       resolve: "Завершити"
       reopen: "Відновити"

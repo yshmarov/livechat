@@ -15,6 +15,9 @@ Livechat::Engine.routes.draw do
 
   # The inbox. Flat, human URLs: the mount path IS the conversation list.
   resources :conversations, path: '', only: %i[index show], constraints: { id: /\d+/ } do
+    collection do
+      get :poll, action: :index_poll
+    end
     member do
       get :poll
       post :resolve

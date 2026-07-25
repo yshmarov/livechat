@@ -29,6 +29,8 @@ nl:
       visitor: "Bezoeker"
       last_message: "Laatste bericht"
       updated: "Bijgewerkt"
+      agents: "Agenten"
+      search: "Zoeken"
       back: "Alle gesprekken"
       resolve: "Oplossen"
       reopen: "Heropenen"

@@ -29,6 +29,8 @@ id:
       visitor: "Pengunjung"
       last_message: "Pesan terakhir"
       updated: "Diperbarui"
+      agents: "Agen"
+      search: "Cari"
       back: "Semua percakapan"
       resolve: "Selesaikan"
       reopen: "Buka kembali"

@@ -29,6 +29,8 @@ ru:
       visitor: "Посетитель"
       last_message: "Последнее сообщение"
       updated: "Обновлено"
+      agents: "Агенты"
+      search: "Поиск"
       back: "Все диалоги"
       resolve: "Завершить"
       reopen: "Возобновить"

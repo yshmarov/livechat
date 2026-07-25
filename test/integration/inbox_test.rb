@@ -40,6 +40,50 @@ class InboxTest < ActionDispatch::IntegrationTest
     refute_includes response.body, 'Started'
   end
 
+  test 'search matches visitor identity and message bodies, scoped to the tab' do
+    billing = start_conversation(token: 'a', visitor_label: 'Grace')
+    billing.post_visitor_message!('my INVOICE looks wrong')
+    other = start_conversation(token: 'b', visitor_email: 'invoice-team@example.com')
+    other.post_visitor_message!('hello')
+    resolved = start_conversation(token: 'c')
+    resolved.post_visitor_message!('invoice question')
+    resolved.resolve_by!('Ada')
+
+    as_agent!
+    get '/livechat?q=invoice'
+    assert_includes response.body, 'my INVOICE looks wrong' # body match
+    assert_includes response.body, 'invoice-team@example.com' # email match
+    refute_includes response.body, "##{resolved.id}</a>"      # resolved tab only
+
+    get '/livechat?q=invoice&status=resolved'
+    assert_includes response.body, "##{resolved.id}</a>"
+
+    get '/livechat?q=nothing-matches-this'
+    refute_includes response.body, "##{billing.id}</a>"
+  end
+
+  test 'index lists the agents who worked each thread' do
+    conversation = start_conversation
+    conversation.post_visitor_message!('hello')
+    conversation.post_agent_message!(body: 'hi', agent_id: 1, agent_label: 'Ada')
+    conversation.post_agent_message!(body: 'me too', agent_id: 2, agent_label: 'Grace')
+    conversation.post_agent_message!(body: 'again', agent_id: 1, agent_label: 'Ada')
+
+    as_agent!
+    get '/livechat'
+    assert_includes response.body, 'Ada, Grace'
+  end
+
+  test 'index poll token moves when anything changes' do
+    as_agent!
+    get '/livechat/poll'
+    before = response.parsed_body['token']
+
+    start_conversation.post_visitor_message!('new!')
+    get '/livechat/poll'
+    assert_not_equal before, response.parsed_body['token']
+  end
+
   test 'opening a thread marks visitor messages as read' do
     conversation = start_conversation
     conversation.post_visitor_message!('hello')

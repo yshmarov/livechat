@@ -29,6 +29,8 @@ ja:
       visitor: "訪問者"
       last_message: "最後のメッセージ"
       updated: "更新"
+      agents: "担当者"
+      search: "検索"
       back: "すべての会話"
       resolve: "解決"
       reopen: "再開"

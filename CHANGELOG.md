@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0
+
+- Inbox search: visitor name, email, and full message text, scoped to the
+  current tab.
+- The conversation list keeps itself fresh (new messages, new threads,
+  resolves) — without ever reloading over a search in progress.
+- An Agents column on the list shows which teammates have worked each thread.
+
 ## 0.2.1
 
 - With `show_launcher = false` the panel now sits in the corner instead of

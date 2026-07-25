@@ -29,6 +29,8 @@ lb:
       visitor: "Besucher"
       last_message: "Lescht Noriicht"
       updated: "Aktualiséiert"
+      agents: "Agenten"
+      search: "Sichen"
       back: "All Gespréicher"
       resolve: "Léisen"
       reopen: "Nees opmaachen"

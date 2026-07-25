@@ -29,6 +29,8 @@ ko:
       visitor: "방문자"
       last_message: "마지막 메시지"
       updated: "업데이트"
+      agents: "상담원"
+      search: "검색"
       back: "모든 대화"
       resolve: "해결"
       reopen: "다시 열기"

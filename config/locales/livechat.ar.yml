@@ -29,6 +29,8 @@ ar:
       visitor: "الزائر"
       last_message: "آخر رسالة"
       updated: "آخر تحديث"
+      agents: "الوكلاء"
+      search: "بحث"
       back: "جميع المحادثات"
       resolve: "حل"
       reopen: "إعادة فتح"

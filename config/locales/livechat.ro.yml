@@ -29,6 +29,8 @@ ro:
       visitor: "Vizitator"
       last_message: "Ultimul mesaj"
       updated: "Actualizat"
+      agents: "Agenți"
+      search: "Căutare"
       back: "Toate conversațiile"
       resolve: "Rezolvă"
       reopen: "Redeschide"

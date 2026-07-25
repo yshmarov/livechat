@@ -29,6 +29,8 @@ hi:
       visitor: "विज़िटर"
       last_message: "आख़िरी संदेश"
       updated: "अपडेट किया गया"
+      agents: "एजेंट"
+      search: "खोजें"
       back: "सभी बातचीत"
       resolve: "सुलझाएं"
       reopen: "फिर से खोलें"

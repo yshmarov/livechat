@@ -127,10 +127,12 @@ config.on_visitor_message = ->(message) { SlackNotifier.ping(message) }
 
 ## The inbox
 
-Browse at the mount path: open and resolved tabs, unread badges, one click
-into a thread. Reply (Cmd/Ctrl+Enter sends), resolve, reopen. The thread
-updates itself while you watch — and never reloads over a half-written
-reply. Gated by `config.authorize_agent` (development-only until you set it).
+Browse at the mount path: open and resolved tabs, unread badges, search
+(visitor name, email, and everything anyone wrote), and a column showing
+which teammates have worked each thread. One click into a thread; reply
+(Cmd/Ctrl+Enter sends), resolve, reopen. Both pages keep themselves fresh
+while you watch — and never reload over a half-written reply or search.
+Gated by `config.authorize_agent` (development-only until you set it).
 
 ## Widget API
 

@@ -29,6 +29,8 @@ hr:
       visitor: "Posjetitelj"
       last_message: "Zadnja poruka"
       updated: "Ažurirano"
+      agents: "Agenti"
+      search: "Pretraži"
       back: "Svi razgovori"
       resolve: "Riješi"
       reopen: "Ponovno otvori"

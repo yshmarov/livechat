@@ -29,6 +29,8 @@ vi:
       visitor: "Khách truy cập"
       last_message: "Tin nhắn cuối"
       updated: "Đã cập nhật"
+      agents: "Nhân viên"
+      search: "Tìm kiếm"
       back: "Tất cả cuộc trò chuyện"
       resolve: "Giải quyết"
       reopen: "Mở lại"

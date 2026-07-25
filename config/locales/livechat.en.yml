@@ -29,6 +29,8 @@ en:
       visitor: "Visitor"
       last_message: "Last message"
       updated: "Updated"
+      agents: "Agents"
+      search: "Search"
       back: "All conversations"
       resolve: "Resolve"
       reopen: "Reopen"
