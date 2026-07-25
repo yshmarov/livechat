@@ -1,0 +1,57 @@
+<h1><%= t('livechat.dashboard.title', default: 'Chat') %></h1>
+
+<div class="tabs">
+  <% Livechat::Conversation::STATUSES.each do |status| %>
+    <%= link_to conversations_path(status: status), class: ('active' if @status == status) do %>
+      <%= t("livechat.statuses.#{status}", default: status.humanize) %>
+      <span class="count"><%= @counts.fetch(status, 0) %></span>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="card">
+  <% if @conversations.empty? %>
+    <p class="empty"><%= t('livechat.dashboard.empty',
+                           default: 'Nothing here. When a visitor writes, the conversation lands on this page.') %></p>
+  <% else %>
+    <table>
+      <thead>
+        <tr>
+          <th><%= t('livechat.dashboard.visitor', default: 'Visitor') %></th>
+          <th><%= t('livechat.dashboard.last_message', default: 'Last message') %></th>
+          <th><%= t('livechat.dashboard.updated', default: 'Updated') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @conversations.each do |conversation| %>
+          <% unread = @unread.fetch(conversation.id, 0) %>
+          <tr class="<%= 'unread' if unread.positive? %>">
+            <td>
+              <%= link_to conversation.display_name, conversation_path(conversation) %>
+              <% if unread.positive? %>
+                <span class="badge unread-count"><%= unread %></span>
+              <% end %>
+            </td>
+            <td class="muted"><%= conversation.last_message_preview %></td>
+            <td class="muted">
+              <% if conversation.last_activity_at %>
+                <%= time_ago_in_words(conversation.last_activity_at) %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<div class="pager">
+  <% if @offset.positive? %>
+    <%= link_to t('livechat.dashboard.newer', default: 'Newer'),
+                conversations_path(status: @status, offset: [@offset - Livechat::ConversationsController::PER_PAGE, 0].max) %>
+  <% end %>
+  <% if @more %>
+    <%= link_to t('livechat.dashboard.older', default: 'Older'),
+                conversations_path(status: @status, offset: @offset + Livechat::ConversationsController::PER_PAGE) %>
+  <% end %>
+</div>

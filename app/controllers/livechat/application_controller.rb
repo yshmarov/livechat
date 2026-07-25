@@ -28,6 +28,18 @@ module Livechat
              status: :forbidden
     end
 
+    # Replies are attributed to whoever config.current_user resolves. When an
+    # inbox is protected by something user-less (HTTP basic, a VPN), replies
+    # still work — anonymously, as "Support".
+    def current_agent_id
+      current_visitor_id || '0'
+    end
+
+    def current_agent_label
+      label = (Livechat.config.agent_label.call(current_visitor).presence if current_visitor)
+      label || I18n.t(:team, scope: :livechat, default: 'Support')
+    end
+
     def render_rate_limited
       message = I18n.t('livechat.error_rate_limited',
                        default: 'Too many messages. Please wait a moment and try again.')

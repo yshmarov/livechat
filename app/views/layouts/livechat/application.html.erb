@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= t('livechat.dashboard.title', default: 'Chat') %> — <%= Livechat.app_name %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%# Same-origin script instead of inline handlers, so thread polling and
+      keyboard submit work under strict script-src CSPs. %>
+  <%= javascript_include_tag "#{dashboard_script_path}?v=#{Livechat::Widget.dashboard_fingerprint}",
+                             defer: true, nonce: true %>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f7f9; --surface: #fff; --text: #1c2024; --muted: #6b7280;
+      --border: #e5e7eb; --accent: #2563eb; --accent-text: #fff;
+      --open: #16a34a; --resolved: #6b7280; --danger: #dc2626;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111418; --surface: #1a1f26; --text: #e6e8ea; --muted: #9aa2ab;
+        --border: #2a313a; --accent: #3b82f6;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text);
+           font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+    h1 { font-size: 22px; margin: 0 0 16px; }
+    .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 16px; flex-wrap: wrap; }
+    .tabs a { padding: 8px 14px; border-radius: 8px 8px 0 0; color: var(--muted); }
+    .tabs a.active { color: var(--text); font-weight: 600; border: 1px solid var(--border);
+                     border-bottom: 2px solid var(--surface); background: var(--surface); margin-bottom: -1px; }
+    .tabs a:hover { text-decoration: none; color: var(--text); }
+    .count { display: inline-block; min-width: 20px; padding: 0 6px; margin-left: 4px; border-radius: 999px;
+             background: var(--border); font-size: 12px; text-align: center; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .card.pad { padding: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 14px; text-align: left; vertical-align: top; }
+    th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+         border-bottom: 1px solid var(--border); }
+    tr + tr td { border-top: 1px solid var(--border); }
+    tr.unread td { font-weight: 600; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+             color: #fff; white-space: nowrap; }
+    .badge.status-open { background: var(--open); }
+    .badge.status-resolved { background: var(--resolved); }
+    .badge.unread-count { background: var(--danger); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .pager { margin-top: 16px; display: flex; gap: 16px; }
+    .empty { padding: 48px 16px; text-align: center; color: var(--muted); }
+    .breadcrumb { margin-bottom: 12px; font-size: 13px; }
+    .flash { margin: 0 0 16px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);
+             background: var(--surface); }
+    .flash.alert { color: var(--danger); border-color: var(--danger); }
+    .head-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .head-row h1 { margin: 0; flex: 1; }
+    .head-row form { display: inline; }
+    button, .button { padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+                      background: var(--surface); color: var(--text); font: inherit; }
+    button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+    dl.context { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 0 0 16px;
+                 font-size: 13px; }
+    dl.context dt { color: var(--muted); }
+    dl.context dd { margin: 0; overflow-wrap: anywhere; }
+    .thread { display: flex; flex-direction: column; gap: 4px; padding: 16px; }
+    .thread .who { font-size: 12px; color: var(--muted); margin: 10px 4px 2px; }
+    .thread .who.visitor { text-align: left; }
+    .thread .who.agent { text-align: right; }
+    .thread .msg { max-width: 78%; padding: 8px 12px; border-radius: 14px; white-space: pre-wrap;
+                   overflow-wrap: anywhere; }
+    .thread .msg.visitor { align-self: flex-start; background: var(--bg); border: 1px solid var(--border);
+                           border-bottom-left-radius: 4px; }
+    .thread .msg.agent { align-self: flex-end; background: var(--accent); color: var(--accent-text);
+                         border-bottom-right-radius: 4px; }
+    .thread .system { align-self: center; color: var(--muted); font-size: 12px; margin: 8px 0; }
+    #new-messages { margin: 12px 0 0; }
+    #new-messages a { font-weight: 600; }
+    .reply { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); }
+    .reply textarea { flex: 1; resize: vertical; min-height: 44px; max-height: 200px; padding: 8px 10px;
+                      border: 1px solid var(--border); border-radius: 10px; font: inherit;
+                      background: var(--bg); color: var(--text); }
+    .reply button { align-self: flex-end; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <% if flash[:alert].present? %>
+      <p class="flash alert"><%= flash[:alert] %></p>
+    <% end %>
+    <%= yield %>
+  </div>
+</body>
+</html>

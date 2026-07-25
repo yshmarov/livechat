@@ -1,0 +1,72 @@
+<p class="breadcrumb">
+  <%= link_to "← #{t('livechat.dashboard.back', default: 'All conversations')}", conversations_path %>
+</p>
+
+<div class="head-row">
+  <h1><%= @conversation.display_name %></h1>
+  <span class="badge status-<%= @conversation.status %>">
+    <%= t("livechat.statuses.#{@conversation.status}", default: @conversation.status.humanize) %>
+  </span>
+  <% if @conversation.open? %>
+    <%= button_to t('livechat.dashboard.resolve', default: 'Resolve'),
+                  resolve_conversation_path(@conversation) %>
+  <% else %>
+    <%= button_to t('livechat.dashboard.reopen', default: 'Reopen'),
+                  reopen_conversation_path(@conversation) %>
+  <% end %>
+</div>
+
+<dl class="context">
+  <% if @conversation.visitor_email.present? %>
+    <dt><%= t('livechat.dashboard.email', default: 'Email') %></dt>
+    <dd><%= mail_to @conversation.visitor_email %></dd>
+  <% end %>
+  <% if @conversation.page_url.present? %>
+    <dt><%= t('livechat.dashboard.page', default: 'Page') %></dt>
+    <dd><%= link_to @conversation.page_url, @conversation.page_url, target: '_blank', rel: 'noopener' %></dd>
+  <% end %>
+  <% if @conversation.locale.present? %>
+    <dt><%= t('livechat.dashboard.locale', default: 'Locale') %></dt>
+    <dd><%= @conversation.locale %></dd>
+  <% end %>
+  <dt><%= t('livechat.dashboard.started', default: 'Started') %></dt>
+  <dd><%= @conversation.created_at.to_fs(:long) %></dd>
+</dl>
+
+<div class="card">
+  <div class="thread" id="thread"
+       data-poll-url="<%= poll_conversation_path(@conversation) %>"
+       data-latest="<%= @messages.last&.id.to_i %>">
+    <% previous_author = nil %>
+    <% @messages.each do |message| %>
+      <% if message.system? %>
+        <p class="system" id="message-<%= message.id %>">
+          <%= t("livechat.events.#{message.event}", agent: message.agent_label,
+                default: "%{agent} #{message.event} the conversation") %>
+          · <%= message.created_at.to_fs(:short) %>
+        </p>
+        <% previous_author = nil %>
+      <% else %>
+        <% author_key = "#{message.author_type}:#{message.agent_label}" %>
+        <% if author_key != previous_author %>
+          <p class="who <%= message.author_type %>">
+            <%= message.agent? ? message.agent_label : @conversation.display_name %>
+            · <%= message.created_at.to_fs(:short) %>
+          </p>
+          <% previous_author = author_key %>
+        <% end %>
+        <div class="msg <%= message.author_type %>" id="message-<%= message.id %>"><%= message.body %></div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <p id="new-messages" class="system" hidden>
+    <a href=""><%= t('livechat.dashboard.new_messages', default: 'New messages — refresh') %></a>
+  </p>
+
+  <%= form_with url: conversation_messages_path(@conversation), method: :post, class: 'reply' do |form| %>
+    <%= form.text_area :body, rows: 2, autofocus: true, required: true,
+                       placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
+    <%= form.button t('livechat.dashboard.send', default: 'Send'), class: 'primary' %>
+  <% end %>
+</div>
