@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.6
+
+- The opening greeting is now styled as a support message bubble (with a
+  generic "Support" label) instead of a muted line, so the panel reads like
+  a warmly-opened conversation. Deliberately generic — no fake individual,
+  avatar, or presence — and still client-only (never stored, never in the
+  agent inbox).
+
 ## 0.3.5
 
 - The inbox thread now appends new messages live instead of showing a
