@@ -16,7 +16,6 @@ ActiveRecord::Schema.define do
     t.string :last_message_preview
     t.datetime :last_activity_at
     t.string :page_url
-    t.string :user_agent
     t.string :locale
     t.timestamps
   end

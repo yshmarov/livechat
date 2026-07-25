@@ -82,7 +82,6 @@ module Livechat
         visitor_label: visitor_label,
         visitor_email: (current_visitor.try(:email).presence if current_visitor),
         page_url: params[:page_url].to_s.first(255).presence,
-        user_agent: request.user_agent.to_s.first(255).presence,
         locale: params[:locale].to_s.first(10).presence
       )
     end

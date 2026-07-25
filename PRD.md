@@ -69,7 +69,7 @@ Two tables, string-typed author references (feedback_engine pattern — no FK to
 | `status` | string, default `open` | `open` / `resolved` (hand-rolled, feedback_engine style) |
 | `last_message_preview` | string | denormalized via `update_columns` on message create |
 | `last_activity_at` | datetime, indexed | list ordering |
-| `page_url`, `user_agent`, `locale` | string | context captured at creation |
+| `page_url`, `locale` | string | live context — refreshed on every visitor message |
 
 **`livechat_messages`**
 
