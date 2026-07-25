@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.3
+
+- Accessibility: on phones (where the panel is a full-screen modal) focus is
+  trapped inside it and page scroll is locked behind it; closing restores
+  focus to whatever opened the chat. Errors and the email-saved note are now
+  announced to screen readers. The desktop popover deliberately stays
+  non-modal — you can read the page while chatting.
+
 ## 0.3.2
 
 - The chat panel is full-screen on phones (≤480px) — a conversation is an
