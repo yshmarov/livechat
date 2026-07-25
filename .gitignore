@@ -1,0 +1,10 @@
+*.gem
+Gemfile.lock
+gemfiles/*.gemfile.lock
+log/
+tmp/
+test/dummy/db/*.sqlite3
+test/dummy/log/
+test/dummy/tmp/
+test/dummy/storage/
+.ruby-lsp/

@@ -1,0 +1,26 @@
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "test/dummy/**/*"
+    - "bin/**/*"
+    - "vendor/**/*"
+    - "tmp/**/*"
+
+Style/Documentation:
+  Enabled: false
+
+# Accessors in Configuration are separated by explanatory comments on purpose.
+Style/AccessorGrouping:
+  Enabled: false
+
+# I18n defaults interpolate with %{}-style tokens.
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Metrics:
+  Enabled: false
+
+Gemspec/DevelopmentDependencies:
+  Enabled: false
