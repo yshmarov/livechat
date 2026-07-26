@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.5
+
+- The widget's injected stylesheet now refreshes itself when its content
+  changes, instead of being injected once and never replaced. Turbo keeps
+  `<head>` across visits, so a tab that moved from an old widget build to a new
+  one (after you ship an update) could keep the stale `<style>` and show new
+  markup with old CSS until a full reload — now the styles are as
+  self-freshening as the fingerprinted script URL. (Fixes 0.4.4's composer and
+  header CSS not taking effect until a hard reload.)
+
 ## 0.4.4
 
 - Expand / collapse the chat on desktop. A new header control grows the panel
