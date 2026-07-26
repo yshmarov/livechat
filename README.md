@@ -84,8 +84,6 @@ person will notice there is nothing new to run. Already running Action Cable
 and want instant delivery? `config.action_cable = true` — polling stays the
 fallback.
 
-![The widget expanded to a larger panel](docs/screenshots/02-widget-expanded.png)
-
 ## The inbox
 
 Open and resolved tabs, unread badges, search (visitor name, email, and
