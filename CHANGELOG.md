@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.8
+
+- A conversation with image attachments now opens scrolled to the bottom, not
+  mid-thread. Images load after the initial scroll and grow the thread, so both
+  the inbox and the widget now re-pin to the bottom as each image loads (and
+  the inbox keeps you pinned until you scroll up). Fixes threads with
+  screenshots opening somewhere in the middle.
+
 ## 0.4.7
 
 - The inbox reply composer now matches the visitor widget: one bordered box
