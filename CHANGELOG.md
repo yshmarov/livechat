@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.6
+
+- Inbox conversation page no longer scrolls the whole page. It now fills the
+  viewport with the message thread as the only scrolling region and the reply
+  composer pinned at the bottom — so sending a reply keeps you at the newest
+  message instead of jumping the page up to the redirect anchor. (A real
+  chat-app layout, matching the visitor widget.)
+
 ## 0.4.5
 
 - The widget's injected stylesheet now refreshes itself when its content

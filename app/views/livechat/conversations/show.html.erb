@@ -1,3 +1,6 @@
+<%# Fill the viewport and scroll only the thread (see .lvc-convo in the layout). %>
+<% content_for :body_class, 'lvc-convo' %>
+
 <p class="breadcrumb">
   <%= link_to "← #{t('livechat.dashboard.back', default: 'All conversations')}", conversations_path %>
 </p>
