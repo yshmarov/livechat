@@ -63,23 +63,26 @@
     <% end %>
   </div>
 
+  <%# One bordered composer box (matches the visitor widget): the reply on top,
+      a toolbar row below with tools on the left and send on the right. %>
   <%= form_with url: conversation_messages_path(@conversation), method: :post,
                 multipart: true, class: 'reply' do |form| %>
-    <div class="compose">
-      <%= form.text_area :body, rows: 2, autofocus: true, required: !Livechat.attachments_enabled?,
-                         placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
-      <%# dashboard.js hides this and swaps in a paperclip button + file chips.
-          Left plain as a no-JS fallback so agents can still attach without it. %>
-      <% if Livechat.attachments_enabled? %>
-        <%= form.file_field :files, multiple: true, class: 'reply-file',
-                            aria: { label: t('livechat.dashboard.attach', default: 'Attach files') } %>
-      <% end %>
+    <%= form.text_area :body, rows: 2, autofocus: true, required: !Livechat.attachments_enabled?,
+                       placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
+    <%# dashboard.js hides this and swaps in a paperclip button (into .reply-tools)
+        plus file chips at the top of the box. Left plain as a no-JS fallback. %>
+    <% if Livechat.attachments_enabled? %>
+      <%= form.file_field :files, multiple: true, class: 'reply-file',
+                          aria: { label: t('livechat.dashboard.attach', default: 'Attach files') } %>
+    <% end %>
+    <div class="reply-toolbar">
+      <div class="reply-tools"></div>
+      <button type="submit" class="send"
+              aria-label="<%= t('livechat.dashboard.send', default: 'Send') %>"
+              title="<%= t('livechat.dashboard.send', default: 'Send') %>">
+        <%# Paper airplane (Heroicons, MIT) — same icon as the widget. %>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"/></svg>
+      </button>
     </div>
-    <button type="submit" class="primary send"
-            aria-label="<%= t('livechat.dashboard.send', default: 'Send') %>"
-            title="<%= t('livechat.dashboard.send', default: 'Send') %>">
-      <%# Paper airplane (Heroicons, MIT) — same icon as the widget. %>
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z"/></svg>
-    </button>
   <% end %>
 </div>

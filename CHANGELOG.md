@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.7
+
+- The inbox reply composer now matches the visitor widget: one bordered box
+  with the reply on top and a toolbar row (paperclip left, circular send
+  right) inside it, lit on focus — instead of a textarea flanked by loose
+  buttons. The reply field auto-grows as you type, and file chips ride inside
+  the box.
+
 ## 0.4.6
 
 - Inbox conversation page no longer scrolls the whole page. It now fills the

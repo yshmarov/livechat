@@ -93,28 +93,33 @@
     .thread .msg.agent .att-file { background: rgba(255,255,255,.2); }
     #new-messages { margin: 12px 0 0; }
     #new-messages a { font-weight: 600; }
-    .reply { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); }
-    .reply .compose { flex: 1; display: flex; flex-direction: column; gap: 6px; }
-    .reply textarea { resize: vertical; min-height: 44px; max-height: 200px; padding: 8px 10px;
-                      border: 1px solid var(--border); border-radius: 10px; font: inherit;
-                      background: var(--bg); color: var(--text); }
+    /* Unified composer box (matches the visitor widget): the reply on top, a
+       toolbar row below (tools left, send right), all inside one bordered box
+       that lights up on focus. */
+    .reply { display: flex; flex-direction: column; gap: 6px; margin: 10px 12px; padding: 8px 10px;
+             border: 1px solid var(--border); border-radius: 14px; background: var(--bg); }
+    .reply:focus-within { border-color: var(--accent); }
+    .reply textarea { -webkit-appearance: none; appearance: none; border: none; background: none;
+                      resize: none; outline: none; font: inherit; color: var(--text);
+                      padding: 4px 4px 0; min-height: 40px; max-height: 160px; overflow-y: auto; }
     .reply input[type=file].reply-file { font-size: 12px; color: var(--muted); }
-    .reply button.attach { align-self: flex-end; width: 42px; min-width: 42px; height: 42px; padding: 0;
-                           display: flex; align-items: center; justify-content: center; color: var(--muted);
-                           background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-    .reply button.attach:hover { color: var(--text); background: var(--bg); }
+    .reply-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .reply-tools { display: flex; align-items: center; gap: 2px; }
+    .reply .attach { width: 32px; height: 32px; padding: 0; border: none; background: none;
+                     color: var(--muted); border-radius: 8px; cursor: pointer;
+                     display: flex; align-items: center; justify-content: center; }
+    .reply .attach:hover { background: var(--border); color: var(--text); }
     .reply .chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .reply .chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
                    padding: 4px 6px 4px 10px; border: 1px solid var(--border); border-radius: 999px;
-                   background: var(--bg); font-size: 12px; }
+                   background: var(--surface); font-size: 12px; }
     .reply .chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
     .reply .chip-x { padding: 0 2px; border: none; background: none; color: var(--muted);
                      font-size: 16px; line-height: 1; cursor: pointer; }
     .reply .chip-x:hover { color: var(--text); }
-    .reply button.send { align-self: flex-end; width: 42px; min-width: 42px; height: 42px; padding: 0;
-                         display: flex; align-items: center; justify-content: center;
-                         background: var(--accent); border-color: var(--accent); color: var(--accent-text);
-                         border-radius: 10px; }
+    .reply .send { width: 32px; min-width: 32px; height: 32px; padding: 0; border: none; border-radius: 50%;
+                   background: var(--accent); color: var(--accent-text); cursor: pointer;
+                   display: flex; align-items: center; justify-content: center; }
     /* Conversation page: fill the viewport and scroll the THREAD, not the
        page — so a reply never jumps the page, and the composer stays put. */
     .lvc-convo, .lvc-convo .container { height: 100vh; height: 100dvh; }
