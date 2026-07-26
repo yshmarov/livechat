@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.3
+
+- Unified composer. The message box, attach button and send button are now one
+  bordered container (the textarea on top, a toolbar row with the tools on the
+  left and a circular send on the right) that lights up on focus — instead of a
+  textarea flanked by loose buttons. Reads as a single control, closer to what
+  people expect from a chat composer. Pending-file chips ride inside the box.
+
 ## 0.4.2
 
 - Breathing room between the widget's pending-file chips and the composer —
