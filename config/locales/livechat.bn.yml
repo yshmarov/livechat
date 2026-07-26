@@ -20,6 +20,8 @@ bn:
     attach: "ফাইল সংযুক্ত করুন"
     remove_file: "ফাইল সরান"
     attachment_error: "কিছু ফাইল পাঠানো যায়নি।"
+    expand: "বড় করুন"
+    collapse: "ছোট করুন"
     attachments:
       too_many: "অনেক বেশি ফাইল (সর্বোচ্চ %{count})।"
       too_large: "%{name} খুব বড়।"

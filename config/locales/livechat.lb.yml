@@ -20,6 +20,8 @@ lb:
     attach: "Dateien uschléissen"
     remove_file: "Datei ewechhuelen"
     attachment_error: "E puer Dateie konnten net geschéckt ginn."
+    expand: "Vergréisseren"
+    collapse: "Verklengeren"
     attachments:
       too_many: "Ze vill Dateien (max %{count})."
       too_large: "%{name} ass ze grouss."

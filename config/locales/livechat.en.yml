@@ -20,6 +20,8 @@ en:
     attach: "Attach files"
     remove_file: "Remove file"
     attachment_error: "Some files could not be sent."
+    expand: "Expand"
+    collapse: "Collapse"
     attachments:
       too_many: "Too many files (max %{count})."
       too_large: "%{name} is too large."

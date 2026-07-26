@@ -20,6 +20,8 @@ th:
     attach: "แนบไฟล์"
     remove_file: "นำไฟล์ออก"
     attachment_error: "ไม่สามารถส่งไฟล์บางไฟล์ได้"
+    expand: "ขยาย"
+    collapse: "ย่อ"
     attachments:
       too_many: "ไฟล์มากเกินไป (สูงสุด %{count})"
       too_large: "%{name} มีขนาดใหญ่เกินไป"

@@ -20,6 +20,8 @@ tr:
     attach: "Dosya ekle"
     remove_file: "Dosyayı kaldır"
     attachment_error: "Bazı dosyalar gönderilemedi."
+    expand: "Büyüt"
+    collapse: "Küçült"
     attachments:
       too_many: "Çok fazla dosya (en fazla %{count})."
       too_large: "%{name} çok büyük."

@@ -20,6 +20,8 @@
     attach: "附加文件"
     remove_file: "移除文件"
     attachment_error: "部分文件无法发送。"
+    expand: "放大"
+    collapse: "缩小"
     attachments:
       too_many: "文件过多（最多 %{count} 个）。"
       too_large: "%{name} 太大。"

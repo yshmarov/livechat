@@ -20,6 +20,8 @@ ru:
     attach: "Прикрепить файлы"
     remove_file: "Удалить файл"
     attachment_error: "Некоторые файлы не удалось отправить."
+    expand: "Развернуть"
+    collapse: "Свернуть"
     attachments:
       too_many: "Слишком много файлов (макс. %{count})."
       too_large: "%{name} слишком большой."

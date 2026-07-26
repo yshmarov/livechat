@@ -104,7 +104,9 @@ module Livechat
           unreadAria: t(:unread_aria, 'unread messages'),
           attach: t(:attach, 'Attach files'),
           removeFile: t(:remove_file, 'Remove file'),
-          attachmentError: t(:attachment_error, 'Some files could not be sent.')
+          attachmentError: t(:attachment_error, 'Some files could not be sent.'),
+          expand: t(:expand, 'Expand'),
+          collapse: t(:collapse, 'Collapse')
         }
       end
 

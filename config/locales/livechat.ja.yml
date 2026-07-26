@@ -20,6 +20,8 @@ ja:
     attach: "ファイルを添付"
     remove_file: "ファイルを削除"
     attachment_error: "一部のファイルを送信できませんでした。"
+    expand: "拡大"
+    collapse: "縮小"
     attachments:
       too_many: "ファイルが多すぎます(最大%{count}件)。"
       too_large: "%{name}が大きすぎます。"

@@ -20,6 +20,8 @@ hr:
     attach: "Priloži datoteke"
     remove_file: "Ukloni datoteku"
     attachment_error: "Neke datoteke nije bilo moguće poslati."
+    expand: "Povećaj"
+    collapse: "Smanji"
     attachments:
       too_many: "Previše datoteka (najviše %{count})."
       too_large: "%{name} je prevelika."

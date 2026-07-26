@@ -20,6 +20,8 @@ ko:
     attach: "파일 첨부"
     remove_file: "파일 제거"
     attachment_error: "일부 파일을 보내지 못했습니다."
+    expand: "확대"
+    collapse: "축소"
     attachments:
       too_many: "파일이 너무 많습니다 (최대 %{count}개)."
       too_large: "%{name}이(가) 너무 큽니다."

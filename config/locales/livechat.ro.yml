@@ -20,6 +20,8 @@ ro:
     attach: "Atașează fișiere"
     remove_file: "Elimină fișierul"
     attachment_error: "Unele fișiere nu au putut fi trimise."
+    expand: "Mărește"
+    collapse: "Micșorează"
     attachments:
       too_many: "Prea multe fișiere (max. %{count})."
       too_large: "%{name} este prea mare."

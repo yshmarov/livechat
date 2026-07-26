@@ -20,6 +20,8 @@ fr:
     attach: "Joindre des fichiers"
     remove_file: "Retirer le fichier"
     attachment_error: "Certains fichiers n'ont pas pu être envoyés."
+    expand: "Agrandir"
+    collapse: "Réduire"
     attachments:
       too_many: "Trop de fichiers (max %{count})."
       too_large: "%{name} est trop volumineux."

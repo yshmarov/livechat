@@ -20,6 +20,8 @@ ar:
     attach: "إرفاق ملفات"
     remove_file: "إزالة الملف"
     attachment_error: "تعذر إرسال بعض الملفات."
+    expand: "تكبير"
+    collapse: "تصغير"
     attachments:
       too_many: "ملفات كثيرة جدًا (بحد أقصى %{count})."
       too_large: "%{name} كبير جدًا."

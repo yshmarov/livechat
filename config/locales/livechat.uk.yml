@@ -20,6 +20,8 @@ uk:
     attach: "Прикріпити файли"
     remove_file: "Видалити файл"
     attachment_error: "Деякі файли не вдалося надіслати."
+    expand: "Розгорнути"
+    collapse: "Згорнути"
     attachments:
       too_many: "Забагато файлів (максимум %{count})."
       too_large: "%{name} завеликий."

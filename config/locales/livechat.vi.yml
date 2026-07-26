@@ -20,6 +20,8 @@ vi:
     attach: "Đính kèm tệp"
     remove_file: "Xóa tệp"
     attachment_error: "Không thể gửi một số tệp."
+    expand: "Mở rộng"
+    collapse: "Thu gọn"
     attachments:
       too_many: "Quá nhiều tệp (tối đa %{count})."
       too_large: "%{name} quá lớn."

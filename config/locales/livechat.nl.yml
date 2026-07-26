@@ -20,6 +20,8 @@ nl:
     attach: "Bestanden bijvoegen"
     remove_file: "Bestand verwijderen"
     attachment_error: "Sommige bestanden konden niet worden verzonden."
+    expand: "Vergroten"
+    collapse: "Verkleinen"
     attachments:
       too_many: "Te veel bestanden (max. %{count})."
       too_large: "%{name} is te groot."

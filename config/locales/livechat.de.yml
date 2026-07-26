@@ -20,6 +20,8 @@ de:
     attach: "Dateien anhängen"
     remove_file: "Datei entfernen"
     attachment_error: "Einige Dateien konnten nicht gesendet werden."
+    expand: "Vergrößern"
+    collapse: "Verkleinern"
     attachments:
       too_many: "Zu viele Dateien (max. %{count})."
       too_large: "%{name} ist zu groß."

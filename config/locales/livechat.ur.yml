@@ -20,6 +20,8 @@ ur:
     attach: "فائلیں منسلک کریں"
     remove_file: "فائل ہٹائیں"
     attachment_error: "کچھ فائلیں نہیں بھیجی جا سکیں۔"
+    expand: "بڑا کریں"
+    collapse: "چھوٹا کریں"
     attachments:
       too_many: "بہت زیادہ فائلیں (زیادہ سے زیادہ %{count})۔"
       too_large: "%{name} بہت بڑی ہے۔"

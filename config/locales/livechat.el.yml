@@ -20,6 +20,8 @@ el:
     attach: "Επισύναψη αρχείων"
     remove_file: "Αφαίρεση αρχείου"
     attachment_error: "Ορισμένα αρχεία δεν ήταν δυνατό να σταλούν."
+    expand: "Μεγέθυνση"
+    collapse: "Σμίκρυνση"
     attachments:
       too_many: "Πάρα πολλά αρχεία (έως %{count})."
       too_large: "Το %{name} είναι πολύ μεγάλο."

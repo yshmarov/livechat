@@ -20,6 +20,8 @@ id:
     attach: "Lampirkan file"
     remove_file: "Hapus file"
     attachment_error: "Beberapa file tidak dapat dikirim."
+    expand: "Perbesar"
+    collapse: "Perkecil"
     attachments:
       too_many: "Terlalu banyak file (maks. %{count})."
       too_large: "%{name} terlalu besar."

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.4
+
+- Expand / collapse the chat on desktop. A new header control grows the panel
+  to a roomier size (and back) for long threads and image-heavy chats; the
+  choice is remembered across Turbo visits. Hidden on phones, where the panel
+  is already full-screen. Translated across all 26 locales.
+- Composer polish: dropped the doubled focus ring (one quiet accent border
+  now), and flattened Safari's default textarea bevel that showed as a second
+  box inside the composer.
+- Fixed a message bubble bleeding over the header's bottom edge while scrolling
+  a long thread (a flexbox scroll-containment + stacking fix).
+
 ## 0.4.3
 
 - Unified composer. The message box, attach button and send button are now one

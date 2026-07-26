@@ -20,6 +20,8 @@ pt:
     attach: "Anexar arquivos"
     remove_file: "Remover arquivo"
     attachment_error: "Não foi possível enviar alguns arquivos."
+    expand: "Ampliar"
+    collapse: "Reduzir"
     attachments:
       too_many: "Muitos arquivos (máx. %{count})."
       too_large: "%{name} é muito grande."

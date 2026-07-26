@@ -20,6 +20,8 @@ bg:
     attach: "Прикачване на файлове"
     remove_file: "Премахване на файла"
     attachment_error: "Някои файлове не можаха да бъдат изпратени."
+    expand: "Уголеми"
+    collapse: "Смали"
     attachments:
       too_many: "Твърде много файлове (макс. %{count})."
       too_large: "%{name} е твърде голям."
