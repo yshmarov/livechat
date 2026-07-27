@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.0
+
+- The full-screen mobile panel now survives the on-screen keyboard. On phones
+  the panel is a fixed `100dvh` box, and iOS Safari draws the keyboard over it
+  without resizing it — so the composer and send button ended up hidden behind
+  the keyboard with a big empty gap above. The widget now pins the open panel
+  to the `visualViewport` (the area left visible above the keyboard), shrinking
+  its height and following the viewport offset so the composer sits just above
+  the keyboard and the newest message stays in view. Desktop popover behaviour
+  is unchanged (the pinning only runs while the mobile full-screen media query
+  matches), and browsers without the `visualViewport` API simply keep the old
+  CSS behaviour.
+- The desktop-only expand/collapse control is now actually hidden on phones,
+  where the panel is already full-screen. (The mobile rule existed but lost on
+  specificity to the base button style, so the button was still showing.)
+
 ## 0.4.8
 
 - A conversation with image attachments now opens scrolled to the bottom, not
