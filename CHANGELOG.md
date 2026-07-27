@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1
+
+- Fixed the mobile chat panel letting the page scroll behind it (and the host
+  page showing through above/below the panel) while the keyboard was open.
+  The scroll lock now pins `<body>` with `position: fixed` — `overflow:hidden`
+  alone is ignored by iOS Safari for touch — so the background is truly frozen
+  and the keyboard-pinned panel covers the visible area with no gaps.
+
 ## 0.5.0
 
 - The full-screen mobile panel now survives the on-screen keyboard. On phones
