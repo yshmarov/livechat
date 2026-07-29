@@ -111,6 +111,7 @@
                      display: flex; align-items: center; justify-content: center; }
     .reply .attach:hover { background: var(--border); color: var(--text); }
     .reply .attach.recording-on { color: var(--danger); }
+    .reply.is-recording .attach { display: none; }
     .reply .chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .reply .chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
                    padding: 4px 6px 4px 10px; border: 1px solid var(--border); border-radius: 999px;
@@ -119,14 +120,23 @@
     .reply .chip-x { padding: 0 2px; border: none; background: none; color: var(--muted);
                      font-size: 16px; line-height: 1; cursor: pointer; }
     .reply .chip-x:hover { color: var(--text); }
-    .reply .recording { display: flex; align-items: center; justify-content: space-between; gap: 8px;
-                        padding: 6px 4px 0; color: var(--muted); font-size: 12px; }
+    .reply .recording { display: inline-flex; align-items: center; gap: 8px; height: 32px;
+                        padding: 0 4px 0 8px; border: 1px solid var(--border); border-radius: 999px;
+                        background: var(--surface); color: var(--muted); font-size: 12px;
+                        white-space: nowrap; }
     .reply .recording[hidden] { display: none; }
-    .reply .recording-status { display: inline-flex; align-items: center; gap: 6px; }
-    .reply .recording-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); }
+    .reply .recording-status { display: inline-grid; grid-template-columns: 8px 24px 34px;
+                               align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+    .reply .recording-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger);
+                            box-shadow: 0 0 0 3px rgba(220,38,38,.12); }
+    .reply .recording-rec { font-size: 10px; font-weight: 700; letter-spacing: .04em; color: var(--danger); }
     .reply .recording-actions { display: flex; align-items: center; gap: 4px; }
-    .reply .recording-actions button { padding: 6px 8px; border-radius: 8px; font-size: 12px; line-height: 1; }
-    .reply .recording-actions .stop-recording { border-color: var(--danger); color: var(--danger); }
+    .reply .recording-actions button { width: 24px; height: 24px; padding: 0; border: none;
+                                       border-radius: 50%; background: none; color: var(--muted);
+                                       display: flex; align-items: center; justify-content: center; }
+    .reply .recording-actions button:hover { background: var(--border); color: var(--text); }
+    .reply .recording-actions .stop-recording { background: var(--danger); color: #fff; }
+    .reply .recording-actions .stop-recording:hover { background: #b91c1c; color: #fff; }
     .reply .send { width: 32px; min-width: 32px; height: 32px; padding: 0; border: none; border-radius: 50%;
                    background: var(--accent); color: var(--accent-text); cursor: pointer;
                    display: flex; align-items: center; justify-content: center; }
