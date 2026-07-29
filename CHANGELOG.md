@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.2
+
+- Added audio messages. Visitors can record a voice note from the widget, send
+  it as an attachment, and both visitors and agents can play audio files
+  inline in the conversation.
+- Tightened the mobile chat modal scroll lock for iOS keyboard edge cases. The
+  widget now locks both root elements, blocks touch scrolling that escapes the
+  chat thread, and re-checks the lock when the viewport switches between phone
+  and desktop widths while the panel is open.
+
 ## 0.5.1
 
 - Fixed the mobile chat panel letting the page scroll behind it (and the host
