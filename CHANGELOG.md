@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.3
+
+- Refined the audio recording controls. While recording, the composer now
+  shows a compact REC pill with a stable timer, an icon-only discard control,
+  and an icon-only stop control. Sending is disabled until recording is
+  stopped or cancelled.
+
 ## 0.5.2
 
 - Added audio messages. Visitors can record a voice note from the widget, send
