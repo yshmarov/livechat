@@ -90,14 +90,15 @@ fallback.
 
 ## The inbox
 
-Open and resolved tabs, unread badges, search (visitor name, email, and
-everything anyone wrote), and a column showing which teammates have worked each
-thread. Reply with Cmd/Ctrl+Enter, resolve, reopen. Both pages keep themselves
-fresh while you watch — and never reload over a half-written reply or search.
+Open and resolved filters, unread badges, search (visitor name, email, and
+everything anyone wrote), and a two-column desktop layout with the chat list on
+the left and the selected thread on the right. Reply with Cmd/Ctrl+Enter,
+resolve, reopen. The inbox keeps itself fresh while you watch — and never
+reloads over a half-written reply or search.
 
-| The list | The thread |
+| Desktop inbox | Mobile thread |
 | --- | --- |
-| ![The inbox: open and resolved tabs, search, and a table of conversations](docs/screenshots/03-inbox.png) | ![A conversation: signed replies, timestamps, resolve event and composer](docs/screenshots/04-conversation.png) |
+| ![The inbox: conversation list on the left and selected thread on the right](docs/screenshots/03-inbox.png) | ![The mobile thread view with reply composer](docs/screenshots/04-conversation.png) |
 
 Every reply carries its author and time, and resolving is recorded in the
 thread. Gated by `authorize_agent`.
