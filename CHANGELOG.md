@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.4
+
+- Balanced the recording controls visually: the stop/finish square now uses
+  the same icon box as the cancel control, so the actions read with equal
+  weight in the composer.
+
 ## 0.5.3
 
 - Refined the audio recording controls. While recording, the composer now
