@@ -1,15 +1,22 @@
 <div class="conversation-panel">
   <div class="head-row">
     <h1><%= conversation.display_name %> <span class="case-id">#<%= conversation.id %></span></h1>
-    <span class="badge status-<%= conversation.status %>">
-      <%= t("livechat.statuses.#{conversation.status}", default: conversation.status.humanize) %>
-    </span>
     <% if conversation.open? %>
-      <%= button_to t('livechat.dashboard.resolve', default: 'Resolve'),
-                    resolve_conversation_path(conversation) %>
+      <%= button_to resolve_conversation_path(conversation), method: :post,
+                    form_class: 'status-toggle-form',
+                    class: 'status-toggle is-open',
+                    aria: { label: t('livechat.dashboard.resolve', default: 'Resolve') } do %>
+        <span><%= t('livechat.statuses.open', default: 'Open') %></span>
+        <span><%= t('livechat.statuses.resolved', default: 'Resolved') %></span>
+      <% end %>
     <% else %>
-      <%= button_to t('livechat.dashboard.reopen', default: 'Reopen'),
-                    reopen_conversation_path(conversation) %>
+      <%= button_to reopen_conversation_path(conversation), method: :post,
+                    form_class: 'status-toggle-form',
+                    class: 'status-toggle is-resolved',
+                    aria: { label: t('livechat.dashboard.reopen', default: 'Reopen') } do %>
+        <span><%= t('livechat.statuses.open', default: 'Open') %></span>
+        <span><%= t('livechat.statuses.resolved', default: 'Resolved') %></span>
+      <% end %>
     <% end %>
   </div>
 

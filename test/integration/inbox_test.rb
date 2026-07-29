@@ -73,6 +73,7 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'hello from the selected thread'
     assert_includes response.body, "message-#{message.id}"
     assert_includes response.body, 'Write your reply'
+    assert_includes response.body, 'status-toggle is-open'
     assert message.reload.read?
   end
 

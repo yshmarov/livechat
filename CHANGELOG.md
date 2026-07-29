@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.3
+
+- Replaced the selected thread's separate status badge and resolve/reopen
+  button with a compact Open/Resolved status toggle.
+- Refreshed the README inbox screenshots to show the new status toggle.
+
 ## 0.6.2
 
 - Reworked the inbox into a two-column desktop layout: conversation list on the
