@@ -29,6 +29,7 @@ el:
     attachment_error: "Ορισμένα αρχεία δεν ήταν δυνατό να σταλούν."
     expand: "Μεγέθυνση"
     collapse: "Σμίκρυνση"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Πάρα πολλά αρχεία (έως %{count})."
       too_large: "Το %{name} είναι πολύ μεγάλο."
@@ -62,6 +63,7 @@ el:
       microphone_error: "Could not start audio recording."
       newer: "Νεότερα"
       older: "Παλαιότερα"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "Ο/Η %{name} σας έγραψε στο %{app}"
       reply_subject: "Ο/Η %{name} σας απάντησε στο %{app}"

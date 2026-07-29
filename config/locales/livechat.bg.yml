@@ -29,6 +29,7 @@ bg:
     attachment_error: "Някои файлове не можаха да бъдат изпратени."
     expand: "Уголеми"
     collapse: "Смали"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Твърде много файлове (макс. %{count})."
       too_large: "%{name} е твърде голям."
@@ -62,6 +63,7 @@ bg:
       microphone_error: "Could not start audio recording."
       newer: "По-нови"
       older: "По-стари"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} ви писа в %{app}"
       reply_subject: "%{name} ви отговори в %{app}"

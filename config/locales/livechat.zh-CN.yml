@@ -29,6 +29,7 @@
     attachment_error: "部分文件无法发送。"
     expand: "放大"
     collapse: "缩小"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "文件过多（最多 %{count} 个）。"
       too_large: "%{name} 太大。"
@@ -62,6 +63,7 @@
       microphone_error: "Could not start audio recording."
       newer: "较新"
       older: "较旧"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} 在 %{app} 上给您留言"
       reply_subject: "%{name} 在 %{app} 上回复了您"

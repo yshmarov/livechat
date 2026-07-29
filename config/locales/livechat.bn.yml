@@ -29,6 +29,7 @@ bn:
     attachment_error: "কিছু ফাইল পাঠানো যায়নি।"
     expand: "বড় করুন"
     collapse: "ছোট করুন"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "অনেক বেশি ফাইল (সর্বোচ্চ %{count})।"
       too_large: "%{name} খুব বড়।"
@@ -62,6 +63,7 @@ bn:
       microphone_error: "Could not start audio recording."
       newer: "নতুনতর"
       older: "পুরনো"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} আপনাকে %{app}-এ লিখেছেন"
       reply_subject: "%{name} আপনাকে %{app}-এ উত্তর দিয়েছেন"

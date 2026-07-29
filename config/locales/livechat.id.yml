@@ -29,6 +29,7 @@ id:
     attachment_error: "Beberapa file tidak dapat dikirim."
     expand: "Perbesar"
     collapse: "Perkecil"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Terlalu banyak file (maks. %{count})."
       too_large: "%{name} terlalu besar."
@@ -62,6 +63,7 @@ id:
       microphone_error: "Could not start audio recording."
       newer: "Lebih baru"
       older: "Lebih lama"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} menulis kepada Anda di %{app}"
       reply_subject: "%{name} membalas Anda di %{app}"

@@ -1,6 +1,28 @@
-<%= @conversation.display_name %>:
+<%= @conversation.display_name %> sent <%= @message_count %> unread <%= @message_count == 1 ? 'message' : 'messages' %>:
 
-<%= @message.body %>
+<% @messages.each do |message| %>
+- <%= message.body.presence || '(no text)' %>
+<% if @attachment_names[message].any? %>
+  Attachments: <%= @attachment_names[message].join(', ') %>
+<% end %>
+<% end %>
+
+<% if @more_count.positive? %>
+...and <%= @more_count %> more unread <%= @more_count == 1 ? 'message' : 'messages' %>.
+<% end %>
+
+<% if @conversation.visitor_email.present? || @conversation.locale.present? || @conversation.page_url.present? %>
+Context:
+<% if @conversation.visitor_email.present? %>
+Email: <%= @conversation.visitor_email %>
+<% end %>
+<% if @conversation.locale.present? %>
+Locale: <%= @conversation.locale %>
+<% end %>
+<% if @conversation.page_url.present? %>
+Page: <%= @conversation.page_url %>
+<% end %>
+<% end %>
 
 <% if @inbox_url %>
 <%= t('livechat.mail.answer', default: 'Answer') %>: <%= @inbox_url %>

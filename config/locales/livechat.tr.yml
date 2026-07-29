@@ -29,6 +29,7 @@ tr:
     attachment_error: "Bazı dosyalar gönderilemedi."
     expand: "Büyüt"
     collapse: "Küçült"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Çok fazla dosya (en fazla %{count})."
       too_large: "%{name} çok büyük."
@@ -62,6 +63,7 @@ tr:
       microphone_error: "Could not start audio recording."
       newer: "Daha yeni"
       older: "Daha eski"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name}, %{app} üzerinden size yazdı"
       reply_subject: "%{name}, %{app} üzerinden size yanıt verdi"

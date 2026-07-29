@@ -29,6 +29,7 @@ fr:
     attachment_error: "Certains fichiers n'ont pas pu être envoyés."
     expand: "Agrandir"
     collapse: "Réduire"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Trop de fichiers (max %{count})."
       too_large: "%{name} est trop volumineux."
@@ -62,6 +63,7 @@ fr:
       microphone_error: "Could not start audio recording."
       newer: "Plus récents"
       older: "Plus anciens"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} vous a écrit sur %{app}"
       reply_subject: "%{name} vous a répondu sur %{app}"

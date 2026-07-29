@@ -6,7 +6,8 @@ class VisitorApiTest < ActionDispatch::IntegrationTest
   test 'empty state for a visitor without a thread' do
     get '/livechat/widget/conversation'
     assert_response :ok
-    assert_equal({ 'status' => nil, 'unread' => 0, 'email' => false, 'cable' => nil, 'messages' => [] },
+    assert_equal({ 'status' => nil, 'unread' => 0, 'email' => false, 'cable' => nil,
+                   'typing' => false, 'messages' => [] },
                  response.parsed_body)
   end
 
@@ -83,6 +84,24 @@ class VisitorApiTest < ActionDispatch::IntegrationTest
 
     get '/livechat/widget/conversation'
     assert_equal 0, response.parsed_body['unread']
+  end
+
+  test 'typing hints are visible to the other side while fresh' do
+    post '/livechat/widget/messages', params: { body: 'hello' }, as: :json
+    conversation = Livechat::Conversation.last
+
+    post '/livechat/widget/typing'
+    assert_response :no_content
+
+    as_agent!
+    get "/livechat/#{conversation.id}/poll"
+    assert_equal true, response.parsed_body['typing']
+
+    post "/livechat/#{conversation.id}/typing"
+    assert_response :no_content
+
+    get '/livechat/widget/conversation'
+    assert_equal true, response.parsed_body['typing']
   end
 
   test 'writing into a resolved thread reopens it' do

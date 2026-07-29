@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0
+
+- Improved unread notification emails. Team emails now summarize the unread
+  visitor burst with up to five messages, attachment names, visitor email,
+  locale, page URL, and a count of any additional unread messages. Visitor
+  reply emails now summarize unread agent replies the same way.
+- Added lightweight typing indicators. Visitors can see when an agent is
+  typing, and agents can see when the visitor is typing, using short-lived
+  cache hints over the existing polling endpoints. No database migration or
+  mandatory Action Cable setup required.
+
 ## 0.5.4
 
 - Balanced the recording controls visually: the stop/finish square now uses

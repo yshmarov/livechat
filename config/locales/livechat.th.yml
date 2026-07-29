@@ -29,6 +29,7 @@ th:
     attachment_error: "ไม่สามารถส่งไฟล์บางไฟล์ได้"
     expand: "ขยาย"
     collapse: "ย่อ"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "ไฟล์มากเกินไป (สูงสุด %{count})"
       too_large: "%{name} มีขนาดใหญ่เกินไป"
@@ -62,6 +63,7 @@ th:
       microphone_error: "Could not start audio recording."
       newer: "ใหม่กว่า"
       older: "เก่ากว่า"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} เขียนถึงคุณบน %{app}"
       reply_subject: "%{name} ตอบกลับคุณบน %{app}"

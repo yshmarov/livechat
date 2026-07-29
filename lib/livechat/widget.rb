@@ -114,7 +114,8 @@ module Livechat
           removeFile: t(:remove_file, 'Remove file'),
           attachmentError: t(:attachment_error, 'Some files could not be sent.'),
           expand: t(:expand, 'Expand'),
-          collapse: t(:collapse, 'Collapse')
+          collapse: t(:collapse, 'Collapse'),
+          typing: t(:typing, '%{name} is typing...', name: t(:team, 'Support'))
         }
       end
 

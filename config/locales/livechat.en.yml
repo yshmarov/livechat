@@ -29,6 +29,7 @@ en:
     attachment_error: "Some files could not be sent."
     expand: "Expand"
     collapse: "Collapse"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Too many files (max %{count})."
       too_large: "%{name} is too large."
@@ -62,6 +63,7 @@ en:
       microphone_error: "Could not start audio recording."
       newer: "Newer"
       older: "Older"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} wrote to you on %{app}"
       reply_subject: "%{name} replied to you on %{app}"

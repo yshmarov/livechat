@@ -29,6 +29,7 @@ ru:
     attachment_error: "Некоторые файлы не удалось отправить."
     expand: "Развернуть"
     collapse: "Свернуть"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Слишком много файлов (макс. %{count})."
       too_large: "%{name} слишком большой."
@@ -62,6 +63,7 @@ ru:
       microphone_error: "Could not start audio recording."
       newer: "Новее"
       older: "Старше"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} написал(а) вам в %{app}"
       reply_subject: "%{name} ответил(а) вам в %{app}"

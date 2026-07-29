@@ -29,6 +29,7 @@ ja:
     attachment_error: "一部のファイルを送信できませんでした。"
     expand: "拡大"
     collapse: "縮小"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "ファイルが多すぎます(最大%{count}件)。"
       too_large: "%{name}が大きすぎます。"
@@ -62,6 +63,7 @@ ja:
       microphone_error: "Could not start audio recording."
       newer: "新しい"
       older: "古い"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name}さんが%{app}であなたにメッセージを送りました"
       reply_subject: "%{name}さんが%{app}であなたに返信しました"

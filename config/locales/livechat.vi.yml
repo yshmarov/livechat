@@ -29,6 +29,7 @@ vi:
     attachment_error: "Không thể gửi một số tệp."
     expand: "Mở rộng"
     collapse: "Thu gọn"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Quá nhiều tệp (tối đa %{count})."
       too_large: "%{name} quá lớn."
@@ -62,6 +63,7 @@ vi:
       microphone_error: "Could not start audio recording."
       newer: "Mới hơn"
       older: "Cũ hơn"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} đã nhắn tin cho bạn trên %{app}"
       reply_subject: "%{name} đã trả lời bạn trên %{app}"

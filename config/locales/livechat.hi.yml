@@ -29,6 +29,7 @@ hi:
     attachment_error: "कुछ फ़ाइलें भेजी नहीं जा सकीं।"
     expand: "बड़ा करें"
     collapse: "छोटा करें"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "बहुत सारी फ़ाइलें (अधिकतम %{count})।"
       too_large: "%{name} बहुत बड़ी है।"
@@ -62,6 +63,7 @@ hi:
       microphone_error: "Could not start audio recording."
       newer: "नए"
       older: "पुराने"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} ने आपको %{app} पर लिखा"
       reply_subject: "%{name} ने आपको %{app} पर जवाब दिया"

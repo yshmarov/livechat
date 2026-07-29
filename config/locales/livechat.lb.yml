@@ -29,6 +29,7 @@ lb:
     attachment_error: "E puer Dateie konnten net geschéckt ginn."
     expand: "Vergréisseren"
     collapse: "Verklengeren"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Ze vill Dateien (max %{count})."
       too_large: "%{name} ass ze grouss."
@@ -62,6 +63,7 @@ lb:
       microphone_error: "Could not start audio recording."
       newer: "Méi nei"
       older: "Méi al"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} huet Iech op %{app} geschriwwen"
       reply_subject: "%{name} huet Iech op %{app} geäntwert"

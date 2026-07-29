@@ -29,6 +29,7 @@ ar:
     attachment_error: "تعذر إرسال بعض الملفات."
     expand: "تكبير"
     collapse: "تصغير"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "ملفات كثيرة جدًا (بحد أقصى %{count})."
       too_large: "%{name} كبير جدًا."
@@ -62,6 +63,7 @@ ar:
       microphone_error: "Could not start audio recording."
       newer: "الأحدث"
       older: "الأقدم"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "كتب لك %{name} على %{app}"
       reply_subject: "رد عليك %{name} على %{app}"

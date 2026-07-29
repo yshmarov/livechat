@@ -49,13 +49,20 @@ class NotificationsTest < ActionDispatch::IntegrationTest
     Livechat.config.mailer_from = 'chat@example.com'
     Livechat.config.agent_emails = -> { %w[a@example.com b@example.com] }
 
-    post '/livechat/widget/messages', params: { body: 'help me' }, as: :json
+    post '/livechat/widget/messages',
+         params: { body: 'help me', page_url: 'http://dummy.example.com/checkout', locale: 'en' },
+         as: :json
+    post '/livechat/widget/messages', params: { body: 'payment fails' }, as: :json
 
     assert_enqueued_emails 1
     perform_enqueued_jobs
     mail = ActionMailer::Base.deliveries.last
     assert_equal %w[a@example.com b@example.com], mail.to
+    assert_includes mail.body.to_s, '2 unread messages'
     assert_includes mail.body.to_s, 'help me'
+    assert_includes mail.body.to_s, 'payment fails'
+    assert_includes mail.body.to_s, 'Page: http://dummy.example.com/checkout'
+    assert_includes mail.body.to_s, 'Locale: en'
     assert_includes mail.body.to_s, 'http://dummy.example.com/livechat/'
   end
 
@@ -78,6 +85,8 @@ class NotificationsTest < ActionDispatch::IntegrationTest
     perform_enqueued_jobs
     mail = ActionMailer::Base.deliveries.last
     assert_equal ['guest@example.com'], mail.to
+    assert_includes mail.body.to_s, '2 unread replies'
     assert_includes mail.body.to_s, 'hi!'
+    assert_includes mail.body.to_s, 'still there?'
   end
 end

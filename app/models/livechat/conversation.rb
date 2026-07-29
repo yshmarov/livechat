@@ -7,6 +7,7 @@ module Livechat
   # signed-in visitors are keyed by visitor_id, guests by a cookie token.
   class Conversation < ApplicationRecord
     STATUSES = %w[open resolved].freeze
+    TYPING_TTL = 8.seconds
 
     has_many :messages, dependent: :destroy
 
@@ -100,6 +101,14 @@ module Livechat
       visitor_label.presence || visitor_email.presence || "Visitor ##{id}"
     end
 
+    def typing!(author_type)
+      Rails.cache.write(typing_cache_key(author_type), true, expires_in: TYPING_TTL)
+    end
+
+    def typing?(author_type)
+      Rails.cache.exist?(typing_cache_key(author_type))
+    end
+
     private
 
     # Attach only real uploads, and only where attachments are enabled — a
@@ -119,6 +128,10 @@ module Livechat
       return if visitor_id.present? || visitor_token.present?
 
       errors.add(:base, 'needs a visitor_id or a visitor_token')
+    end
+
+    def typing_cache_key(author_type)
+      "livechat/conversations/#{id}/typing/#{author_type}"
     end
   end
 end

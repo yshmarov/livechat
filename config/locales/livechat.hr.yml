@@ -29,6 +29,7 @@ hr:
     attachment_error: "Neke datoteke nije bilo moguće poslati."
     expand: "Povećaj"
     collapse: "Smanji"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Previše datoteka (najviše %{count})."
       too_large: "%{name} je prevelika."
@@ -62,6 +63,7 @@ hr:
       microphone_error: "Could not start audio recording."
       newer: "Novije"
       older: "Starije"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} vam je pisao/la na %{app}"
       reply_subject: "%{name} vam je odgovorio/la na %{app}"

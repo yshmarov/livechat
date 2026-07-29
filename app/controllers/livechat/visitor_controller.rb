@@ -29,6 +29,7 @@ module Livechat
         unread: conversation.messages.from_agent.unread.count,
         email: conversation.visitor_email.present?,
         cable: cable_payload(conversation),
+        typing: conversation.typing?('agent'),
         messages: messages.map(&:as_widget_json)
       }
     end
@@ -70,6 +71,13 @@ module Livechat
       head :no_content
     end
 
+    # POST widget/typing — a short-lived hint for agents who are watching the
+    # inbox. It never starts a thread by itself; only real messages do that.
+    def typing
+      find_conversation&.typing!('visitor')
+      head :no_content
+    end
+
     private
 
     def find_conversation
@@ -103,7 +111,7 @@ module Livechat
     end
 
     def empty_state
-      { status: nil, unread: 0, email: false, cable: nil, messages: [] }
+      { status: nil, unread: 0, email: false, cable: nil, typing: false, messages: [] }
     end
 
     # The signed stream token and cable URL the widget subscribes with, or nil

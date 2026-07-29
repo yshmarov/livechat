@@ -29,6 +29,7 @@ nl:
     attachment_error: "Sommige bestanden konden niet worden verzonden."
     expand: "Vergroten"
     collapse: "Verkleinen"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Te veel bestanden (max. %{count})."
       too_large: "%{name} is te groot."
@@ -62,6 +63,7 @@ nl:
       microphone_error: "Could not start audio recording."
       newer: "Nieuwer"
       older: "Ouder"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} heeft je een bericht gestuurd op %{app}"
       reply_subject: "%{name} heeft je geantwoord op %{app}"

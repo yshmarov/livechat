@@ -58,8 +58,14 @@ module Livechat
 
       render json: {
         status: @conversation.status,
+        typing: @conversation.typing?('visitor'),
         messages: messages.map { |message| message.as_inbox_json(@conversation) }
       }
+    end
+
+    def typing
+      @conversation.typing!('agent')
+      head :no_content
     end
 
     def resolve

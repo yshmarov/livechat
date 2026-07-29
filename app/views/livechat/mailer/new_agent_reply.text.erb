@@ -1,6 +1,15 @@
-<%= @message.public_label %>:
+<%= @message.public_label %> sent <%= @message_count %> unread <%= @message_count == 1 ? 'reply' : 'replies' %>:
 
-<%= @message.body %>
+<% @messages.each do |message| %>
+- <%= message.body.presence || '(no text)' %>
+<% if @attachment_names[message].any? %>
+  Attachments: <%= @attachment_names[message].join(', ') %>
+<% end %>
+<% end %>
+
+<% if @more_count.positive? %>
+...and <%= @more_count %> more unread <%= @more_count == 1 ? 'reply' : 'replies' %>.
+<% end %>
 
 <% if @conversation.page_url.present? %>
 <%= t('livechat.mail.continue', default: 'Continue the conversation') %>: <%= @conversation.page_url %>

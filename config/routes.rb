@@ -9,6 +9,7 @@ Livechat::Engine.routes.draw do
   scope :widget, as: :widget do
     get 'conversation', to: 'visitor#show'
     post 'messages', to: 'visitor#create'
+    post 'typing', to: 'visitor#typing'
     post 'email', to: 'visitor#email'
     post 'read', to: 'visitor#read'
   end
@@ -26,6 +27,7 @@ Livechat::Engine.routes.draw do
     end
     member do
       get :poll
+      post :typing
       post :resolve
       post :reopen
     end

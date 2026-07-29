@@ -6,11 +6,14 @@ module Livechat
   # config.mailer_from; the callers in Livechat::Notifications enforce the
   # rest of the conditions (recipients present, first unread message).
   class Mailer < ActionMailer::Base
+    MAX_MESSAGES = 5
+
     # To the team: a visitor wrote and nobody has read it.
     def new_visitor_message(message)
       @message = message
       @conversation = message.conversation
       @inbox_url = inbox_url(@conversation)
+      assign_unread_digest(message, @conversation.messages.from_visitor)
 
       mail from: Livechat.config.mailer_from,
            to: Livechat.config.agent_email_list,
@@ -23,6 +26,7 @@ module Livechat
     def new_agent_reply(message)
       @message = message
       @conversation = message.conversation
+      assign_unread_digest(message, @conversation.messages.from_agent)
 
       mail from: Livechat.config.mailer_from,
            to: @conversation.visitor_email,
@@ -46,6 +50,22 @@ module Livechat
       )
     rescue StandardError
       nil
+    end
+
+    def assign_unread_digest(message, side)
+      scope = side.unread.where(id: message.id..).chronological
+      unread_count = scope.count
+      @messages = scope.limit(MAX_MESSAGES).to_a
+      @messages = [message] if @messages.empty?
+      @message_count = [unread_count, @messages.size].max
+      @more_count = [@message_count - @messages.size, 0].max
+      @attachment_names = @messages.index_with { |digest_message| attachment_names(digest_message) }
+    end
+
+    def attachment_names(message)
+      return [] unless message.files_attached?
+
+      message.attached_files.map { |file| file.filename.to_s }
     end
   end
 end

@@ -37,6 +37,8 @@
   <% cable = livechat_cable_data("livechat:conversation:#{@conversation.id}") %>
   <div class="thread" id="thread"
        data-poll-url="<%= poll_conversation_path(@conversation) %>"
+       data-typing-url="<%= typing_conversation_path(@conversation) %>"
+       data-typing-label="<%= t('livechat.dashboard.visitor_typing', default: 'Visitor is typing...') %>"
        data-latest="<%= last&.id.to_i %>"
        data-last-author="<%= (last && !last.system?) ? "#{last.author_type}:#{last.agent_label}" : '' %>"
        <%= tag.attributes(data: cable) if cable.any? %>>

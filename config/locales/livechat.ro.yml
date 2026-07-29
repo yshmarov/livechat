@@ -29,6 +29,7 @@ ro:
     attachment_error: "Unele fișiere nu au putut fi trimise."
     expand: "Mărește"
     collapse: "Micșorează"
+    typing: "%{name} is typing..."
     attachments:
       too_many: "Prea multe fișiere (max. %{count})."
       too_large: "%{name} este prea mare."
@@ -62,6 +63,7 @@ ro:
       microphone_error: "Could not start audio recording."
       newer: "Mai noi"
       older: "Mai vechi"
+      visitor_typing: "Visitor is typing..."
     mail:
       visitor_subject: "%{name} v-a scris pe %{app}"
       reply_subject: "%{name} v-a răspuns pe %{app}"
