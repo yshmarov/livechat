@@ -23,6 +23,14 @@ module Livechat
       @more = page.size > PER_PAGE
       @conversations = page.first(PER_PAGE)
 
+      if params[:conversation_id].present?
+        @selected_conversation = Conversation.find_by(id: params[:conversation_id])
+        if @selected_conversation
+          @messages = @selected_conversation.messages.chronological.to_a
+          @selected_conversation.mark_read_for_agent!
+        end
+      end
+
       # Unread badges and participating agents for the whole page, one query each.
       ids = @conversations.map(&:id)
       @unread = Message.from_visitor.unread.where(conversation_id: ids)
@@ -70,12 +78,12 @@ module Livechat
 
     def resolve
       @conversation.resolve_by!(current_agent_label)
-      redirect_to conversation_path(@conversation)
+      redirect_back fallback_location: conversation_path(@conversation)
     end
 
     def reopen
       @conversation.reopen_by!(current_agent_label)
-      redirect_to conversation_path(@conversation)
+      redirect_back fallback_location: conversation_path(@conversation)
     end
 
     private

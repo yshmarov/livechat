@@ -1,88 +1,105 @@
+<% content_for :body_class, 'lvc-inbox' %>
+
 <h1><%= t('livechat.dashboard.title', default: 'Chat') %></h1>
 
-<div class="tabs">
-  <% Livechat::Conversation::STATUSES.each do |status| %>
-    <%= link_to conversations_path(status: status, q: @query), class: ('active' if @status == status) do %>
-      <%= t("livechat.statuses.#{status}", default: status.humanize) %>
-      <span class="count"><%= @counts.fetch(status, 0) %></span>
+<div class="inbox-shell <%= 'has-selected' if @selected_conversation %>">
+  <aside class="inbox-sidebar" aria-label="<%= t('livechat.dashboard.conversations', default: 'Conversations') %>">
+    <div class="tabs">
+      <% Livechat::Conversation::STATUSES.each do |status| %>
+        <%= link_to conversations_path(status: status, q: @query), class: ('active' if @status == status) do %>
+          <%= t("livechat.statuses.#{status}", default: status.humanize) %>
+          <span class="count"><%= @counts.fetch(status, 0) %></span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form_with url: conversations_path, method: :get, class: 'filters' do %>
+      <input type="hidden" name="status" value="<%= @status %>">
+      <input type="search" name="q" value="<%= @query %>"
+             placeholder="<%= t('livechat.dashboard.search', default: 'Search') %>"
+             aria-label="<%= t('livechat.dashboard.search', default: 'Search') %>">
+      <button type="submit"><%= t('livechat.dashboard.search', default: 'Search') %></button>
     <% end %>
-  <% end %>
-</div>
 
-<%= form_with url: conversations_path, method: :get, class: 'filters' do %>
-  <input type="hidden" name="status" value="<%= @status %>">
-  <input type="search" name="q" value="<%= @query %>"
-         placeholder="<%= t('livechat.dashboard.search', default: 'Search') %>"
-         aria-label="<%= t('livechat.dashboard.search', default: 'Search') %>">
-  <button type="submit"><%= t('livechat.dashboard.search', default: 'Search') %></button>
-<% end %>
+    <%# The list keeps itself fresh (dashboard.js reloads when the token moves) —
+        unless the agent is mid-search or mid-reply, whose typing must never be eaten. %>
+    <% cable = livechat_cable_data('livechat:inbox') %>
+    <div id="lvc-index" data-poll-url="<%= poll_conversations_path %>"
+         data-token="<%= [Livechat::Message.maximum(:id).to_i, Livechat::Conversation.count,
+                          @counts.fetch('open', 0)].join('-') %>"
+         <%= tag.attributes(data: cable) if cable.any? %>></div>
 
-<%# The list keeps itself fresh (dashboard.js reloads when the token moves) —
-    unless the agent is mid-search, whose typing must never be eaten. %>
-<% cable = livechat_cable_data('livechat:inbox') %>
-<div id="lvc-index" data-poll-url="<%= poll_conversations_path %>"
-     data-token="<%= [Livechat::Message.maximum(:id).to_i, Livechat::Conversation.count,
-                      @counts.fetch('open', 0)].join('-') %>"
-     <%= tag.attributes(data: cable) if cable.any? %>></div>
-
-<div class="card">
-  <% if @conversations.empty? %>
-    <p class="empty"><%= t('livechat.dashboard.empty',
-                           default: 'Nothing here. When a visitor writes, the conversation lands on this page.') %></p>
-  <% else %>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th><%= t('livechat.dashboard.visitor', default: 'Visitor') %></th>
-          <th><%= t('livechat.dashboard.last_message', default: 'Last message') %></th>
-          <th><%= t('livechat.dashboard.agents', default: 'Agents') %></th>
-          <th><%= t('livechat.dashboard.updated', default: 'Updated') %></th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="conversation-list">
+      <% if @conversations.empty? %>
+        <p class="empty"><%= t('livechat.dashboard.empty',
+                               default: 'Nothing here. When a visitor writes, the conversation lands on this page.') %></p>
+      <% else %>
         <% @conversations.each do |conversation| %>
           <% unread = @unread.fetch(conversation.id, 0) %>
-          <tr class="<%= 'unread' if unread.positive? %>">
-            <td class="muted"><%= link_to "##{conversation.id}", conversation_path(conversation), class: 'case-id' %></td>
-            <td>
-              <%= link_to conversation.display_name, conversation_path(conversation) %>
+          <%= link_to conversations_path(status: @status, q: @query, offset: @offset,
+                                         conversation_id: conversation.id),
+                      class: ['conversation-row',
+                              ('active' if @selected_conversation&.id == conversation.id),
+                              ('unread' if unread.positive?)].compact do %>
+            <span class="conversation-main">
+              <span class="conversation-topline">
+                <span class="conversation-name"><%= conversation.display_name %></span>
+                <span class="muted conversation-time">
+                  <% if conversation.last_activity_at %>
+                    <%= time_ago_in_words(conversation.last_activity_at) %>
+                  <% end %>
+                </span>
+              </span>
+              <span class="muted conversation-meta">
+                <span class="case-id">#<%= conversation.id %></span>
+                <% if conversation.visitor_email.present? && conversation.visitor_email != conversation.display_name %>
+                  <span><%= conversation.visitor_email %></span>
+                <% end %>
+              </span>
+              <span class="muted conversation-preview"><%= conversation.last_message_preview %></span>
+            </span>
+            <span class="conversation-side">
               <% if unread.positive? %>
                 <span class="badge unread-count"><%= unread %></span>
               <% end %>
-              <% if conversation.visitor_email.present? && conversation.visitor_email != conversation.display_name %>
-                <div class="muted"><%= conversation.visitor_email %></div>
-              <% end %>
-            </td>
-            <td class="muted"><%= conversation.last_message_preview %></td>
-            <td>
               <span class="avatars">
                 <% @agents.fetch(conversation.id, []).each do |label| %>
                   <%= livechat_agent_avatar(label) %>
                 <% end %>
               </span>
-            </td>
-            <td class="muted">
-              <% if conversation.last_activity_at %>
-                <%= time_ago_in_words(conversation.last_activity_at) %>
-              <% end %>
-            </td>
-          </tr>
+            </span>
+          <% end %>
         <% end %>
-      </tbody>
-    </table>
-  <% end %>
-</div>
+      <% end %>
+    </div>
 
-<div class="pager">
-  <% if @offset.positive? %>
-    <%= link_to t('livechat.dashboard.newer', default: 'Newer'),
-                conversations_path(status: @status, q: @query,
-                                   offset: [@offset - Livechat::ConversationsController::PER_PAGE, 0].max) %>
-  <% end %>
-  <% if @more %>
-    <%= link_to t('livechat.dashboard.older', default: 'Older'),
-                conversations_path(status: @status, q: @query,
-                                   offset: @offset + Livechat::ConversationsController::PER_PAGE) %>
-  <% end %>
+    <div class="pager">
+      <% if @offset.positive? %>
+        <%= link_to t('livechat.dashboard.newer', default: 'Newer'),
+                    conversations_path(status: @status, q: @query,
+                                       offset: [@offset - Livechat::ConversationsController::PER_PAGE, 0].max) %>
+      <% end %>
+      <% if @more %>
+        <%= link_to t('livechat.dashboard.older', default: 'Older'),
+                    conversations_path(status: @status, q: @query,
+                                       offset: @offset + Livechat::ConversationsController::PER_PAGE) %>
+      <% end %>
+    </div>
+  </aside>
+
+  <main class="inbox-thread" aria-label="<%= t('livechat.dashboard.current_chat', default: 'Current chat') %>">
+    <% if @selected_conversation %>
+      <p class="mobile-back">
+        <%= link_to "← #{t('livechat.dashboard.back', default: 'All conversations')}",
+                    conversations_path(status: @status, q: @query, offset: @offset) %>
+      </p>
+      <%= render 'thread_panel', conversation: @selected_conversation, messages: @messages, autofocus: false %>
+    <% else %>
+      <div class="empty-state">
+        <h2><%= t('livechat.dashboard.select_conversation', default: 'Select a conversation') %></h2>
+        <p class="muted"><%= t('livechat.dashboard.select_conversation_hint',
+                               default: 'Open a chat from the list to read context and reply.') %></p>
+      </div>
+    <% end %>
+  </main>
 </div>

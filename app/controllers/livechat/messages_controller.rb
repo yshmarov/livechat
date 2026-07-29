@@ -14,9 +14,9 @@ module Livechat
       )
       Notifications.agent_message(message)
 
-      redirect_to conversation_path(conversation, anchor: "message-#{message.id}")
+      redirect_back fallback_location: conversation_path(conversation, anchor: "message-#{message.id}")
     rescue ActiveRecord::RecordInvalid => e
-      redirect_to conversation_path(conversation), alert: e.record.errors.full_messages.first
+      redirect_back fallback_location: conversation_path(conversation), alert: e.record.errors.full_messages.first
     end
   end
 end

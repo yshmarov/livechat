@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.2
+
+- Reworked the inbox into a two-column desktop layout: conversation list on the
+  left, selected thread on the right, with live message polling preserved.
+- Improved the conversation list with compact rows showing the visitor, last
+  message preview, unread count, relative activity time, and participating
+  agent avatars.
+- Kept mobile as a focused single-pane inbox/thread flow.
+
 ## 0.6.1
 
 - Repositioned the docs around in-app support messaging for Rails: users ask

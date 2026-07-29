@@ -20,7 +20,7 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'Grace'
     assert_includes response.body, 'anyone there?'
     assert_includes response.body, 'badge unread-count'
-    assert_includes response.body, ">##{conversation.id}</a>"
+    assert_includes response.body, "conversation_id=#{conversation.id}"
 
     get '/livechat?status=resolved'
     assert_includes response.body, 'Visitor #'
@@ -53,13 +53,27 @@ class InboxTest < ActionDispatch::IntegrationTest
     get '/livechat?q=invoice'
     assert_includes response.body, 'my INVOICE looks wrong' # body match
     assert_includes response.body, 'invoice-team@example.com' # email match
-    refute_includes response.body, "##{resolved.id}</a>"      # resolved tab only
+    refute_includes response.body, "conversation_id=#{resolved.id}" # resolved tab only
 
     get '/livechat?q=invoice&status=resolved'
-    assert_includes response.body, "##{resolved.id}</a>"
+    assert_includes response.body, "conversation_id=#{resolved.id}"
 
     get '/livechat?q=nothing-matches-this'
-    refute_includes response.body, "##{billing.id}</a>"
+    refute_includes response.body, "conversation_id=#{billing.id}"
+  end
+
+  test 'index can render a selected conversation beside the list' do
+    conversation = start_conversation(visitor_label: 'Grace', visitor_email: 'grace@example.com')
+    message = conversation.post_visitor_message!('hello from the selected thread')
+
+    as_agent!
+    get "/livechat?conversation_id=#{conversation.id}"
+    assert_response :ok
+    assert_includes response.body, 'inbox-shell has-selected'
+    assert_includes response.body, 'hello from the selected thread'
+    assert_includes response.body, "message-#{message.id}"
+    assert_includes response.body, 'Write your reply'
+    assert message.reload.read?
   end
 
   test 'index lists the agents who worked each thread' do

@@ -142,6 +142,60 @@
     .reply .send { width: 32px; min-width: 32px; height: 32px; padding: 0; border: none; border-radius: 50%;
                    background: var(--accent); color: var(--accent-text); cursor: pointer;
                    display: flex; align-items: center; justify-content: center; }
+    /* Desktop inbox: a durable conversation list on the left and the active
+       thread on the right, with each pane owning its own scroll. */
+    .lvc-inbox, .lvc-inbox .container { height: 100vh; height: 100dvh; }
+    .lvc-inbox { overflow: hidden; }
+    .lvc-inbox .container { max-width: 1280px; display: flex; flex-direction: column; padding-bottom: 16px; }
+    .lvc-inbox .container > h1 { flex: 0 0 auto; margin-bottom: 14px; }
+    .inbox-shell { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(320px, 380px) 1fr;
+                   gap: 16px; }
+    .inbox-sidebar { min-width: 0; min-height: 0; display: flex; flex-direction: column;
+                     background: var(--surface); border: 1px solid var(--border);
+                     border-radius: 8px; overflow: hidden; }
+    .inbox-sidebar .tabs { flex: 0 0 auto; margin: 12px 12px 0; padding: 0; background: transparent;
+                           border: 0; border-radius: 0; gap: 6px; flex-wrap: nowrap; }
+    .inbox-sidebar .tabs a { flex: 1 1 0; position: relative; display: flex; align-items: center;
+                             justify-content: center; gap: 6px; min-height: 34px; padding: 5px 12px 8px;
+                             border-radius: 8px; color: var(--muted); font-weight: 600; }
+    .inbox-sidebar .tabs a.active { color: var(--text); border: 0; background: transparent; box-shadow: none; margin: 0; }
+    .inbox-sidebar .tabs a.active::after { content: ""; position: absolute; left: 24px; right: 24px; bottom: 0;
+                                           height: 2px; border-radius: 999px; background: var(--accent); }
+    .inbox-sidebar .tabs a:not(.active):hover { text-decoration: none; color: var(--text); background: var(--bg); }
+    .inbox-sidebar .tabs .count { margin-left: 0; background: color-mix(in srgb, var(--muted) 14%, transparent); }
+    .inbox-sidebar .tabs a.active .count { background: var(--border); }
+    .inbox-sidebar .filters { flex: 0 0 auto; margin: 0; padding: 12px; border-bottom: 1px solid var(--border); }
+    .inbox-sidebar .filters input[type=search] { max-width: none; }
+    .conversation-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+    .conversation-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 13px 14px;
+                        color: var(--text); border-bottom: 1px solid var(--border); }
+    .conversation-row:hover { text-decoration: none; background: var(--bg); }
+    .conversation-row.active { background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+                               box-shadow: inset 3px 0 0 var(--accent); }
+    .conversation-row.unread .conversation-name, .conversation-row.unread .conversation-preview { font-weight: 700; }
+    .conversation-main { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+    .conversation-topline, .conversation-meta { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+    .conversation-name, .conversation-preview, .conversation-meta span { overflow: hidden; text-overflow: ellipsis;
+                                                                         white-space: nowrap; }
+    .conversation-name { font-weight: 600; }
+    .conversation-time { margin-left: auto; white-space: nowrap; }
+    .conversation-preview { display: block; }
+    .conversation-side { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between;
+                         gap: 8px; padding-top: 1px; }
+    .conversation-side .avatars { min-height: 26px; }
+    .inbox-sidebar .pager { flex: 0 0 auto; margin: 0; padding: 10px 12px; border-top: 1px solid var(--border); }
+    .inbox-thread { min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .inbox-thread .conversation-panel { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+                                        padding: 0; }
+    .conversation-panel .head-row, .conversation-panel .context-line { flex: 0 0 auto; }
+    .conversation-panel .card { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+                                border-radius: 8px; }
+    .conversation-panel .thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+    .conversation-panel .reply { flex: 0 0 auto; }
+    .empty-state { margin: auto; max-width: 320px; padding: 24px; text-align: center; }
+    .empty-state h2 { margin: 0 0 6px; font-size: 18px; }
+    .empty-state p { margin: 0; }
+    .mobile-back { display: none; }
     /* Conversation page: fill the viewport and scroll the THREAD, not the
        page — so a reply never jumps the page, and the composer stays put. */
     .lvc-convo, .lvc-convo .container { height: 100vh; height: 100dvh; }
@@ -152,6 +206,25 @@
     .lvc-convo .card { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
     .lvc-convo .thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
     .lvc-convo .reply { flex: 0 0 auto; }
+    @media (max-width: 760px) {
+      body { font-size: 14px; }
+      .container { padding: 14px 10px 24px; }
+      .lvc-inbox { overflow: auto; }
+      .lvc-inbox, .lvc-inbox .container { min-height: 100vh; height: auto; }
+      .lvc-inbox .container { padding-bottom: 10px; }
+      .inbox-shell { display: block; min-height: calc(100vh - 62px); }
+      .inbox-sidebar, .inbox-thread { min-height: calc(100vh - 62px); }
+      .inbox-shell.has-selected .inbox-sidebar { display: none; }
+      .inbox-shell:not(.has-selected) .inbox-thread { display: none; }
+      .conversation-list { overflow: visible; }
+      .conversation-row { padding: 12px; }
+      .conversation-meta { display: none; }
+      .conversation-panel { min-height: calc(100vh - 64px); }
+      .inbox-thread .conversation-panel { padding: 0; }
+      .mobile-back { display: block; flex: 0 0 auto; margin: 10px 10px 0; font-size: 13px; }
+      .conversation-panel .head-row h1 { font-size: 18px; }
+      .thread .msg { max-width: 88%; }
+    }
   </style>
 </head>
 <body class="<%= yield(:body_class) %>">
