@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.1
+
+- Repositioned the docs around in-app support messaging for Rails: users ask
+  for help from the page where they got stuck, and teams answer from the
+  mounted inbox without SaaS, third-party scripts, or a separate support app.
+- Added `message:` to `livechat_button`, so contextual support buttons can open
+  the widget and prefill the composer in one helper call.
+- Updated the PRD to match the current shipped feature set through 0.6.0.
+
 ## 0.6.0
 
 - Improved unread notification emails. Team emails now summarize the unread
