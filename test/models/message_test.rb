@@ -87,6 +87,15 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal attachment[:url], message.as_inbox_json[:attachments].first[:url]
   end
 
+  test 'attachments_json flags audio separately from images' do
+    audio = fixture_file_upload('notes.txt', 'audio/webm')
+    message = @conversation.post_visitor_message!('voice', files: [audio])
+
+    attachment = message.attachments_json.first
+    assert_not attachment[:image]
+    assert attachment[:audio]
+  end
+
   test 'a message carrying no files exposes an empty attachments array' do
     message = @conversation.post_visitor_message!('plain text')
     assert_equal [], message.as_widget_json[:attachments]

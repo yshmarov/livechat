@@ -97,17 +97,19 @@ module Livechat
       end
     end
 
-    # [{ id:, name:, url:, image:, size: }] — url is the gated engine route,
-    # image flags the ones the client renders inline instead of as a link.
+    # [{ id:, name:, url:, image:, audio:, size: }] — url is the gated engine
+    # route; image/audio flags tell clients which native preview to render.
     def attachments_json
       return [] unless files_attached?
 
       base = Livechat.config.mount_path.to_s.chomp('/')
       files.map do |file|
+        content_type = file.content_type.to_s
         { id: file.id,
           name: file.filename.to_s,
           url: "#{base}/attachments/#{file.id}",
-          image: file.content_type.to_s.start_with?('image/'),
+          image: content_type.start_with?('image/'),
+          audio: content_type.start_with?('audio/'),
           size: file.byte_size }
       end
     end

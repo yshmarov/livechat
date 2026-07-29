@@ -46,12 +46,12 @@ module Livechat
       end
     end
 
-    # Images render inline (so the widget can show them in an <img>); anything
-    # else downloads. nosniff keeps the browser from second-guessing the type
-    # of a visitor-supplied file.
+    # Images and audio render inline (so the clients can show native media
+    # controls); anything else downloads. nosniff keeps the browser from
+    # second-guessing the type of a visitor-supplied file.
     def stream(blob)
       response.headers['X-Content-Type-Options'] = 'nosniff'
-      inline = blob.content_type.to_s.start_with?('image/')
+      inline = blob.content_type.to_s.start_with?('image/', 'audio/')
       send_data blob.download,
                 filename: blob.filename.to_s,
                 type: blob.content_type.presence || 'application/octet-stream',

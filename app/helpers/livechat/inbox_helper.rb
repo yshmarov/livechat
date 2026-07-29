@@ -16,8 +16,8 @@ module Livechat
     end
 
     # A message's attachments, rendered like the widget: images inline as
-    # thumbnails, everything else as a download link. Both point at the gated
-    # engine route, never a public blob URL.
+    # thumbnails, audio as native controls, everything else as a download link.
+    # All point at the gated engine route, never a public blob URL.
     def livechat_message_attachments(message)
       attachments = message.attachments_json
       return if attachments.empty?
@@ -41,6 +41,9 @@ module Livechat
       if attachment[:image]
         link_to image_tag(attachment[:url], alt: attachment[:name], loading: 'lazy'),
                 attachment[:url], target: '_blank', rel: 'noopener', class: 'att-img'
+      elsif attachment[:audio]
+        tag.audio(controls: true, preload: 'metadata', src: attachment[:url],
+                  class: 'att-audio', aria: { label: attachment[:name] })
       else
         link_to attachment[:name], attachment[:url],
                 target: '_blank', rel: 'noopener', class: 'att-file'

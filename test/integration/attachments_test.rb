@@ -5,6 +5,7 @@ require 'test_helper'
 class AttachmentsTest < ActionDispatch::IntegrationTest
   def png = fixture_file_upload('pixel.png', 'image/png')
   def txt = fixture_file_upload('notes.txt', 'text/plain')
+  def audio = fixture_file_upload('notes.txt', 'audio/webm')
 
   test 'a visitor message can carry files, and the JSON describes them' do
     post '/livechat/widget/messages', params: { body: 'see attached', files: [png, txt] }
@@ -16,6 +17,17 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
     assert_equal 'pixel.png', image['name']
     assert_match %r{\A/livechat/attachments/\d+\z}, image['url']
     assert(attachments.any? { |a| a['name'] == 'notes.txt' && a['image'] == false })
+  end
+
+  test 'audio attachments are described for native playback' do
+    post '/livechat/widget/messages', params: { body: 'voice note', files: [audio] }
+    assert_response :created
+
+    attachment = response.parsed_body['message']['attachments'].first
+    assert_equal 'notes.txt', attachment['name']
+    assert_equal false, attachment['image']
+    assert_equal true, attachment['audio']
+    assert_match %r{\A/livechat/attachments/\d+\z}, attachment['url']
   end
 
   test 'a file-only message with no body is allowed' do
@@ -82,6 +94,16 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
     assert_includes response.headers['Content-Disposition'], 'attachment'
   end
 
+  test 'audio attachments stream inline for browser playback' do
+    post '/livechat/widget/messages', params: { body: 'listen', files: [audio] }
+    url = response.parsed_body['message']['attachments'].first['url']
+
+    get url
+    assert_response :ok
+    assert_equal 'audio/webm', response.media_type
+    assert_includes response.headers['Content-Disposition'], 'inline'
+  end
+
   test 'another visitor cannot download an attachment that is not theirs' do
     post '/livechat/widget/messages', params: { body: 'private', files: [png] }
     url = response.parsed_body['message']['attachments'].first['url']
@@ -120,6 +142,22 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
 
     get "/livechat/#{conversation.id}"
     assert_includes response.body, 'att-img'
+  end
+
+  test 'agents can record-style audio replies and the inbox renders a player' do
+    conversation = start_conversation
+    conversation.post_visitor_message!('hello')
+
+    as_agent!
+    post "/livechat/#{conversation.id}/messages", params: { body: '', files: [audio] }
+    assert_redirected_to %r{/livechat/#{conversation.id}}
+
+    message = conversation.messages.from_agent.last
+    assert_equal 1, message.files.count
+    assert_equal true, message.attachments_json.first[:audio]
+
+    get "/livechat/#{conversation.id}"
+    assert_includes response.body, 'att-audio'
   end
 
   test 'the widget config advertises whether attachments are on' do

@@ -87,6 +87,7 @@
     .thread .system { align-self: center; color: var(--muted); font-size: 12px; margin: 8px 0; }
     .thread .msg .atts { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
     .thread .msg .att-img img { max-width: 100%; max-height: 240px; border-radius: 8px; display: block; }
+    .thread .msg .att-audio { display: block; width: 280px; max-width: 100%; height: 36px; }
     .thread .msg .att-file { display: inline-block; padding: 6px 10px; border-radius: 8px;
                              background: rgba(0,0,0,.06); color: inherit; font-size: 13px;
                              overflow-wrap: anywhere; }
@@ -109,6 +110,7 @@
                      color: var(--muted); border-radius: 8px; cursor: pointer;
                      display: flex; align-items: center; justify-content: center; }
     .reply .attach:hover { background: var(--border); color: var(--text); }
+    .reply .attach.recording-on { color: var(--danger); }
     .reply .chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .reply .chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%;
                    padding: 4px 6px 4px 10px; border: 1px solid var(--border); border-radius: 999px;
@@ -117,6 +119,14 @@
     .reply .chip-x { padding: 0 2px; border: none; background: none; color: var(--muted);
                      font-size: 16px; line-height: 1; cursor: pointer; }
     .reply .chip-x:hover { color: var(--text); }
+    .reply .recording { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+                        padding: 6px 4px 0; color: var(--muted); font-size: 12px; }
+    .reply .recording[hidden] { display: none; }
+    .reply .recording-status { display: inline-flex; align-items: center; gap: 6px; }
+    .reply .recording-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); }
+    .reply .recording-actions { display: flex; align-items: center; gap: 4px; }
+    .reply .recording-actions button { padding: 6px 8px; border-radius: 8px; font-size: 12px; line-height: 1; }
+    .reply .recording-actions .stop-recording { border-color: var(--danger); color: var(--danger); }
     .reply .send { width: 32px; min-width: 32px; height: 32px; padding: 0; border: none; border-radius: 50%;
                    background: var(--accent); color: var(--accent-text); cursor: pointer;
                    display: flex; align-items: center; justify-content: center; }

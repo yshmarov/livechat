@@ -66,7 +66,16 @@
   <%# One bordered composer box (matches the visitor widget): the reply on top,
       a toolbar row below with tools on the left and send on the right. %>
   <%= form_with url: conversation_messages_path(@conversation), method: :post,
-                multipart: true, class: 'reply' do |form| %>
+                multipart: true, class: 'reply',
+                data: {
+                  record_audio: t('livechat.dashboard.record_audio', default: 'Record audio'),
+                  stop_recording: t('livechat.dashboard.stop_recording', default: 'Stop recording'),
+                  cancel_recording: t('livechat.dashboard.cancel_recording', default: 'Cancel recording'),
+                  recording: t('livechat.dashboard.recording', default: 'Recording %{time}'),
+                  microphone_unsupported: t('livechat.dashboard.microphone_unsupported', default: 'Audio recording is not supported in this browser.'),
+                  microphone_denied: t('livechat.dashboard.microphone_denied', default: 'Microphone access was blocked. Allow microphone access in your browser and try again.'),
+                  microphone_error: t('livechat.dashboard.microphone_error', default: 'Could not start audio recording.')
+                } do |form| %>
     <%= form.text_area :body, rows: 2, autofocus: true, required: !Livechat.attachments_enabled?,
                        placeholder: t('livechat.dashboard.reply_placeholder', default: 'Write your reply…') %>
     <%# dashboard.js hides this and swaps in a paperclip button (into .reply-tools)
