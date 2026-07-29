@@ -1,24 +1,24 @@
 # PRD: livechat
 
-> Status: v0.1 shipped 2026-07-25 — models, widget (polling), inbox,
-> notifications, generator, 26 locales, CI. Not yet shipped: ActionCable
-> push, participants/assignment, attachments, CSAT (see Milestones).
+> Status: v0.6.0 shipped — core loop, inbox, notifications, generator, 26
+> locales, attachments, optional Action Cable push, audio messages, typing
+> indicators, CI.
 
-Drop-in support chat for Rails apps. A mountable engine that gives any Rails app a Crisp/Intercom-style chat widget and an agent inbox — data in the host app's database, no third-party service, no separate deployment.
+Drop-in support messaging for Rails apps. A mountable engine that gives any Rails app a chat widget and an agent inbox — data in the host app's database, no third-party service, no separate deployment.
 
-Name: `livechat` (chosen 2026-07-25; verified free on rubygems.org). Ruby module: `Livechat`. **Push a real v0.1.0 to RubyGems as soon as the loop works — the name is only reserved once published.**
+Name: `livechat` (chosen 2026-07-25; published on rubygems.org). Ruby module: `Livechat`.
 
 Trademark note: LiveChat® is a registered mark of a SaaS company in this category. Decision made with eyes open. Mitigations: always style the gem generically as lowercase `livechat` ("open-source live chat for Rails"), never imitate LiveChat Inc's branding, logo, or "LiveChat" camel-case styling, and keep a pre-1.0 willingness to rename if ever challenged.
 
 ## 1. Problem
 
-Rails apps that want to talk to their users choose between paid third-party SaaS (Crisp, Intercom — $45+/mo, customer conversations on someone else's servers, third-party script on every page) or self-hosting a full platform (Chatwoot, Chaskiq — a second application to deploy, monitor, and upgrade). There is no `bundle add` option. The niche is empty as a gem.
+Rails apps that want users to ask for help from inside the product usually choose between email (detached from the page where the user got stuck), paid third-party SaaS (Crisp, Intercom — per-seat pricing, customer conversations on someone else's servers, third-party script on every page), or self-hosting a full support platform (Chatwoot, Chaskiq — a second application to deploy, monitor, and upgrade). There should be a `bundle add` option.
 
 ## 2. Positioning
 
-**Live chat when you're there, async messaging when you're not.** The widget sets honest expectations (configurable reply-time text) instead of promising an agent watching in real time. Offline is a first-class case; email notification is a core feature, presence/typing indicators are not. This keeps scope gem-sized and avoids the dead-chat-widget problem (a chat widget nobody answers is worse than no widget).
+**In-app support messaging for Rails. Live chat when you're there, async messaging when you're not.** The widget sets honest expectations (configurable reply-time text) instead of promising an agent watching in real time. Offline is a first-class case; email notification is a core feature, and typing indicators are lightweight hints rather than a presence system. This keeps scope gem-sized and avoids the dead-chat-widget problem (a chat widget nobody answers is worse than no widget).
 
-Tagline: *"livechat — open-source live chat for Rails. Your users write in your app; your team answers from your app."*
+Tagline: *"livechat — in-app support messaging for Rails. Your users write in your app; your team answers from your app."*
 
 ## 3. Goals
 
@@ -31,9 +31,9 @@ Tagline: *"livechat — open-source live chat for Rails. Your users write in you
 ## 4. Non-goals (v1)
 
 - Feature parity with Intercom/Chatwoot: no omnichannel (email-in, WhatsApp, Messenger), no AI bots, no campaigns, no mobile agent apps.
-- Online presence and typing indicators (revisit after ActionCable phase).
-- File attachments (revisit post-1.0; feedback_engine's Active Storage screenshot pattern is the template).
-- Websocket push in v1 — polling first (see §8).
+- Online presence as an availability guarantee. Lightweight typing indicators exist, but the product should not imply a staffed real-time desk.
+- Feature-complete file management. Attachments exist; versioned retention policies, virus scanning integrations, and file libraries are host-app concerns.
+- Mandatory WebSocket infrastructure. Action Cable push exists, but polling remains the default and fallback.
 - Assignment/routing workflows — v1 is a shared inbox; every agent sees everything.
 
 ## 5. Personas
@@ -110,7 +110,7 @@ Model niceties carried over: `messages_with_headers` grouping (show author heade
 - Anonymous: `visitor_token` in a signed, long-lived cookie set by the engine on first message. Same-site cookie is sufficient (simpler than ethicsportal's access-code+passcode, which exists for cross-device anonymous return — out of scope v1).
 - If an anonymous visitor later signs in, their token conversations can be claimed onto their user id (nice-to-have, v1.x).
 
-**Realtime transport — polling in v1, deliberately.** The zero-dependency philosophy rules out requiring turbo-rails or the ActionCable JS client on host pages. The widget polls `GET .../messages?after=<id>` while the panel is open (~4s), backing off to ~30s when closed (stops when tab hidden). Support-chat volume makes this cheap. **v1.x:** optional push — vendor the `@rails/actioncable` client inside widget.js (~10 KB) and subscribe when the host has a cable configured (Rails 8 Solid Cable makes this default-on); polling stays as fallback. Never a hard requirement.
+**Realtime transport — polling by default, optional Action Cable push.** The zero-dependency philosophy rules out requiring turbo-rails, Redis, or the Action Cable JavaScript client on host pages. The widget polls `GET .../messages?after=<id>` while the panel is open (~4s), backing off to ~30s when closed (stops when tab hidden). Support-chat volume makes this cheap. When `config.action_cable = true`, the widget uses a tiny native WebSocket client for signed Action Cable streams and refreshes immediately when a new message arrives; polling stays the fallback. Never a hard requirement.
 
 ## 9. Agent inbox
 
@@ -122,7 +122,7 @@ Mounted at `/livechat` (configurable `mount_path`).
 - **Authorization:** `before_action :require_agent` everywhere except public widget endpoints; `authorize_agent` lambda, default `->(req) { Rails.env.development? }` — independent of `enabled`, exactly like i18n-feedback's `authorize_admin`, so staff can work the inbox in production even where the widget is gated.
 - **Agent identity:** the replying agent resolves from the same `current_user` lambda; `agent_label` (default: email) stamps each message. `agent_display_name` lambda controls what the **visitor** sees (default: same label; hosts can return first-name-only or a generic "Support team" — ethicsportal hides handler names entirely; here visibility is the default per product requirement, privacy is the option).
 - **Layout:** self-contained inline CSS, CSS custom properties, `color-scheme: light dark` — feedback_engine's layout cloned. No inline event handlers anywhere (i18n-feedback v0.8.2 CSP lesson).
-- **Inbox realtime:** v1 polls the open thread (engine-controlled page, same JS approach as the widget). When ActionCable lands (v1.x), inbox threads subscribe via per-conversation streams and messages `broadcast_append_to` from `after_create_commit` — hypemarket's model-broadcast + empty-turbo-stream-response pattern.
+- **Inbox realtime:** the list and open thread poll by default without reloading over an agent's search or half-written reply. When Action Cable is enabled, signed stream nudges refresh the visible inbox or conversation immediately; polling remains the fallback.
 
 ## 10. Notifications
 
@@ -151,6 +151,12 @@ Two directions, hooks first, batteries optional:
 | `mount_path` | `"/livechat"` | must match routes mount |
 | `rate_limit` | `{ to: 30, within: 60 }` | Rails 7.2+ `rate_limit`, no-op on 7.1 |
 | `on_visitor_message` / `on_agent_message` | noop | host hooks |
+| `attach_files` | `true` | file and audio attachments where Active Storage exists |
+| `max_attachments` | `5` | per-message attachment cap |
+| `max_attachment_size` | `10.megabytes` | per-file size cap |
+| `allowed_attachment_types` | `nil` | optional content-type allowlist |
+| `action_cable` | `false` | opt into WebSocket push |
+| `action_cable_url` | `"/cable"` | host app's Action Cable endpoint |
 
 Initializer template ships every option commented with Devise examples (existing convention).
 
@@ -173,17 +179,19 @@ Clone the proven skeleton:
 
 ## 14. Milestones
 
-- **v0.1 — the loop works.** Models, widget (open/send/poll), inbox (index/show/reply), agent attribution, anonymous cookie identity, CSP-safe snippet, install generator. **Ship to RubyGems immediately to secure the name.**
-- **v0.2 — inbox quality.** Unread badges + read tracking, resolve/reopen + system messages, message grouping headers, launcher unread badge, search.
-- **v0.3 — async credible.** Built-in mailers both directions, visitor email capture, `on_*` hooks.
-- **v0.4 — polish.** 26 locales + RTL, dark mode audit, rate limiting hardening, purge API. → **v1.0** = v0.4 stabilized.
-- **Post-1.0:** ActionCable push (vendored client, polling fallback), participants + assignment + smarter notification routing, typing indicator, attachments, claim-anonymous-conversations-on-login, visitor CSAT rating.
+- **v0.1 — shipped.** Models, widget (open/send/poll), inbox (index/show/reply), agent attribution, anonymous cookie identity, CSP-safe snippet, install generator, built-in notification emails.
+- **v0.2 — shipped.** Launcher-less unread badges and contextual prefill through `data-livechat-message` / `window.Livechat.open("...")`.
+- **v0.3 — shipped.** Inbox search, live list refresh, agent column, Rails 8 auth docs, mobile accessibility and full-screen phone panel.
+- **v0.4 — shipped.** File attachments, optional Action Cable push, 26-locale attachment strings, expandable desktop panel, composer polish.
+- **v0.5 — shipped.** Mobile keyboard hardening and audio messages.
+- **v0.6 — shipped.** Better unread notification email summaries and lightweight typing indicators.
+- **Next:** participants/assignment, smarter notification routing, claim-anonymous-conversations-on-login, visitor CSAT rating, optional retention helpers.
 
 ## 15. Risks / open questions
 
 - **Trademark** — see the note at the top; accepted with mitigations (generic lowercase styling, no branding imitation, pre-1.0 rename willingness).
 - **Unanswered chats** — mitigated by honest reply-time copy + agent email notifications, but ultimately a host-behavior risk; docs should say so.
-- **Polling cost** on very-high-traffic pages: poll only while panel open/visible; ActionCable phase removes it.
+- **Polling cost** on very-high-traffic pages: poll only while panel open/visible; Action Cable push can reduce perceived latency where the host already runs it.
 - **Spam** on the anonymous endpoint: rate limit + honeypot; captcha stays out (no third-party calls, on principle).
 - **Open question:** built-in agent-notification email per-message or digest? Lean: immediate for the first unread message per conversation, then silent until an agent reads.
 

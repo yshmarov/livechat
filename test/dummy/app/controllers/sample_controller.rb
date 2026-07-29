@@ -11,6 +11,7 @@ class SampleController < ActionController::Base
           <h1>Sample page</h1>
           <a href="#" id="custom-opener" data-livechat-open>Chat</a>
           <%= livechat_button(class: "btn") %>
+          <%= livechat_button("Ask about order", message: "I need help with order #123") %>
           <%= livechat_tag %>
         </body>
       </html>

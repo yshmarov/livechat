@@ -5,9 +5,13 @@
 [![CI](https://github.com/yshmarov/livechat/actions/workflows/ci.yml/badge.svg)](https://github.com/yshmarov/livechat/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](MIT-LICENSE)
 
-**Open-source live chat for Rails.** A chat bubble for your users, an inbox for
-your team — as a gem, not another service to deploy. Alternative to Crisp,
-Intercom and Chatwoot.
+**In-app support messaging for Rails.** Add a chat button so users can ask for
+help from the page where they got stuck. Your team answers from a mounted inbox.
+No SaaS account, no third-party script, no separate app, no customer data leaving
+your database.
+
+Use it when email is too detached, Intercom is too much, and Chatwoot is another
+app you do not want to deploy.
 
 ![The livechat widget open over a running Rails app](docs/screenshots/01-widget.png)
 
@@ -232,10 +236,34 @@ to a stream the server signed for it. Under a strict CSP, allow the socket with
 | `data-livechat-open` | Any element opens the panel on click |
 | `data-livechat-message="…"` | Prefill from that element — great for contextual buttons |
 | `<%= livechat_button %>` | A plain, unstyled opener button |
+| `<%= livechat_button("Ask about this order", message: "I need help with order ##{@order.id}") %>` | Open and prefill in one helper |
 | `config.show_launcher = false` | Hide the bubble entirely |
 
 While replies are unread, every `data-livechat-open` element carries a small
 count badge — so hiding the launcher never hides the answer.
+
+Contextual buttons are where a Rails app beats a generic support widget:
+
+```erb
+<%= livechat_button("Ask about this order",
+      message: "I need help with order ##{@order.id}") %>
+
+<%= livechat_button("Ask about this invoice",
+      message: "I need help with invoice ##{@invoice.number}") %>
+
+<button data-livechat-open
+        data-livechat-message="I need help with project <%= @project.name %>">
+  Contact support
+</button>
+```
+
+## Use cases
+
+- SaaS apps: answer billing, onboarding and account questions from inside the app.
+- Customer portals: let users ask about orders, invoices, documents or bookings.
+- Marketplaces: keep buyer, seller and admin support tied to the current page.
+- Internal tools: give non-technical teammates a direct line from admin screens.
+- Course and member apps: handle access, lesson and subscription questions in context.
 
 ## What it doesn't do
 

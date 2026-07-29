@@ -71,4 +71,10 @@ class WidgetTagTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'data-livechat-open'
     assert_includes response.body, '>Chat with us</button>'
   end
+
+  test 'livechat_button can prefill the composer' do
+    get '/sample'
+    assert_includes response.body, 'data-livechat-message="I need help with order #123"'
+    assert_includes response.body, '>Ask about order</button>'
+  end
 end

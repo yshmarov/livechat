@@ -18,12 +18,17 @@ module Livechat
     end
 
     # A plain, unstyled <button> that opens the chat — it picks up the host's
-    # own styles. Put it anywhere on a page that also renders livechat_tag.
-    def livechat_button(label: nil, **)
+    # own styles. Pass message: to prefill the composer with page-specific
+    # context. Put it anywhere on a page that also renders livechat_tag.
+    def livechat_button(label = nil, message: nil, **options)
       return unless Livechat.enabled?(request)
 
+      label ||= options.delete(:label)
       label ||= I18n.t(:launcher, scope: :livechat, default: 'Chat with us')
-      tag.button(label, type: 'button', 'data-livechat-open': '', **)
+      data = (options.delete(:data) { {} } || {}).merge(livechat_open: '')
+      data[:livechat_message] = message if message.present?
+
+      tag.button(label, type: 'button', data: data, **options)
     end
 
     private
