@@ -41,7 +41,7 @@ pl:
       resolved: "%{agent} rozwiązał(a) rozmowę"
       reopened: "%{agent} wznowił(a) rozmowę"
     dashboard:
-      title: "Czat"
+      title: "LiveChat"
       empty: "Nic tu jeszcze nie ma. Gdy odwiedzający napisze, rozmowa pojawi się na tej stronie."
       visitor: "Odwiedzający"
       last_message: "Ostatnia wiadomość"

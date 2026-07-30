@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.6.4
+
+- Hardened the visitor widget composer against host app form-control styles, so
+  embedded textareas no longer pick up an extra border or shadow.
+- Matched the visitor widget's chat surface to the inbox pattern: white thread
+  background, gray support bubbles, and visible timestamps.
+- Fixed stale typing indicators by clearing each side's typing hint when they
+  send and suppressing the hint when a new message arrives.
+- Renamed the default inbox title to `LiveChat` across shipped locales while
+  keeping it overridable through `livechat.dashboard.title`.
+- Simplified inbox conversation context by showing visitor email as plain text,
+  removing the page URL from the thread header, and keeping direct
+  `/livechat/:id` pages scrollable after the two-column inbox layout.
+
 ## 0.6.3
 
 - Replaced the selected thread's separate status badge and resolve/reopen

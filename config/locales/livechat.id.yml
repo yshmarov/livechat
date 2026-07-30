@@ -41,7 +41,7 @@ id:
       resolved: "%{agent} menyelesaikan percakapan"
       reopened: "%{agent} membuka kembali percakapan"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Belum ada apa-apa di sini. Saat pengunjung menulis, percakapan akan muncul di halaman ini."
       visitor: "Pengunjung"
       last_message: "Pesan terakhir"

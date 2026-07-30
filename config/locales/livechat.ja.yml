@@ -41,7 +41,7 @@ ja:
       resolved: "%{agent}さんが会話を解決済みにしました"
       reopened: "%{agent}さんが会話を再開しました"
     dashboard:
-      title: "チャット"
+      title: "LiveChat"
       empty: "まだ何もありません。訪問者がメッセージを書くと、会話がこのページに表示されます。"
       visitor: "訪問者"
       last_message: "最後のメッセージ"

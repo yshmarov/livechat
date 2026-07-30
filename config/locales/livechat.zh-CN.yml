@@ -41,7 +41,7 @@
       resolved: "%{agent} 已解决该对话"
       reopened: "%{agent} 重新打开了该对话"
     dashboard:
-      title: "聊天"
+      title: "LiveChat"
       empty: "这里还没有内容。当访客发来消息时，对话会显示在此页面。"
       visitor: "访客"
       last_message: "最后一条消息"

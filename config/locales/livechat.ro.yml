@@ -41,7 +41,7 @@ ro:
       resolved: "%{agent} a rezolvat conversația"
       reopened: "%{agent} a redeschis conversația"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Nimic aici deocamdată. Când un vizitator scrie, conversația apare pe această pagină."
       visitor: "Vizitator"
       last_message: "Ultimul mesaj"

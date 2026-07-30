@@ -25,6 +25,16 @@ class WidgetTagTest < ActionDispatch::IntegrationTest
     assert response.headers['ETag'].present?
   end
 
+  test 'widget CSS defends its composer and uses the admin chat color pattern' do
+    get '/livechat/widget.js'
+
+    assert_includes response.body, 'border:none!important'
+    assert_includes response.body, 'box-shadow:none!important'
+    assert_includes response.body, 'background:var(--lvc-surface);display:flex;flex-direction:column;gap:4px'
+    assert_includes response.body, 'align-self:flex-start;background:var(--lvc-bg)'
+    assert_includes response.body, 'formatMessageTime(message.at)'
+  end
+
   test 'fingerprinted URL gets immutable caching' do
     get "/livechat/widget.js?v=#{Livechat::Widget.fingerprint}"
     assert_includes response.headers['Cache-Control'], 'public'

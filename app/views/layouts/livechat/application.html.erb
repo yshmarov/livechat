@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= t('livechat.dashboard.title', default: 'Chat') %> — <%= Livechat.app_name %></title>
+  <title><%= t('livechat.dashboard.title', default: 'LiveChat') %> — <%= Livechat.app_name %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%# Same-origin script instead of inline handlers, so thread polling and
@@ -217,6 +217,7 @@
     .lvc-convo .container { display: flex; flex-direction: column; padding-bottom: 16px; }
     .lvc-convo .breadcrumb, .lvc-convo .head-row, .lvc-convo .context-line,
     .lvc-convo .flash { flex: 0 0 auto; }
+    .lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
     .lvc-convo .card { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
     .lvc-convo .thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
     .lvc-convo .reply { flex: 0 0 auto; }

@@ -41,7 +41,7 @@ en:
       resolved: "%{agent} resolved the conversation"
       reopened: "%{agent} reopened the conversation"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Nothing here. When a visitor writes, the conversation lands on this page."
       visitor: "Visitor"
       last_message: "Last message"

@@ -49,6 +49,7 @@ module Livechat
         message = messages.new(author_type: 'visitor', body: body)
         attach(message, files)
         message.save!
+        clear_typing!('visitor')
         message
       end
     end
@@ -58,6 +59,7 @@ module Livechat
                              agent_id: agent_id.to_s, agent_label: agent_label)
       attach(message, files)
       message.save!
+      clear_typing!('agent')
       message
     end
 
@@ -107,6 +109,10 @@ module Livechat
 
     def typing?(author_type)
       Rails.cache.exist?(typing_cache_key(author_type))
+    end
+
+    def clear_typing!(author_type)
+      Rails.cache.delete(typing_cache_key(author_type))
     end
 
     private

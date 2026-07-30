@@ -77,6 +77,20 @@ class ConversationTest < ActiveSupport::TestCase
     assert_equal 'first message', conversation.reload.last_message_preview
   end
 
+  test 'posting a message clears that side typing hint' do
+    conversation = start_conversation
+
+    conversation.typing!('visitor')
+    assert conversation.typing?('visitor')
+    conversation.post_visitor_message!('done typing')
+    assert_not conversation.typing?('visitor')
+
+    conversation.typing!('agent')
+    assert conversation.typing?('agent')
+    conversation.post_agent_message!(body: 'reply sent', agent_id: 1, agent_label: 'Ada')
+    assert_not conversation.typing?('agent')
+  end
+
   test 'read tracking is per side' do
     conversation = start_conversation
     conversation.post_visitor_message!('from visitor')

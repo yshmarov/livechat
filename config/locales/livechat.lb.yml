@@ -41,7 +41,7 @@ lb:
       resolved: "%{agent} huet d'Gespréich geléist"
       reopened: "%{agent} huet d'Gespréich nees opgemaach"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Hei ass nach näischt. Wann e Besucher schreift, erschéngt d'Gespréich op dëser Säit."
       visitor: "Besucher"
       last_message: "Lescht Noriicht"

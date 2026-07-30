@@ -41,7 +41,7 @@ tr:
       resolved: "%{agent} görüşmeyi çözdü"
       reopened: "%{agent} görüşmeyi yeniden açtı"
     dashboard:
-      title: "Sohbet"
+      title: "LiveChat"
       empty: "Henüz burada bir şey yok. Bir ziyaretçi yazdığında görüşme bu sayfada görünür."
       visitor: "Ziyaretçi"
       last_message: "Son mesaj"

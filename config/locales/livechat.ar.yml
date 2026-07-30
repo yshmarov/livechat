@@ -41,7 +41,7 @@ ar:
       resolved: "قام %{agent} بحل المحادثة"
       reopened: "قام %{agent} بإعادة فتح المحادثة"
     dashboard:
-      title: "الدردشة"
+      title: "LiveChat"
       empty: "لا يوجد شيء هنا. عندما يكتب زائر، تظهر المحادثة في هذه الصفحة."
       visitor: "الزائر"
       last_message: "آخر رسالة"

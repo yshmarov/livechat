@@ -41,7 +41,7 @@ de:
       resolved: "%{agent} hat die Unterhaltung gelöst"
       reopened: "%{agent} hat die Unterhaltung wieder geöffnet"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Hier ist noch nichts. Wenn ein Besucher schreibt, erscheint die Unterhaltung auf dieser Seite."
       visitor: "Besucher"
       last_message: "Letzte Nachricht"

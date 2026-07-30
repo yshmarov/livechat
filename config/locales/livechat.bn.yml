@@ -41,7 +41,7 @@ bn:
       resolved: "%{agent} কথোপকথনটি সমাধান করেছেন"
       reopened: "%{agent} কথোপকথনটি আবার খুলেছেন"
     dashboard:
-      title: "চ্যাট"
+      title: "LiveChat"
       empty: "এখানে এখনও কিছু নেই। কোনো দর্শনার্থী লিখলে কথোপকথনটি এই পৃষ্ঠায় দেখা যাবে।"
       visitor: "দর্শনার্থী"
       last_message: "শেষ বার্তা"

@@ -41,7 +41,7 @@ ko:
       resolved: "%{agent}님이 대화를 해결했습니다"
       reopened: "%{agent}님이 대화를 다시 열었습니다"
     dashboard:
-      title: "채팅"
+      title: "LiveChat"
       empty: "아직 아무것도 없습니다. 방문자가 메시지를 보내면 이 페이지에 대화가 표시됩니다."
       visitor: "방문자"
       last_message: "마지막 메시지"

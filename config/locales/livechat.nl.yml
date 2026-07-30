@@ -41,7 +41,7 @@ nl:
       resolved: "%{agent} heeft het gesprek opgelost"
       reopened: "%{agent} heeft het gesprek heropend"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Nog niets hier. Zodra een bezoeker schrijft, verschijnt het gesprek op deze pagina."
       visitor: "Bezoeker"
       last_message: "Laatste bericht"

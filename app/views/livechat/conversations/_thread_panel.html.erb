@@ -20,16 +20,11 @@
     <% end %>
   </div>
 
-  <%# One quiet line of live context: who to email, the language to answer in,
-      and the page of their LAST message (refreshed on every visitor write). %>
+  <%# One quiet line of live context: who the visitor is and the language to answer in. %>
   <p class="muted context-line">
     <% context = [] %>
-    <% context << mail_to(conversation.visitor_email) if conversation.visitor_email.present? %>
+    <% context << conversation.visitor_email if conversation.visitor_email.present? %>
     <% context << conversation.locale if conversation.locale.present? %>
-    <% if conversation.page_url.present? %>
-      <% context << link_to(conversation.page_url.sub(%r{\Ahttps?://}, ''), conversation.page_url,
-                            target: '_blank', rel: 'noopener') %>
-    <% end %>
     <%= safe_join(context, ' · ') %>
   </p>
 

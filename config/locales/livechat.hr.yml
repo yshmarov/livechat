@@ -41,7 +41,7 @@ hr:
       resolved: "%{agent} je riješio/la razgovor"
       reopened: "%{agent} je ponovno otvorio/la razgovor"
     dashboard:
-      title: "Chat"
+      title: "LiveChat"
       empty: "Ovdje još nema ničega. Kad posjetitelj napiše poruku, razgovor se pojavljuje na ovoj stranici."
       visitor: "Posjetitelj"
       last_message: "Zadnja poruka"

@@ -41,7 +41,7 @@ hi:
       resolved: "%{agent} ने बातचीत सुलझा दी"
       reopened: "%{agent} ने बातचीत फिर से खोली"
     dashboard:
-      title: "चैट"
+      title: "LiveChat"
       empty: "यहाँ अभी कुछ नहीं है। जब कोई विज़िटर लिखेगा, तो बातचीत इस पेज पर दिखाई देगी।"
       visitor: "विज़िटर"
       last_message: "आख़िरी संदेश"

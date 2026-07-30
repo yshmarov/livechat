@@ -41,7 +41,7 @@ th:
       resolved: "%{agent} แก้ไขการสนทนาแล้ว"
       reopened: "%{agent} เปิดการสนทนาอีกครั้ง"
     dashboard:
-      title: "แชท"
+      title: "LiveChat"
       empty: "ยังไม่มีอะไรที่นี่ เมื่อผู้เยี่ยมชมส่งข้อความ การสนทนาจะปรากฏบนหน้านี้"
       visitor: "ผู้เยี่ยมชม"
       last_message: "ข้อความล่าสุด"

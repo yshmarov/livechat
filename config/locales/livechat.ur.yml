@@ -41,7 +41,7 @@ ur:
       resolved: "%{agent} نے گفتگو حل کر دی"
       reopened: "%{agent} نے گفتگو دوبارہ کھول دی"
     dashboard:
-      title: "چیٹ"
+      title: "LiveChat"
       empty: "یہاں ابھی کچھ نہیں ہے۔ جب کوئی وزیٹر لکھے گا تو گفتگو اس صفحے پر نظر آئے گی۔"
       visitor: "وزیٹر"
       last_message: "آخری پیغام"

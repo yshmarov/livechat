@@ -26,8 +26,19 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'Visitor #'
   end
 
+  test 'dashboard title defaults to LiveChat' do
+    as_agent!
+    get '/livechat'
+
+    assert_response :ok
+    assert_includes response.body, '<h1>LiveChat</h1>'
+    assert_includes response.body, '<title>LiveChat'
+  end
+
   test 'index and thread expose email and case id for referencing' do
-    conversation = start_conversation(visitor_label: 'Grace', visitor_email: 'grace@example.com')
+    conversation = start_conversation(visitor_label: 'Grace',
+                                      visitor_email: 'grace@example.com',
+                                      page_url: 'https://example.com/noise')
     conversation.post_visitor_message!('hello')
 
     as_agent!
@@ -37,6 +48,8 @@ class InboxTest < ActionDispatch::IntegrationTest
     get "/livechat/#{conversation.id}"
     assert_includes response.body, "#{conversation.display_name} <span class=\"case-id\">##{conversation.id}</span>"
     assert_includes response.body, 'grace@example.com'
+    refute_includes response.body, 'mailto:grace@example.com'
+    refute_includes response.body, 'example.com/noise'
     refute_includes response.body, 'Started'
   end
 
@@ -111,6 +124,9 @@ class InboxTest < ActionDispatch::IntegrationTest
     get "/livechat/#{conversation.id}"
     assert_response :ok
     assert_equal 0, conversation.reload.unread_from_visitor_count
+    assert_includes response.body,
+                    '.lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; ' \
+                    'display: flex; flex-direction: column; }'
   end
 
   test 'replies are signed with the agent label' do

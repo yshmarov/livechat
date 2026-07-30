@@ -41,7 +41,7 @@ ru:
       resolved: "%{agent} завершил(а) диалог"
       reopened: "%{agent} возобновил(а) диалог"
     dashboard:
-      title: "Чат"
+      title: "LiveChat"
       empty: "Пока здесь пусто. Когда посетитель напишет, диалог появится на этой странице."
       visitor: "Посетитель"
       last_message: "Последнее сообщение"

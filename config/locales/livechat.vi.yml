@@ -41,7 +41,7 @@ vi:
       resolved: "%{agent} đã giải quyết cuộc trò chuyện"
       reopened: "%{agent} đã mở lại cuộc trò chuyện"
     dashboard:
-      title: "Trò chuyện"
+      title: "LiveChat"
       empty: "Chưa có gì ở đây. Khi khách truy cập nhắn tin, cuộc trò chuyện sẽ xuất hiện trên trang này."
       visitor: "Khách truy cập"
       last_message: "Tin nhắn cuối"
