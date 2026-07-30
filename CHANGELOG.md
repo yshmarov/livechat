@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.5
 
 - Added `mount_livechat at: "/livechat"` as the install-time route helper,
   keeping `config.mount_path` synchronized with the mounted engine path while
