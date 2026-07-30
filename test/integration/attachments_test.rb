@@ -74,6 +74,15 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
     assert_equal 0, Livechat::Message.last.files.count
   end
 
+  test 'attachments can use a configured Active Storage service' do
+    Livechat.config.storage_service = :livechat_test
+
+    post '/livechat/widget/messages', params: { body: 'stored separately', files: [png] }
+    assert_response :created
+
+    assert_equal 'livechat_test', Livechat::Message.last.files.first.blob.service_name
+  end
+
   test 'the owning guest can download their attachment, streamed inline for images' do
     post '/livechat/widget/messages', params: { body: 'mine', files: [png] }
     url = response.parsed_body['message']['attachments'].first['url']

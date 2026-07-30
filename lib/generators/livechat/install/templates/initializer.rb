@@ -66,6 +66,7 @@ Livechat.configure do |config|
   # Active Storage (run `rails active_storage:install` once). Files are served
   # through the engine — gated the same as the chat — never a public blob URL.
   # config.attach_files = true
+  # config.storage_service = nil # e.g. :livechat_uploads from config/storage.yml
   # config.max_attachments = 5
   # config.max_attachment_size = 10.megabytes
   # config.allowed_attachment_types = nil # e.g. %w[image/png image/jpeg application/pdf]

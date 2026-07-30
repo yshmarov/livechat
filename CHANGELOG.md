@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Added `config.storage_service`, so host apps can route Livechat attachments
+  to a named Active Storage service instead of the app default.
+
 ## 0.6.4
 
 - Hardened the visitor widget composer against host app form-control styles, so

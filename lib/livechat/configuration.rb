@@ -71,6 +71,11 @@ module Livechat
     # to turn attachments off even where Active Storage exists.
     attr_accessor :attach_files
 
+    # Named Active Storage service for chat attachments. nil uses the host
+    # app's default service; set this to route files to a dedicated bucket,
+    # folder, or provider-specific service entry.
+    attr_accessor :storage_service
+
     # Cap on attachments per message, on the size of each file (bytes), and
     # an optional content-type allowlist (nil accepts any type). Enforced on
     # the server; a rejected upload comes back as a validation error.
@@ -111,6 +116,7 @@ module Livechat
       @rate_limit = { to: 30, within: 60 }
       @mount_path = '/livechat'
       @attach_files = true
+      @storage_service = nil
       @max_attachments = 5
       @max_attachment_size = 10 * 1024 * 1024
       @allowed_attachment_types = nil

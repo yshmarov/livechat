@@ -127,6 +127,7 @@ Everything is optional — a fresh install works with zero config. In
 | `on_visitor_message` | no-op | Runs after a visitor writes — Slack, etc. |
 | `on_agent_message` | no-op | Runs after an agent replies |
 | `attach_files` | `true` | File attachments (needs Active Storage) |
+| `storage_service` | `nil` | Named Active Storage service for chat attachments |
 | `max_attachments` | `5` | Per message |
 | `max_attachment_size` | `10.megabytes` | Enforced server-side |
 | `allowed_attachment_types` | `nil` (any) | Or an allowlist, e.g. `%w[image/png application/pdf]` |
@@ -206,6 +207,13 @@ or the visitor who owns that conversation — so nothing leaks through a
 guessable or long-lived blob URL.
 
 Where Active Storage isn't installed, the widget quietly stays text-only.
+
+Set `config.storage_service` to route chat uploads to a dedicated Active
+Storage service from your app's `config/storage.yml`:
+
+```ruby
+config.storage_service = :livechat_uploads
+```
 
 </details>
 

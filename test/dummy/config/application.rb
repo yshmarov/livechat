@@ -29,7 +29,8 @@ module Dummy
     # tests never reach out. The tables are defined inline by test_helper.
     config.active_storage.service = :test
     config.active_storage.service_configurations = {
-      "test" => { "service" => "Disk", "root" => File.expand_path("../tmp/storage", __dir__) }
+      "test" => { "service" => "Disk", "root" => File.expand_path("../tmp/storage", __dir__) },
+      "livechat_test" => { "service" => "Disk", "root" => File.expand_path("../tmp/livechat_storage", __dir__) }
     }
 
     # Action Cable: the test pub/sub adapter, so ActionCable::TestHelper's
