@@ -7,7 +7,7 @@ module Livechat
   # Drive swaps the <body> and re-runs body scripts under the *original*
   # page's CSP header, where a freshly minted inline nonce would be refused.
   class WidgetsController < ApplicationController
-    # The script is static and carries no user data; without this, Rails'
+    # These assets are static and carry no user data; without this, Rails'
     # cross-origin JavaScript guard refuses to serve it to a plain
     # <script src> request.
     skip_forgery_protection
@@ -21,16 +21,20 @@ module Livechat
     end
 
     def dashboard
-      serve(Widget.dashboard_javascript, Widget.dashboard_fingerprint)
+      serve(Widget.dashboard_javascript, Widget.dashboard_fingerprint, 'text/javascript')
+    end
+
+    def dashboard_stylesheet
+      serve(Widget.dashboard_stylesheet, Widget.dashboard_stylesheet_fingerprint, 'text/css')
     end
 
     private
 
-    def serve(source, fingerprint)
+    def serve(source, fingerprint, content_type = 'text/javascript')
       expires_in 1.year, public: true if params[:v] == fingerprint
       return unless stale?(etag: [Livechat::VERSION, fingerprint])
 
-      render plain: source, content_type: 'text/javascript'
+      render plain: source, content_type: content_type
     end
   end
 end

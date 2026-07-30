@@ -31,6 +31,9 @@ class InboxTest < ActionDispatch::IntegrationTest
     get '/livechat'
 
     assert_response :ok
+    assert_includes response.body, 'name="csp-nonce"'
+    assert_includes response.body, 'href="/livechat/dashboard.css?v='
+    assert_not_includes response.body, '<style>'
     assert_includes response.body, '<h1>LiveChat</h1>'
     assert_includes response.body, '<title>LiveChat'
   end
@@ -124,9 +127,7 @@ class InboxTest < ActionDispatch::IntegrationTest
     get "/livechat/#{conversation.id}"
     assert_response :ok
     assert_equal 0, conversation.reload.unread_from_visitor_count
-    assert_includes response.body,
-                    '.lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; ' \
-                    'display: flex; flex-direction: column; }'
+    assert_includes response.body, 'href="/livechat/dashboard.css?v='
   end
 
   test 'replies are signed with the agent label' do
@@ -240,5 +241,13 @@ class InboxTest < ActionDispatch::IntegrationTest
     get '/livechat/dashboard.js'
     assert_response :ok
     assert_includes response.body, 'livechat dashboard'
+
+    get '/livechat/dashboard.css'
+    assert_response :ok
+    assert_equal 'text/css', response.media_type
+    assert_includes response.body, '.thread'
+    assert_includes response.body,
+                    '.lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; ' \
+                    'display: flex; flex-direction: column; }'
   end
 end

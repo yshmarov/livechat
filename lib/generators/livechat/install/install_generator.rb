@@ -22,7 +22,7 @@ module Livechat
       end
 
       def mount_engine
-        route %(mount Livechat::Engine => "/livechat")
+        route %(mount_livechat at: "/livechat")
       end
 
       def post_install

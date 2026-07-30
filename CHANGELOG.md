@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added `mount_livechat at: "/livechat"` as the install-time route helper,
+  keeping `config.mount_path` synchronized with the mounted engine path while
+  preserving manual `mount Livechat::Engine` compatibility.
+- Extracted the dashboard stylesheet into a same-origin, fingerprinted
+  `/dashboard.css` endpoint and added CSP meta tags to the dashboard layout.
+  The public widget remains pipeline-free and controller-served.
 - Added `config.storage_service`, so host apps can route Livechat attachments
   to a named Active Storage service instead of the app default.
 

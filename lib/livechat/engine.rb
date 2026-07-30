@@ -16,5 +16,14 @@ module Livechat
     initializer 'livechat.action_cable' do
       require 'livechat/channels' if defined?(ActionCable)
     end
+
+    initializer 'livechat.routing' do
+      ActionDispatch::Routing::Mapper.include(Module.new do
+        def mount_livechat(at: Livechat.config.mount_path, **options)
+          Livechat.config.mount_path = at
+          mount Livechat::Engine, at:, **options
+        end
+      end)
+    end
   end
 end

@@ -78,6 +78,7 @@ Livechat.configure do |config|
   # config.action_cable = true
   # config.action_cable_url = "/cable"
 
-  # Keep in sync with the `mount` in config/routes.rb.
+  # Default mount path used by `mount_livechat`.
+  # Override only if you mount the engine manually.
   # config.mount_path = "/livechat"
 end

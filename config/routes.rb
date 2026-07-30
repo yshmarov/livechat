@@ -3,6 +3,7 @@
 Livechat::Engine.routes.draw do
   get 'widget.js', to: 'widgets#show', as: :widget
   get 'dashboard.js', to: 'widgets#dashboard', as: :dashboard_script
+  get 'dashboard.css', to: 'widgets#dashboard_stylesheet', as: :dashboard_stylesheet
 
   # The widget's API. Everything is scoped to the requesting visitor —
   # signed-in id or guest cookie — never to an enumerable conversation id.
