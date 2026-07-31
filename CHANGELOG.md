@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.6
+
+- Expanded the desktop visitor widget into a taller, wider panel with equal
+  viewport padding above and below, while preserving the existing full-screen
+  mobile chat behavior.
+
 ## 0.6.5
 
 - Added `mount_livechat at: "/livechat"` as the install-time route helper,
