@@ -6,6 +6,10 @@ module Livechat
 
     private
 
+    def livechat_agent_layout
+      Livechat.config.agent_layout
+    end
+
     def current_visitor
       return @current_visitor if defined?(@current_visitor)
 

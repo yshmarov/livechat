@@ -18,6 +18,10 @@ module Livechat
     # so your team can answer from production even where the widget is off.
     attr_accessor :authorize_agent
 
+    # Layout used by the built-in inbox. Override this to render Livechat
+    # inside your app's admin shell, e.g. "admin/application".
+    attr_accessor :agent_layout
+
     # Resolve the current user (optional). Return an object responding to
     # #id, or nil. Receives the request. Signed-in users keep one conversation
     # across devices; guests are tracked with a cookie.
@@ -100,6 +104,7 @@ module Livechat
       @app_name = nil
       @enabled = ->(_request) { true }
       @authorize_agent = ->(_request) { Rails.env.development? }
+      @agent_layout = 'livechat/application'
       @current_user = ->(_request) {}
       @visitor_label = ->(user) { user.try(:name).presence || user.try(:email).presence || user.to_s }
       @agent_label = ->(user) { user.try(:name).presence || user.try(:email).presence || user.to_s }

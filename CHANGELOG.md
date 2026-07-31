@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.7
+
+- Added `config.agent_layout`, letting host apps render the Livechat inbox
+  inside their own admin layout while keeping the standalone gem layout as the
+  default.
+
 ## 0.6.6
 
 - Expanded the desktop visitor widget into a taller, wider panel with equal

@@ -12,6 +12,10 @@ Livechat.configure do |config|
   # Who can answer at the mount path. Defaults to development only — override
   # before deploying.
   # config.authorize_agent = ->(request) { request.env["warden"]&.user&.admin? }
+  #
+  # Render the inbox inside your app's admin layout. Default: the gem's
+  # standalone inbox layout.
+  # config.agent_layout = "admin/application"
 
   # Resolve the current user (optional). Return an object responding to #id,
   # or nil. Signed-in visitors keep one conversation across devices; guests

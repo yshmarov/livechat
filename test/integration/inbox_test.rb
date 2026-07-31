@@ -38,6 +38,18 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, '<title>LiveChat'
   end
 
+  test 'inbox can render inside a host admin layout' do
+    start_conversation(visitor_label: 'Grace').post_visitor_message!('host layout check')
+    as_agent!
+    Livechat.config.agent_layout = 'host_admin'
+
+    get '/livechat'
+
+    assert_response :ok
+    assert_includes response.body, 'data-host-admin-layout="livechat"'
+    assert_includes response.body, 'host layout check'
+  end
+
   test 'index and thread expose email and case id for referencing' do
     conversation = start_conversation(visitor_label: 'Grace',
                                       visitor_email: 'grace@example.com',

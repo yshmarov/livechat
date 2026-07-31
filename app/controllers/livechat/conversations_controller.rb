@@ -7,7 +7,7 @@ module Livechat
   class ConversationsController < ApplicationController
     before_action :require_agent
     before_action :set_conversation, except: %i[index index_poll]
-    layout 'livechat/application'
+    layout :livechat_agent_layout
 
     PER_PAGE = 50
 
