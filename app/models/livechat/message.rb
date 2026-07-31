@@ -17,7 +17,7 @@ module Livechat
     def self.attachments_supported? = ATTACHMENTS_SUPPORTED
 
     belongs_to :conversation
-    has_many_attached :files, service: ->(_message) { Livechat.config.storage_service } if ATTACHMENTS_SUPPORTED
+    has_many_attached :files if ATTACHMENTS_SUPPORTED
 
     validates :author_type, inclusion: { in: AUTHOR_TYPES }
     validates :body, length: { maximum: MAX_BODY_LENGTH }, allow_blank: true

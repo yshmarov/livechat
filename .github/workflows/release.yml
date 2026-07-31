@@ -29,4 +29,10 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true
-      - uses: rubygems/release-gem@v1
+      - name: Run tests before publishing
+        run: bundle exec rake test
+      - uses: rubygems/configure-rubygems-credentials@v2.1.0
+      - name: Build and push the gem
+        run: |
+          gem build livechat.gemspec
+          gem push livechat-*.gem

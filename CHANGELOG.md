@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.8
+
+- Fixed Rails 7.1 compatibility for attachment configuration by avoiding the
+  dynamic Active Storage `service:` lambda on versions that only accept a
+  concrete service name.
+
 ## 0.6.7
 
 - Added `config.agent_layout`, letting host apps render the Livechat inbox

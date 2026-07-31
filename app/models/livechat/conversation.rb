@@ -124,7 +124,24 @@ module Livechat
       return unless Livechat.attachments_enabled?
 
       uploads = Array(files).select { |file| file.respond_to?(:read) }
+      uploads = uploads.map { |file| attachment_upload(file) } if Livechat.config.storage_service
       message.files.attach(uploads) if uploads.any?
+    end
+
+    def attachment_upload(file)
+      {
+        io: file,
+        filename: upload_filename(file),
+        content_type: (file.content_type if file.respond_to?(:content_type)),
+        service_name: Livechat.config.storage_service
+      }.compact
+    end
+
+    def upload_filename(file)
+      return file.original_filename if file.respond_to?(:original_filename)
+      return File.basename(file.path) if file.respond_to?(:path) && file.path
+
+      'attachment'
     end
 
     # Every conversation belongs to someone — a signed-in user or at least a
