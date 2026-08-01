@@ -4,6 +4,10 @@ module Livechat
   class Engine < ::Rails::Engine
     isolate_namespace Livechat
 
+    rake_tasks do
+      load File.expand_path('../tasks/livechat_tasks.rake', __dir__)
+    end
+
     initializer 'livechat.helpers' do
       ActiveSupport.on_load(:action_view) do
         include Livechat::WidgetHelper

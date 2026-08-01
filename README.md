@@ -36,6 +36,16 @@ bin/rails db:migrate
 That's it. Visit any page, click the bubble, say hi. Answer yourself at
 `/livechat`.
 
+Optional demo data:
+
+```bash
+bin/rails livechat:seed_demo
+```
+
+It creates two idempotent sample conversations: one open thread with an unread
+visitor reply, and one resolved thread. Running the task again refreshes those
+demo messages instead of duplicating conversations.
+
 > [!IMPORTANT]
 > The inbox defaults to **development only**. Set `authorize_agent` before you
 > deploy — see [Configure](#configure).

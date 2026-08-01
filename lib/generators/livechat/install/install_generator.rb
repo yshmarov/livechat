@@ -29,6 +29,7 @@ module Livechat
         say "\nlivechat installed. Run `rails db:migrate`, then add", :green
         say '`<%= livechat_tag %>` before </body> in your layout.'
         say 'Answer visitors at /livechat (development only until you set config.authorize_agent).'
+        say 'Optional: run `bin/rails livechat:seed_demo` for sample conversations.'
         say "Set config.mailer_from + config.agent_emails to hear about new messages by email.\n"
       end
 
