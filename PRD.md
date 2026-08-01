@@ -1,8 +1,9 @@
 # PRD: livechat
 
-> Status: v0.6.0 shipped — core loop, inbox, notifications, generator, 26
+> Status: v0.6.8 shipped — core loop, inbox, notifications, generator, 26
 > locales, attachments, optional Action Cable push, audio messages, typing
-> indicators, CI.
+> indicators, guest-to-signed-in conversation claiming, admin-layout
+> embedding, per-attachment storage-service routing, CI.
 
 Drop-in support messaging for Rails apps. A mountable engine that gives any Rails app a chat widget and an agent inbox — data in the host app's database, no third-party service, no separate deployment.
 
@@ -108,7 +109,7 @@ Model niceties carried over: `messages_with_headers` grouping (show author heade
 
 - Signed-in: `current_user` lambda (request → user), `visitor_label` lambda for display — identical mechanism to feedback_engine.
 - Anonymous: `visitor_token` in a signed, long-lived cookie set by the engine on first message. Same-site cookie is sufficient (simpler than ethicsportal's access-code+passcode, which exists for cross-device anonymous return — out of scope v1).
-- If an anonymous visitor later signs in, their token conversations can be claimed onto their user id (nice-to-have, v1.x).
+- If an anonymous visitor later signs in, their token conversations are claimed onto their user id automatically, on the next request (`Conversation.claim!`, called from `claim_guest_conversations` on every visitor-facing request) — shipped, not a future item.
 
 **Realtime transport — polling by default, optional Action Cable push.** The zero-dependency philosophy rules out requiring turbo-rails, Redis, or the Action Cable JavaScript client on host pages. The widget polls `GET .../messages?after=<id>` while the panel is open (~4s), backing off to ~30s when closed (stops when tab hidden). Support-chat volume makes this cheap. When `config.action_cable = true`, the widget uses a tiny native WebSocket client for signed Action Cable streams and refreshes immediately when a new message arrives; polling stays the fallback. Never a hard requirement.
 
@@ -140,13 +141,16 @@ Two directions, hooks first, batteries optional:
 |---|---|---|
 | `enabled` | `->(req) { true }` | gates widget + public endpoints |
 | `authorize_agent` | `->(req) { Rails.env.development? }` | gates inbox |
+| `agent_layout` | `"livechat/application"` | render the inbox inside the host's own admin layout |
 | `current_user` | `->(req) {}` | resolve user (needs `#id`) |
+| `app_name` | `nil` | shown in widget header + notification emails; nil resolves to the Rails app name |
 | `visitor_label` | email-or-to_s lambda | visitor display label |
 | `agent_label` | email-or-to_s lambda | attribution stored on message |
 | `agent_display_name` | `->(label) { label }` | what visitors see |
 | `agent_emails` | `nil` | enable built-in agent notification mail |
 | `mailer_from` | `nil` | built-in mailer sender |
 | `greeting` / `reply_time_text` / `launcher_label` | localized defaults | widget copy |
+| `accent_color` | `nil` | hex brand color for launcher/header/bubbles/send button; nil keeps the built-in blue |
 | `show_launcher` | `true` | floating bubble vs. `data-livechat-open` only |
 | `mount_path` | `"/livechat"` | must match routes mount |
 | `rate_limit` | `{ to: 30, within: 60 }` | Rails 7.2+ `rate_limit`, no-op on 7.1 |
@@ -155,6 +159,7 @@ Two directions, hooks first, batteries optional:
 | `max_attachments` | `5` | per-message attachment cap |
 | `max_attachment_size` | `10.megabytes` | per-file size cap |
 | `allowed_attachment_types` | `nil` | optional content-type allowlist |
+| `storage_service` | `nil` | named Active Storage service to route chat uploads to; nil uses the host app's default |
 | `action_cable` | `false` | opt into WebSocket push |
 | `action_cable_url` | `"/cable"` | host app's Action Cable endpoint |
 
@@ -165,7 +170,7 @@ Initializer template ships every option commented with Devise examples (existing
 - Locale files `config/locales/livechat.<locale>.yml`, launch with the same 26 languages; every string via `I18n.t(scope: :livechat, default: <English>)`; RTL flag in widget config; locale-parity test.
 - Message bodies: plain text, length-capped (~5,000 chars), always HTML-escaped. No markdown v1 (XSS surface).
 - Rate limiting on public endpoints; visitor endpoints scoped strictly by signed cookie token — no enumerable conversation ids (UUID/obfuscated public ids).
-- Data retention: `Livechat::Conversation.purge_resolved(older_than:)` documented for host cron; no automatic deletion.
+- Data retention: no built-in purge helper today; a host wanting to expire old resolved conversations must query `Livechat::Conversation` directly from their own cron/rake task. A `purge_resolved(older_than:)` class method is planned (see Milestones §14) but not yet implemented.
 - No data leaves the host app, period — that's the product.
 
 ## 13. Engine structure, install, testing, release
@@ -184,8 +189,17 @@ Clone the proven skeleton:
 - **v0.3 — shipped.** Inbox search, live list refresh, agent column, Rails 8 auth docs, mobile accessibility and full-screen phone panel.
 - **v0.4 — shipped.** File attachments, optional Action Cable push, 26-locale attachment strings, expandable desktop panel, composer polish.
 - **v0.5 — shipped.** Mobile keyboard hardening and audio messages.
-- **v0.6 — shipped.** Better unread notification email summaries and lightweight typing indicators.
-- **Next:** participants/assignment, smarter notification routing, claim-anonymous-conversations-on-login, visitor CSAT rating, optional retention helpers.
+- **v0.6 — shipped.** Better unread notification email summaries; lightweight
+  typing indicators; contextual button message prefill; the
+  `mount_livechat` route helper keeping `config.mount_path` in sync with the
+  routes mount; a fingerprinted, same-origin dashboard stylesheet with CSP
+  meta tags; per-attachment Active Storage service routing
+  (`storage_service`); host-admin-layout embedding for the inbox
+  (`agent_layout`); an expanded two-column desktop widget panel with a
+  compact Open/Resolved status toggle; mobile composer/typing-indicator
+  polish; and a Rails 7.1 attachment-configuration compatibility fix.
+- **Next:** participants/assignment, smarter notification routing, visitor
+  CSAT rating, optional retention helpers (`purge_resolved`).
 
 ## 15. Risks / open questions
 
