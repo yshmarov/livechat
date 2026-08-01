@@ -111,6 +111,7 @@ Everything is optional — a fresh install works with zero config. In
 | Option | Default | What it does |
 | --- | --- | --- |
 | `authorize_agent` | development only | **Who can read the inbox.** Override before deploying |
+| `agent_layout` | `"livechat/application"` | Render the inbox inside your own admin layout instead of the gem's standalone one |
 | `enabled` | everyone | Who sees the widget. `false` hides it and rejects posts |
 | `current_user` | `nil` | Identify the visitor. Receives the request |
 | `app_name` | Rails app name | Shown in the widget header |
