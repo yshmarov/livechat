@@ -95,7 +95,9 @@ class WidgetTagTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'avatar.id = "lvc-avatar"'
     assert_includes response.body, 'avatar.referrerPolicy = "no-referrer"'
     assert_includes response.body, 'avatar.addEventListener("error"'
-    assert_includes response.body, 'object-fit:cover'
+    assert_includes response.body,
+                    '#lvc-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;object-fit:cover}'
+    refute_includes response.body, 'border:2px solid rgba(255,255,255,.35)'
   end
 
   test 'livechat_button renders a plain opener' do

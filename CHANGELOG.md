@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.1
+
+- Removed the translucent border and background from the customer-facing
+  avatar so app logos sit cleanly on the widget header.
+
 ## 0.7.0
 
 - Added `config.avatar_url`, accepting a URL or per-request callable, to show
