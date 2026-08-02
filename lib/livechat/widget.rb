@@ -58,8 +58,8 @@ module Livechat
       # nonce gets refused; a same-origin src is covered by `'self'` on every
       # visit. `nonce:` is still stamped for hosts whose script-src has no
       # 'self'; pass nil when the app has no nonce.
-      def snippet(locale:, authenticated:, nonce: nil)
-        json = config_json(locale:, authenticated:)
+      def snippet(locale:, authenticated:, avatar_url: nil, nonce: nil)
+        json = config_json(locale:, authenticated:, avatar_url:)
         nonce_attr = nonce ? %( nonce="#{nonce}") : ''
         src = "#{Livechat.config.mount_path.chomp('/')}/widget.js?v=#{fingerprint}"
 
@@ -67,7 +67,7 @@ module Livechat
           %(<script src="#{src}" defer#{nonce_attr} data-livechat-widget></script>)
       end
 
-      def config_json(locale:, authenticated:)
+      def config_json(locale:, authenticated:, avatar_url: nil)
         config = Livechat.config
         payload = {
           endpoint: config.widget_endpoint,
@@ -76,6 +76,7 @@ module Livechat
           authenticated: authenticated ? true : false,
           launcher: config.show_launcher ? true : false,
           appName: Livechat.app_name,
+          avatarUrl: avatar_url,
           accentColor: config.accent_color,
           attachments: Livechat.attachments_enabled?,
           maxAttachments: config.max_attachments,

@@ -144,6 +144,7 @@ Two directions, hooks first, batteries optional:
 | `visitor_label` | email-or-to_s lambda | visitor display label |
 | `agent_label` | email-or-to_s lambda | attribution stored on message |
 | `agent_display_name` | `->(label) { label }` | what visitors see |
+| `avatar_url` | `nil` | customer-facing widget header avatar; URL or request lambda |
 | `agent_emails` | `nil` | enable built-in agent notification mail |
 | `mailer_from` | `nil` | built-in mailer sender |
 | `greeting` / `reply_time_text` / `launcher_label` | localized defaults | widget copy |

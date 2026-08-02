@@ -76,6 +76,28 @@ class WidgetTagTest < ActionDispatch::IntegrationTest
     assert_includes response.body, '"accentColor":"#7c3aed"'
   end
 
+  test 'avatar_url rides the widget config and can resolve from the request' do
+    get '/sample'
+    assert_includes response.body, '"avatarUrl":null'
+
+    Livechat.config.avatar_url = '/support-avatar.png'
+    get '/sample'
+    assert_includes response.body, '"avatarUrl":"/support-avatar.png"'
+
+    Livechat.config.avatar_url = ->(request) { "/avatars#{request.path}.png" }
+    get '/sample'
+    assert_includes response.body, '"avatarUrl":"/avatars/sample.png"'
+  end
+
+  test 'widget renders a resilient customer-facing avatar in the header' do
+    get '/livechat/widget.js'
+
+    assert_includes response.body, 'avatar.id = "lvc-avatar"'
+    assert_includes response.body, 'avatar.referrerPolicy = "no-referrer"'
+    assert_includes response.body, 'avatar.addEventListener("error"'
+    assert_includes response.body, 'object-fit:cover'
+  end
+
   test 'livechat_button renders a plain opener' do
     get '/sample'
     assert_includes response.body, 'data-livechat-open'

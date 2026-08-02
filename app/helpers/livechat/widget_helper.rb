@@ -13,6 +13,7 @@ module Livechat
       Widget.snippet(
         locale: I18n.locale,
         authenticated: livechat_visitor.present?,
+        avatar_url: livechat_avatar_url,
         nonce: (content_security_policy_nonce if respond_to?(:content_security_policy_nonce))
       ).html_safe
     end
@@ -32,6 +33,12 @@ module Livechat
     end
 
     private
+
+    def livechat_avatar_url
+      value = Livechat.config.avatar_url
+      value = value.call(request) if value.respond_to?(:call)
+      value.to_s.presence
+    end
 
     def livechat_visitor
       return @livechat_visitor if defined?(@livechat_visitor)

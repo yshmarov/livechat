@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0
+
+- Added `config.avatar_url`, accepting a URL or per-request callable, to show
+  an optional customer-facing avatar in the visitor widget header. Failed
+  images disappear cleanly, and external image requests omit the referrer.
+- Added `bin/rails livechat:seed_demo` for idempotent sample conversations in
+  development and demo environments.
+
 ## 0.6.8
 
 - Fixed Rails 7.1 compatibility for attachment configuration by avoiding the

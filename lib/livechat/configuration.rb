@@ -44,6 +44,11 @@ module Livechat
     # honest line under the greeting — "We usually reply within a few hours."
     attr_accessor :greeting, :reply_time_text, :launcher_label
 
+    # Optional customer-facing avatar shown in the widget header. Use a URL
+    # string, or a callable receiving the request for tenant-specific branding.
+    # nil keeps the text-only header.
+    attr_accessor :avatar_url
+
     # Brand color for the widget (launcher, header, visitor bubbles, send
     # button) as a hex value, e.g. "#7c3aed". The widget picks black or white
     # text automatically for contrast. nil keeps the built-in blue.
@@ -112,6 +117,7 @@ module Livechat
       @greeting = nil
       @reply_time_text = nil
       @launcher_label = nil
+      @avatar_url = nil
       @accent_color = nil
       @show_launcher = true
       @agent_emails = nil

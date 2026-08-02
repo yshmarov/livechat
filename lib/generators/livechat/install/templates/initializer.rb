@@ -45,6 +45,11 @@ Livechat.configure do |config|
   # config.reply_time_text = "We usually reply within a few hours."
   # config.launcher_label = "Chat with us"
 
+  # Optional customer-facing avatar in the widget header. Use a URL string,
+  # or resolve one per request (for example, for tenant-specific branding).
+  # config.avatar_url = "/support-avatar.png"
+  # config.avatar_url = ->(request) { request.env["current_account"]&.support_avatar_url }
+
   # Brand color (hex) for the launcher, header, bubbles and send button.
   # Text flips black/white automatically for contrast. nil = built-in blue.
   # config.accent_color = "#7c3aed"

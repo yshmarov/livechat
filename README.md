@@ -127,6 +127,7 @@ Everything is optional — a fresh install works with zero config. In
 | `greeting` | localized default | First message visitors see |
 | `reply_time_text` | localized default | "We usually reply within a few hours" |
 | `launcher_label` | localized default | Text on the bubble |
+| `avatar_url` | `nil` | Customer-facing avatar in the widget header; URL or per-request callable |
 | `accent_color` | `nil` | One hex restyles launcher, header, bubbles, send button |
 | `show_launcher` | `true` | `false` hides the bubble — bring your own entry point |
 | `visitor_label` | name, else email | How a visitor is labelled in the inbox |
@@ -155,9 +156,19 @@ Livechat.configure do |config|
   config.mailer_from      = "chat@example.com"
   config.agent_emails     = -> { User.where(admin: true).pluck(:email) }
   config.reply_time_text  = "We usually reply within an hour."
+  config.avatar_url       = "/support-avatar.png"
   config.accent_color     = "#7c3aed"
 end
 ```
+
+`avatar_url` can also choose branding from the current request:
+
+```ruby
+config.avatar_url = ->(request) { request.env["current_account"]&.support_avatar_url }
+```
+
+Prefer a same-origin image. If the URL uses another host, allow that host in
+your application's `img-src` Content Security Policy.
 
 Gates receive the **raw request**, so they work with any auth:
 
