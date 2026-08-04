@@ -290,8 +290,15 @@
   & .record-row.unread .record-copy { font-weight: 700; }
   & .record-side .avatars { min-height: 26px; }
 
+  /* The panel heading: the name with the visitor's context directly under it,
+     and the switch pushed to the far right of the row whatever the name's
+     length. `margin-left: auto` rather than the row's `space-between`, so a
+     third element in the row could never pull the switch back in. */
+  & .panel-titles { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+  & .context-line { margin: 0; overflow-wrap: anywhere; }
+
   /* One switch reading open|resolved, sliding to the side it is on. */
-  & .status-toggle-form { flex: 0 0 auto; }
+  & .status-toggle-form { flex: 0 0 auto; margin-left: auto; }
   & .status-toggle { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 0; width: 176px; min-height: 36px; padding: 3px; border-radius: 999px; border: 1px solid var(--lvc-border); background: var(--lvc-bg); color: var(--lvc-muted); overflow: hidden; }
   & .status-toggle::before { content: ""; position: absolute; z-index: 0; top: 3px; bottom: 3px; width: calc(50% - 3px); border-radius: 999px; background: var(--lvc-surface); box-shadow: 0 1px 2px rgba(15, 23, 42, .12); transition: left .16s ease; }
   & .status-toggle.is-open::before { left: 3px; }
@@ -312,7 +319,6 @@
   & .avatar.color-5 { background: #0891b2; }
 
   /* The thread: the visitor on the left, agents on the right. */
-  & .context-line { margin: -6px 0 16px; overflow-wrap: anywhere; }
   & .thread { display: flex; flex-direction: column; gap: 4px; padding: 16px; }
   & .thread .who { font-size: 12px; color: var(--lvc-muted); margin: 10px 4px 2px; }
   & .thread .who.visitor { text-align: left; }
@@ -362,8 +368,7 @@
 
   /* Inside the thread pane only the messages scroll, so a reply never jumps the
      page and the composer stays put. */
-  & .detail-panel .panel-head,
-  & .detail-panel .context-line { flex: 0 0 auto; }
+  & .detail-panel .panel-head { flex: 0 0 auto; }
   & .detail-panel .card { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; border-radius: 8px; }
   & .detail-panel .thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
   & .detail-panel .reply { flex: 0 0 auto; }
@@ -376,7 +381,6 @@
 .lvc-convo .container { display: flex; flex-direction: column; padding-bottom: 16px; }
 .lvc-convo .breadcrumb,
 .lvc-convo .panel-head,
-.lvc-convo .context-line,
 .lvc-convo .flash { flex: 0 0 auto; }
 .lvc-convo .detail-panel { flex: 1 1 auto; min-height: 0; }
 

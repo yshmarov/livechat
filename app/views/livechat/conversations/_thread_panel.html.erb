@@ -1,6 +1,17 @@
 <div class="detail-panel">
   <div class="panel-head">
-    <h1><%= conversation.display_name %> <span class="case-id">#<%= conversation.id %></span></h1>
+    <%# The name with the visitor's context directly under it, so the status
+        toggle on the right of the row clears both. %>
+    <div class="panel-titles">
+      <h1><%= conversation.display_name %> <span class="case-id">#<%= conversation.id %></span></h1>
+      <%# One quiet line of live context: who the visitor is and the language to answer in. %>
+      <p class="muted context-line">
+        <% context = [] %>
+        <% context << conversation.visitor_email if conversation.visitor_email.present? %>
+        <% context << conversation.locale if conversation.locale.present? %>
+        <%= safe_join(context, ' · ') %>
+      </p>
+    </div>
     <% if conversation.open? %>
       <%= button_to resolve_conversation_path(conversation), method: :post,
                     form_class: 'status-toggle-form',
@@ -19,14 +30,6 @@
       <% end %>
     <% end %>
   </div>
-
-  <%# One quiet line of live context: who the visitor is and the language to answer in. %>
-  <p class="muted context-line">
-    <% context = [] %>
-    <% context << conversation.visitor_email if conversation.visitor_email.present? %>
-    <% context << conversation.locale if conversation.locale.present? %>
-    <%= safe_join(context, ' · ') %>
-  </p>
 
   <div class="card">
     <% last = messages.last %>

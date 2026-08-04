@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.1
+
+- **The conversation heading reads as one block.** The visitor's email and locale
+  moved out of their own row and sit directly under the name, inside a
+  `.panel-titles` wrapper, and the open/resolved switch is pinned to the right
+  edge of the heading row with `margin-left: auto` rather than relying on the
+  row's `space-between` — a long name no longer drags the switch inward. If you
+  targeted `.context-line` as a child of `.detail-panel`, it is now a child of
+  `.panel-head`.
+
 ## 0.9.0
 
 - **One design system across the family.** The stylesheet now opens with a
