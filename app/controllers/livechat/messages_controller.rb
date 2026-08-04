@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module Livechat
-  class MessagesController < ApplicationController
-    before_action :require_agent
-
+  class MessagesController < DashboardController
     def create
       conversation = Conversation.find(params[:conversation_id])
       message = conversation.post_agent_message!(

@@ -5,19 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%= stylesheet_link_tag "#{dashboard_stylesheet_path}?v=#{Livechat::Widget.dashboard_stylesheet_fingerprint}",
-                          'data-turbo-track': 'reload' %>
-  <%# Same-origin script instead of inline handlers, so thread polling and
-      keyboard submit work under strict script-src CSPs. %>
-  <%= javascript_include_tag "#{dashboard_script_path}?v=#{Livechat::Widget.dashboard_fingerprint}",
-                             defer: true, nonce: true %>
+  <%# The inbox's stylesheet and script are declared by the views
+      (livechat/shared/_dashboard), not here, so they survive a host replacing
+      this layout via config.agent_layout or config.base_controller_class. %>
 </head>
-<body class="<%= yield(:body_class) %>">
-  <div class="container">
-    <% if flash[:alert].present? %>
-      <p class="flash alert"><%= flash[:alert] %></p>
-    <% end %>
-    <%= yield %>
+<body class="lvc-page <%= yield(:body_class) %>">
+  <div class="lvc-dashboard">
+    <div class="container">
+      <% if flash[:alert].present? %>
+        <p class="flash alert"><%= flash[:alert] %></p>
+      <% end %>
+      <%= yield %>
+    </div>
   </div>
 </body>
 </html>

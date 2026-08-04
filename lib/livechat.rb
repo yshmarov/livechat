@@ -29,6 +29,13 @@ module Livechat
     end
 
     # Can this request work the inbox? Checked by every inbox action.
+    # The class Livechat::DashboardController inherits from. Resolved on every
+    # call rather than memoized, so a host that reassigns base_controller_class
+    # in a reloadable initializer is not pinned to a stale, unloaded constant.
+    def base_controller
+      config.base_controller_class.to_s.constantize
+    end
+
     def agent?(request)
       !!config.authorize_agent.call(request)
     end

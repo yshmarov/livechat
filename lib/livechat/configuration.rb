@@ -5,6 +5,10 @@ module Livechat
   # works with zero configuration; the hooks below let an app decide who can
   # chat, who answers, and how everyone is named.
   class Configuration
+    # The gem's own agent layout. Compared against, so DashboardController can
+    # tell "the host left this alone" from "the host chose this".
+    DEFAULT_AGENT_LAYOUT = 'livechat/application'
+
     # Shown in the widget header and in notification emails. nil resolves to
     # the Rails application name.
     attr_accessor :app_name
@@ -21,6 +25,21 @@ module Livechat
     # Layout used by the built-in inbox. Override this to render Livechat
     # inside your app's admin shell, e.g. "admin/application".
     attr_accessor :agent_layout
+
+    # The controller the INBOX inherits from, as a String so it resolves lazily
+    # rather than at config time. Default: a plain 'ActionController::Base',
+    # where `authorize_agent` is the only gate.
+    #
+    # Name the controller your own admin already inherits from and the inbox
+    # adopts that whole stack — layout, helpers, authentication, and any request
+    # context your before_actions set up. `agent_layout` covers only the layout,
+    # which leaves a host layout calling its own helpers to raise NameError under
+    # the engine's isolated namespace.
+    #
+    # Only the inbox uses it. The widget's endpoints stay on the engine's own
+    # public controller, so an admin base controller here can never demand a
+    # staff session from a visitor starting a chat.
+    attr_accessor :base_controller_class
 
     # Resolve the current user (optional). Return an object responding to
     # #id, or nil. Receives the request. Signed-in users keep one conversation
@@ -109,7 +128,8 @@ module Livechat
       @app_name = nil
       @enabled = ->(_request) { true }
       @authorize_agent = ->(_request) { Rails.env.development? }
-      @agent_layout = 'livechat/application'
+      @agent_layout = DEFAULT_AGENT_LAYOUT
+      @base_controller_class = 'ActionController::Base'
       @current_user = ->(_request) {}
       @visitor_label = ->(user) { user.try(:name).presence || user.try(:email).presence || user.to_s }
       @agent_label = ->(user) { user.try(:name).presence || user.try(:email).presence || user.to_s }

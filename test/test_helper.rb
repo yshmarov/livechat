@@ -25,7 +25,7 @@ ActiveRecord::Schema.define do
   add_index :livechat_conversations, :last_activity_at
 
   create_table :livechat_messages, force: true do |t|
-    t.references :conversation, null: false
+    t.references :conversation, null: false, index: false
     t.string :author_type, null: false
     t.string :agent_id
     t.string :agent_label

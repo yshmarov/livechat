@@ -17,12 +17,17 @@ Livechat::Engine.routes.draw do
 
   # Message attachments, gated by the engine (never a public blob URL). One
   # route for both sides — the controller decides whether you're the visitor
-  # who owns the thread or an agent. Above the conversations catch-all, and
-  # id-constrained so it never shadows a numeric conversation path.
-  get 'attachments/:id', to: 'attachments#show', as: :attachment, constraints: { id: /\d+/ }
+  # who owns the thread or an agent. Declared above the conversations catch-all,
+  # which is what keeps it from being shadowed — no id constraint needed, and a
+  # digits-only one would have made the tables bigint-only (see below).
+  get 'attachments/:id', to: 'attachments#show', as: :attachment
 
   # The inbox. Flat, human URLs: the mount path IS the conversation list.
-  resources :conversations, path: '', only: %i[index show], constraints: { id: /\d+/ } do
+  # No `id: /\d+/` constraint: it made these routes bigint-only, which forced the
+  # tables to be bigint too, and a uuid-keyed host could then never attach a file
+  # (its active_storage_attachments.record_id is a uuid column). Every fixed-name
+  # route above is declared first, so ordering already disambiguates.
+  resources :conversations, path: '', only: %i[index show] do
     collection do
       get :poll, action: :index_poll
     end

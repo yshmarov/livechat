@@ -2,11 +2,13 @@
 
 require 'rails/generators'
 require 'rails/generators/active_record'
+require_relative '../migration_helpers'
 
 module Livechat
   module Generators
     class InstallGenerator < Rails::Generators::Base
       include ActiveRecord::Generators::Migration
+      include MigrationHelpers
 
       source_root File.expand_path('templates', __dir__)
 
@@ -31,12 +33,6 @@ module Livechat
         say 'Answer visitors at /livechat (development only until you set config.authorize_agent).'
         say 'Optional: run `bin/rails livechat:seed_demo` for sample conversations.'
         say "Set config.mailer_from + config.agent_emails to hear about new messages by email.\n"
-      end
-
-      private
-
-      def migration_version
-        "[#{ActiveRecord::VERSION::MAJOR}.#{ActiveRecord::VERSION::MINOR}]"
       end
     end
   end

@@ -126,6 +126,7 @@ Everything is optional — a fresh install works with zero config. In
 | Option | Default | What it does |
 | --- | --- | --- |
 | `authorize_agent` | development only | **Who can read the inbox.** Override before deploying |
+| `base_controller_class` | `ActionController::Base` | Controller the inbox inherits — name your admin's and it adopts its layout, helpers and auth |
 | `enabled` | everyone | Who sees the widget. `false` hides it and rejects posts |
 | `current_user` | `nil` | Identify the visitor. Receives the request |
 | `app_name` | Rails app name | Shown in the widget header |

@@ -4,10 +4,8 @@ module Livechat
   # The inbox. Every action is gated by config.authorize_agent; any
   # authorized teammate can read and answer any thread — it's a shared line,
   # not an assignment queue.
-  class ConversationsController < ApplicationController
-    before_action :require_agent
+  class ConversationsController < DashboardController
     before_action :set_conversation, except: %i[index index_poll]
-    layout :livechat_agent_layout
 
     PER_PAGE = 50
 

@@ -1,0 +1,18 @@
+<%# The inbox's own shell, rendered by the views rather than the layout.
+    That is deliberate: `config.agent_layout` and `config.base_controller_class`
+    both let a host replace the layout, and assets declared in a layout the host
+    replaces simply vanish — the inbox then renders unstyled with its thread
+    polling and keyboard submit dead. Declaring them here means every layout
+    works, host or gem.
+
+    The `lvc-dashboard` wrapper is what scopes dashboard.css (see the comment at
+    the top of that file), so it has to enclose the content, not precede it. %>
+<%= stylesheet_link_tag "#{dashboard_stylesheet_path}?v=#{Livechat::Widget.dashboard_stylesheet_fingerprint}",
+                        'data-turbo-track': 'reload' %>
+<%# Same-origin script instead of inline handlers, so thread polling and
+    keyboard submit work under strict script-src CSPs. %>
+<%= javascript_include_tag "#{dashboard_script_path}?v=#{Livechat::Widget.dashboard_fingerprint}",
+                           defer: true, nonce: true %>
+<div class="lvc-dashboard">
+  <%= yield %>
+</div>

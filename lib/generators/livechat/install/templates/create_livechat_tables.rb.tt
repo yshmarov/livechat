@@ -2,7 +2,7 @@
 
 class CreateLivechatTables < ActiveRecord::Migration<%= migration_version %>
   def change
-    create_table :livechat_conversations do |t|
+    create_table :livechat_conversations<%= primary_key_type_option %> do |t|
       t.string :visitor_token
       t.string :visitor_id
       t.string :visitor_label
@@ -20,8 +20,10 @@ class CreateLivechatTables < ActiveRecord::Migration<%= migration_version %>
     add_index :livechat_conversations, :status
     add_index :livechat_conversations, :last_activity_at
 
-    create_table :livechat_messages do |t|
-      t.references :conversation, null: false
+    create_table :livechat_messages<%= primary_key_type_option %> do |t|
+      # index: false — the (conversation_id, id) index below already covers
+      # lookups by conversation_id, being a leftmost prefix of it.
+      t.references :conversation, null: false, index: false<%= foreign_key_type_option %>
       t.string :author_type, null: false
       t.string :agent_id
       t.string :agent_label

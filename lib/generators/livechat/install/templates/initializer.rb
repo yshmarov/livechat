@@ -15,6 +15,14 @@ Livechat.configure do |config|
   #
   # Render the inbox inside your app's admin layout. Default: the gem's
   # standalone inbox layout.
+  # Two ways to put the inbox inside an admin you already have.
+  #
+  # The whole stack — your layout, helpers, authentication and any request
+  # context your before_actions set up. Only the inbox inherits it; the
+  # widget's endpoints stay public, so this cannot gate a visitor's chat.
+  # config.base_controller_class = "Admin::BaseController"
+  #
+  # Or the layout alone:
   # config.agent_layout = "admin/application"
 
   # Resolve the current user (optional). Return an object responding to #id,

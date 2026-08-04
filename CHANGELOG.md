@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.8.0
+
+- **`config.agent_layout` now works on its own.** The inbox's stylesheet and
+  script were declared in the gem's layout, so replacing that layout dropped
+  both: unstyled inbox with its thread polling and keyboard submit dead. They
+  move into the views, so every layout gets them with nothing asked of the host.
+- **The dashboard stylesheet no longer claims selectors it does not own.** It
+  styled bare `*`, `body` and `a`, and its `.container`, `.card` and `.tabs` are
+  names other frameworks use too. Component rules now nest inside a
+  `.lvc-dashboard` wrapper the views render, and every custom property is
+  `--lvc-` prefixed — that collision ran both ways, so a host defining `--bg`
+  recoloured the inbox just as easily.
+- **Added `config.base_controller_class`.** Name the controller your own admin
+  inherits from and the inbox adopts its layout, helpers, authentication and
+  request context. It reparents the inbox only — the widget, visitor API and
+  attachment proxy stay on the engine's public controller, so it can never
+  demand a staff session from a visitor starting a chat. Default is unchanged.
+- **Migrations follow the host's `primary_key_type`,** including the engine's own
+  `messages -> conversations` foreign key, which has to match or a bigint column
+  ends up pointing at a uuid table. A uuid-keyed app has a uuid
+  `active_storage_attachments.record_id`, so bigint tables here could never hold
+  a message attachment: `attach` raised `NotNullViolation`.
+- **Dropped the `id: /\d+/` constraints** on the attachment and conversation
+  routes, which were what forced the tables to be bigint. Ordering already
+  disambiguates: every fixed-name route is declared first.
+- **`t.references :conversation` no longer creates its own index.**
+  `(conversation_id)` is a leftmost prefix of the `(conversation_id, id)` index
+  the migration already adds, so it answered no query the wider one could not.
+  Existing installs keep theirs until they drop it:
+  `remove_index :livechat_messages, :conversation_id`.
+- A `BackboneTest` now fails the build on any of the above regressing.
+
 ## 0.7.2
 
 - Adds `AGENTS.md`: install and integration instructions written for coding

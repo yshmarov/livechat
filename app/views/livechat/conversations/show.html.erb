@@ -1,8 +1,10 @@
 <%# Fill the viewport and scroll only the thread (see .lvc-convo in the layout). %>
 <% content_for :body_class, 'lvc-convo' %>
 
-<p class="breadcrumb">
-  <%= link_to "← #{t('livechat.dashboard.back', default: 'All conversations')}", conversations_path %>
-</p>
+<%= render layout: 'livechat/shared/dashboard' do %>
+  <p class="breadcrumb">
+    <%= link_to "← #{t('livechat.dashboard.back', default: 'All conversations')}", conversations_path %>
+  </p>
 
-<%= render 'thread_panel', conversation: @conversation, messages: @messages %>
+  <%= render 'thread_panel', conversation: @conversation, messages: @messages %>
+<% end %>
