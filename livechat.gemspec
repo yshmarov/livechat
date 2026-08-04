@@ -37,7 +37,10 @@ Gem::Specification.new do |spec|
     'MIT-LICENSE',
     'Rakefile',
     'README.md',
-    'CHANGELOG.md'
+    'CHANGELOG.md',
+    # Ships so an agent working in a host app can read the install guide
+    # straight out of the bundle: `cat "$(bundle show livechat)/AGENTS.md"`.
+    'AGENTS.md'
   ]
   spec.require_paths = ['lib']
 

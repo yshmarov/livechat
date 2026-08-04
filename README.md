@@ -52,6 +52,11 @@ demo messages instead of duplicating conversations.
 
 Ruby >= 3.2 · Rails >= 7.1 · Active Storage only if you want file attachments.
 
+Installing with a coding agent? Point it at [AGENTS.md](AGENTS.md) — the same
+steps in the order an agent needs them, plus the gates it tends to get wrong and
+the things it should not do. It ships inside the gem, so
+`cat "$(bundle show livechat)/AGENTS.md"` works from any app that bundles it.
+
 ## What you get
 
 |               |                                                                          |

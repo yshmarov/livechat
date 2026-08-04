@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.2
+
+- Adds `AGENTS.md`: install and integration instructions written for coding
+  agents — the request-shaped config lambdas, the two settings email needs, why
+  polling is the default and Action Cable is opt-in, and the mistakes agents
+  actually make. It ships inside the gem, so
+  `cat "$(bundle show livechat)/AGENTS.md"` works from a host app.
+- The dummy app pins `queue_adapter = :test` for the test suite. Attaching a
+  file enqueues Active Storage's analysis job, and the default `:async` adapter
+  runs it on a background thread with its own database connection — writes no
+  test transaction covers, which is how a suite starts failing order-dependently
+  in a test that never created a row. No effect on the gem itself.
+
 ## 0.7.1
 
 - Removed the translucent border and background from the customer-facing
