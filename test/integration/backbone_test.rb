@@ -101,6 +101,29 @@ class BackboneTest < ActionDispatch::IntegrationTest
     assert_equal 'livechat/conversations', engine.recognize_path('/', method: :get)[:controller]
   end
 
+  # A comment containing a comma used to be split as if it were a selector list,
+  # which invalidates the whole list and silently drops the rule that follows.
+  # Three of these gems shipped that. Nothing in a rendered stylesheet should
+  # ever have comment syntax in selector position.
+  test 'no selector contains comment syntax' do
+    get '/livechat/dashboard.css'
+
+    stripped = response.body.gsub(%r{/\*.*?\*/}m, '')
+    stripped.scan(/([^{}]*)\{/).flatten.each do |selector|
+      refute_includes selector, '/*', "selector #{selector.strip.inspect} has an unclosed comment in it"
+      refute_includes selector, '*/', "selector #{selector.strip.inspect} has a stray comment terminator"
+    end
+  end
+
+  # Braces must balance once comments are removed, or a nesting bug has eaten a
+  # rule somewhere.
+  test 'the stylesheet braces balance' do
+    get '/livechat/dashboard.css'
+
+    stripped = response.body.gsub(%r{/\*.*?\*/}m, '')
+    assert_equal stripped.count('{'), stripped.count('}'), 'unbalanced braces in dashboard.css'
+  end
+
   private
 
   # Selectors at nesting depth 0 — the ones that can reach a host's markup.
