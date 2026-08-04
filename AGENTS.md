@@ -107,7 +107,7 @@ Leave it off unless the app already has Action Cable working. Polling is not a d
 ### Do not
 
 - **Do not copy the widget JavaScript into `app/javascript`, or add a `<script>` tag for it.** `livechat_tag` renders what is needed, and the engine serves the code with a content fingerprint. There is no build step and nothing for esbuild/importmap/Tailwind to know about.
-- **Do not build your own inbox.** Use the mounted one; `config.agent_layout = "admin/application"` renders it inside an existing admin shell.
+- **Do not rebuild the inbox, and do not edit views inside the gem.** To put it inside an admin you already have, set `config.base_controller_class = "Admin::BaseController"` — it inherits that controller's layout, helpers, authentication and request context. For the shell alone, `config.agent_layout = "admin/application"`. Both work with nothing else wired up: the inbox's own assets are declared by its views, not the layout.
 - **Do not add an Action Cable mount to "make chat realtime"** unless you also set `config.action_cable = true`. Polling is the default and is not broken.
 - **Do not set config outside the initializer.** `rate_limit` in particular is read when the controller class loads; assigning config per-request mutates it process-wide.
 - **Do not expose attachments by blob URL** — the engine's gated route exists so a leaked signed URL cannot hand over a customer's file.
@@ -119,6 +119,7 @@ Everything is optional; a fresh install works with zero config. Full list with c
 | Option | Default | Note |
 | --- | --- | --- |
 | `authorize_agent` | development only | **Who can read the inbox. Set before deploying.** |
+| `base_controller_class` | `ActionController::Base` | Controller the inbox inherits. Name your admin's and it adopts that layout, helpers, authentication and request context. Public endpoints never inherit it. |
 | `enabled` | everyone | Per-request gate for the widget and its endpoints |
 | `current_user` | `nil` | Receives the request; nil means guest-by-cookie |
 | `visitor_label`, `agent_label` | name/email/to_s | Receive the user |
@@ -143,6 +144,8 @@ Turbo Drive and strict nonce-based CSP work out of the box. 26 locales ship with
 
 | Symptom | Cause |
 | --- | --- |
+| `NameError` for one of your own helpers in the inbox | `isolate_namespace` scopes `helper` to the engine. Use `config.base_controller_class` so the inbox inherits your helpers, rather than `agent_layout` alone. |
+| `NotNullViolation` attaching a file on a uuid-keyed app | The tables were generated bigint. Set `primary_key_type` in `config.generators` before installing, or migrate them to uuid. |
 | `/livechat` returns 403 "Set Livechat.config.authorize_agent to grant access" | Exactly what it says: still at the development-only default |
 | No bubble on the page | `livechat_tag` missing from the rendered layout, `config.enabled` false, or `show_launcher = false` with no opener of your own |
 | No notification emails | `mailer_from` not set — `agent_emails` alone does nothing |
@@ -151,6 +154,10 @@ Turbo Drive and strict nonce-based CSP work out of the box. 26 locales ship with
 | `undefined local variable current_user` in the initializer | A gate lambda treated its argument as a controller. It is a `request` |
 
 ---
+
+## One family
+
+`testimonials`, `ideasbugs`, `product_tours`, `i18n_proofreading` are the sibling engines. Same install shape, same host hooks (`base_controller_class`, `agent_layout`), same scoped dashboard CSS, same `primary_key_type`-aware migrations — so what you learn here transfers.
 
 ## Working on the gem itself
 

@@ -52,24 +52,6 @@
   }
 }
 
-/* Page frame — the gem's own layout only. */
-.lvc-page { margin: 0; background: var(--lvc-bg); color: var(--lvc-text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
-/* Desktop inbox: a durable conversation list on the left and the active thread on the right, with each pane owning its own scroll. */
-.lvc-inbox, .lvc-inbox .container { height: 100vh; height: 100dvh; }
-.lvc-inbox { overflow: hidden; }
-.lvc-inbox .container { max-width: 1280px; display: flex; flex-direction: column; padding-bottom: 16px; }
-.lvc-inbox .container h1 { flex: 0 0 auto; margin-bottom: 14px; }
-/* Conversation page: fill the viewport and scroll the THREAD, not the page — so a reply never jumps the page, and the composer stays put. */
-.lvc-convo, .lvc-convo .container { height: 100vh; height: 100dvh; }
-.lvc-convo { overflow: hidden; }
-.lvc-convo .container { display: flex; flex-direction: column; padding-bottom: 16px; }
-.lvc-convo .breadcrumb, .lvc-convo .head-row, .lvc-convo .context-line,
-    .lvc-convo .flash { flex: 0 0 auto; }
-.lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
-.lvc-convo .card { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
-.lvc-convo .thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
-.lvc-convo .reply { flex: 0 0 auto; }
-
 /* Dashboard components — any layout. */
 .lvc-dashboard {
   /* A scoping device, not a layout one: without this the wrapper would
@@ -216,3 +198,22 @@
   & .empty-state p { margin: 0; }
   & .mobile-back { display: none; }
 }
+
+/* Page frame — the gem's own layout only. Last, so it wins the
+   specificity ties against the component layer above. */
+.lvc-page { margin: 0; background: var(--lvc-bg); color: var(--lvc-text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+/* Desktop inbox: a durable conversation list on the left and the active thread on the right, with each pane owning its own scroll. */
+.lvc-inbox, .lvc-inbox .container { height: 100vh; height: 100dvh; }
+.lvc-inbox { overflow: hidden; }
+.lvc-inbox .container { max-width: 1280px; display: flex; flex-direction: column; padding-bottom: 16px; }
+.lvc-inbox .container h1 { flex: 0 0 auto; margin-bottom: 14px; }
+/* Conversation page: fill the viewport and scroll the THREAD, not the page — so a reply never jumps the page, and the composer stays put. */
+.lvc-convo, .lvc-convo .container { height: 100vh; height: 100dvh; }
+.lvc-convo { overflow: hidden; }
+.lvc-convo .container { display: flex; flex-direction: column; padding-bottom: 16px; }
+.lvc-convo .breadcrumb, .lvc-convo .head-row, .lvc-convo .context-line,
+    .lvc-convo .flash { flex: 0 0 auto; }
+.lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.lvc-convo .card { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.lvc-convo .thread { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.lvc-convo .reply { flex: 0 0 auto; }
