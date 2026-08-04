@@ -316,16 +316,6 @@ bundle exec rake test
 bundle exec rubocop
 ```
 
-## Also by the same author
-
-- [testimonials](https://github.com/yshmarov/testimonials) — testimonials,
-  reviews and NPS for Rails.
-- [ideasbugs](https://github.com/yshmarov/ideasbugs) — in-app bug reports and
-  feature requests.
-- [i18n_proofreading](https://github.com/yshmarov/i18n_proofreading) — in-context
-  translation proofreading.
-- [SupeRails](https://superails.com) — Rails screencasts.
-
 ## One family
 
 Five Rails engines built on the same backbone, so adopting a second one is
