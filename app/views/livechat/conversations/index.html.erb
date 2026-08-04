@@ -1,10 +1,12 @@
-<% content_for :body_class, 'lvc-inbox' %>
+<% content_for :body_class, 'lvc-index' %>
 
 <%= render layout: 'livechat/shared/dashboard' do %>
-  <h1><%= t('livechat.dashboard.title', default: 'LiveChat') %></h1>
+  <div class="page-head">
+    <h1><%= t('livechat.dashboard.title', default: 'LiveChat') %></h1>
+  </div>
 
-  <div class="inbox-shell <%= 'has-selected' if @selected_conversation %>">
-    <aside class="inbox-sidebar" aria-label="<%= t('livechat.dashboard.conversations', default: 'Conversations') %>">
+  <div class="dashboard-shell <%= 'has-selected' if @selected_conversation %>">
+    <aside class="dashboard-sidebar" aria-label="<%= t('livechat.dashboard.conversations', default: 'Conversations') %>">
       <div class="tabs">
         <% Livechat::Conversation::STATUSES.each do |status| %>
           <%= link_to conversations_path(status: status, q: @query), class: ('active' if @status == status) do %>
@@ -25,12 +27,12 @@
       <%# The list keeps itself fresh (dashboard.js reloads when the token moves) —
           unless the agent is mid-search or mid-reply, whose typing must never be eaten. %>
       <% cable = livechat_cable_data('livechat:inbox') %>
-      <div id="lvc-index" data-poll-url="<%= poll_conversations_path %>"
+      <div id="lvc-poll" data-poll-url="<%= poll_conversations_path %>"
            data-token="<%= [Livechat::Message.maximum(:id).to_i, Livechat::Conversation.count,
                             @counts.fetch('open', 0)].join('-') %>"
            <%= tag.attributes(data: cable) if cable.any? %>></div>
 
-      <div class="conversation-list">
+      <div class="record-list">
         <% if @conversations.empty? %>
           <p class="empty"><%= t('livechat.dashboard.empty',
                                  default: 'Nothing here. When a visitor writes, the conversation lands on this page.') %></p>
@@ -39,27 +41,29 @@
             <% unread = @unread.fetch(conversation.id, 0) %>
             <%= link_to conversations_path(status: @status, q: @query, offset: @offset,
                                            conversation_id: conversation.id),
-                        class: ['conversation-row',
+                        class: ['record-row',
                                 ('active' if @selected_conversation&.id == conversation.id),
                                 ('unread' if unread.positive?)].compact do %>
-              <span class="conversation-main">
-                <span class="conversation-topline">
-                  <span class="conversation-name"><%= conversation.display_name %></span>
-                  <span class="muted conversation-time">
+              <span class="record-main">
+                <span class="record-topline">
+                  <span class="record-name"><%= conversation.display_name %></span>
+                  <span class="muted record-time">
                     <% if conversation.last_activity_at %>
                       <%= time_ago_in_words(conversation.last_activity_at) %>
                     <% end %>
                   </span>
                 </span>
-                <span class="muted conversation-meta">
+                <%# Same row shape as the sibling gems: the name and time on top,
+                    the copy that identifies the record, then the muted ids. %>
+                <span class="muted record-copy"><%= conversation.last_message_preview %></span>
+                <span class="muted record-meta">
                   <span class="case-id">#<%= conversation.id %></span>
                   <% if conversation.visitor_email.present? && conversation.visitor_email != conversation.display_name %>
                     <span><%= conversation.visitor_email %></span>
                   <% end %>
                 </span>
-                <span class="muted conversation-preview"><%= conversation.last_message_preview %></span>
               </span>
-              <span class="conversation-side">
+              <span class="record-side">
                 <% if unread.positive? %>
                   <span class="badge unread-count"><%= unread %></span>
                 <% end %>
@@ -88,7 +92,7 @@
       </div>
     </aside>
 
-    <main class="inbox-thread" aria-label="<%= t('livechat.dashboard.current_chat', default: 'Current chat') %>">
+    <main class="dashboard-detail" aria-label="<%= t('livechat.dashboard.current_chat', default: 'Current chat') %>">
       <% if @selected_conversation %>
         <p class="mobile-back">
           <%= link_to "← #{t('livechat.dashboard.back', default: 'All conversations')}",

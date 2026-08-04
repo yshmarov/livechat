@@ -1,5 +1,5 @@
-<div class="conversation-panel">
-  <div class="head-row">
+<div class="detail-panel">
+  <div class="panel-head">
     <h1><%= conversation.display_name %> <span class="case-id">#<%= conversation.id %></span></h1>
     <% if conversation.open? %>
       <%= button_to resolve_conversation_path(conversation), method: :post,

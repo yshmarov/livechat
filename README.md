@@ -331,9 +331,9 @@ mostly muscle memory:
 
 They share the install shape (`generate <gem>:install`, mount, one initializer),
 the same host hooks (`base_controller_class` to inherit your admin's controller,
-`agent_layout` for just the shell), a dashboard stylesheet scoped so it
-cannot touch your own CSS, and migrations that follow your app's
-`primary_key_type`.
+`agent_layout` for just the shell), one dashboard design system — the same
+two-pane layout, colour tokens and components in all five, scoped so it cannot
+touch your own CSS — and migrations that follow your app's `primary_key_type`.
 
 ## License
 

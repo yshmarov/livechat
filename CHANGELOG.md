@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.9.0
+
+- **One design system across the family.** The stylesheet now opens with a
+  shared core — the colour tokens, `.page-head`, `.tabs`, `.filters`, `.card`,
+  `.badge`, buttons and form controls, and the `.dashboard-shell` +
+  `.record-row` + `.detail-panel` two-pane dashboard — identical in all five
+  gems of the family, apart from the `--lvc-` prefix. The five had drifted:
+  sidebars between 380px and 430px, reading columns between 860px and 1020px,
+  two different tab styles and three different button styles. The sidebar is
+  now 330–430px everywhere, a reading page 1020px, a dashboard 1280px.
+  Everything below the `GEM-SPECIFIC` banner is what only this gem has.
+- **The inbox markup uses the shared class names.** `.inbox-shell`,
+  `.inbox-sidebar` and `.inbox-thread` are `.dashboard-shell`,
+  `.dashboard-sidebar` and `.dashboard-detail`; `.conversation-list`,
+  `.conversation-row`, `.conversation-main`, `.conversation-topline`,
+  `.conversation-meta`, `.conversation-time` and `.conversation-side` are
+  `.record-*`, with `.conversation-name` becoming `.record-name` and
+  `.conversation-preview` `.record-copy`; `.conversation-panel` is
+  `.detail-panel` and its `.head-row` is `.panel-head`. The body class on the
+  inbox is `lvc-index` (was `lvc-inbox`) and the polling element is
+  `#lvc-poll` (was `#lvc-index`). A conversation row now reads name, then
+  message preview, then ids — the order the sibling gems use. If you styled or
+  scripted any of those names in a host app, that is the breaking change — no
+  configuration, route or database change is involved.
+- **The narrow-screen rules work again.** The `max-width: 760px` block sat above
+  the component rules it means to override, and CSS nesting adds no specificity,
+  so the desktop grid won every tie: showing one pane at a time on a phone had
+  quietly stopped working. The media query moved to the end of the file.
+- Smaller fixes that came with the shared core: a submit input is styled as a
+  button rather than a full-width field, the filter row keeps its search box and
+  button on one line, and a `code.key` truncates inside a list row instead of
+  wrapping over three lines.
+
 ## 0.8.0
 
 - **`config.agent_layout` now works on its own.** The inbox's stylesheet and

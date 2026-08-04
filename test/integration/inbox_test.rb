@@ -97,7 +97,7 @@ class InboxTest < ActionDispatch::IntegrationTest
     as_agent!
     get "/livechat?conversation_id=#{conversation.id}"
     assert_response :ok
-    assert_includes response.body, 'inbox-shell has-selected'
+    assert_includes response.body, 'dashboard-shell has-selected'
     assert_includes response.body, 'hello from the selected thread'
     assert_includes response.body, "message-#{message.id}"
     assert_includes response.body, 'Write your reply'
@@ -258,8 +258,6 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_equal 'text/css', response.media_type
     assert_includes response.body, '.thread'
-    assert_includes response.body,
-                    '.lvc-convo .conversation-panel { flex: 1 1 auto; min-height: 0; ' \
-                    'display: flex; flex-direction: column; }'
+    assert_includes response.body, '.lvc-convo .detail-panel { flex: 1 1 auto; min-height: 0; }'
   end
 end
