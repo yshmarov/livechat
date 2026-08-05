@@ -144,6 +144,19 @@
   & .actions form { display: inline; }
   & .form-actions { padding-top: 12px; }
 
+  /* Status switch: one pill holding every state a record can be in, the state it
+     is in now lit. Each other segment is a submit button, so moving a record
+     takes one click and no JavaScript; the current segment is a `type="button"`
+     so clicking it cannot re-file the record it is already filed under. Two
+     states or five, the pill sizes itself. A gem tints the lit segment with its
+     own status colour — see the `GEM-SPECIFIC` section. */
+  & .status-switch { display: inline-flex; flex: 0 0 auto; margin: 0; padding: 3px; border: 1px solid var(--lvc-border); border-radius: 999px; background: var(--lvc-bg); }
+  & .status-switch button { min-height: 30px; padding: 0 12px; border: 0; border-radius: 999px; background: none; color: var(--lvc-muted); font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .16s ease, color .16s ease; }
+  & .status-switch button:hover { border: 0; background: color-mix(in srgb, var(--lvc-muted) 12%, transparent); color: var(--lvc-text); }
+  & .status-switch button.current { background: var(--lvc-surface); color: var(--lvc-text); box-shadow: 0 1px 2px rgba(15, 23, 42, .12); cursor: default; }
+  & .status-switch button.current:hover { background: var(--lvc-surface); }
+  & .panel-head .status-switch { margin-left: auto; }
+
   & .card { overflow: hidden; border: 1px solid var(--lvc-border); border-radius: 12px; background: var(--lvc-surface); }
   & .card.pad { padding: 16px; overflow: visible; }
   & table { width: 100%; border-collapse: collapse; }
@@ -266,6 +279,7 @@
     & .dashboard-detail .detail-panel { min-height: calc(100vh - 64px); }
     & .mobile-back { display: block; flex: 0 0 auto; margin: 4px 0 10px; font-size: 13px; }
     & .panel-head h1 { font-size: 18px; }
+    & .status-switch button { padding: 0 9px; font-size: 12px; }
     & dl { grid-template-columns: 1fr; gap: 3px; }
     & dd { margin-bottom: 8px; }
   }
@@ -291,22 +305,12 @@
   & .record-side .avatars { min-height: 26px; }
 
   /* The panel heading: the name with the visitor's context directly under it,
-     and the switch pushed to the far right of the row whatever the name's
-     length. `margin-left: auto` rather than the row's `space-between`, so a
-     third element in the row could never pull the switch back in. */
+     and the shared status switch pushed to the far right of the row whatever the
+     name's length. */
   & .panel-titles { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
   & .context-line { margin: 0; overflow-wrap: anywhere; }
-
-  /* One switch reading open|resolved, sliding to the side it is on. */
-  & .status-toggle-form { flex: 0 0 auto; margin-left: auto; }
-  & .status-toggle { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 0; width: 176px; min-height: 36px; padding: 3px; border-radius: 999px; border: 1px solid var(--lvc-border); background: var(--lvc-bg); color: var(--lvc-muted); overflow: hidden; }
-  & .status-toggle::before { content: ""; position: absolute; z-index: 0; top: 3px; bottom: 3px; width: calc(50% - 3px); border-radius: 999px; background: var(--lvc-surface); box-shadow: 0 1px 2px rgba(15, 23, 42, .12); transition: left .16s ease; }
-  & .status-toggle.is-open::before { left: 3px; }
-  & .status-toggle.is-resolved::before { left: 50%; }
-  & .status-toggle span { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-width: 0; padding: 0 10px; font-size: 13px; font-weight: 700; white-space: nowrap; }
-  & .status-toggle.is-open span:first-child { color: var(--lvc-open); }
-  & .status-toggle.is-resolved span:last-child { color: var(--lvc-text); }
-  & .status-toggle:hover { text-decoration: none; color: var(--lvc-text); }
+  /* An open conversation is the one that wants an answer, so say so in green. */
+  & .status-switch button.current.status-open { color: var(--lvc-open); }
 
   & .avatars { display: inline-flex; }
   & .avatars .avatar { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; border: 2px solid var(--lvc-surface); cursor: default; }
@@ -387,8 +391,6 @@
 @media (max-width: 760px) {
   .lvc-dashboard {
     & .detail-panel .panel-head h1 { font-size: 18px; }
-    & .status-toggle { width: 152px; min-height: 34px; }
-    & .status-toggle span { padding: 0 7px; font-size: 12px; }
     & .thread .msg { max-width: 88%; }
   }
 }

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.10.0
+
+- **The open/resolved switch is now the family's shared component.** It looks the
+  same and sits where it sat, but it is `.status-switch` in the shared core of
+  `dashboard.css` rather than this gem's own `.status-toggle`, so ideasbugs could
+  adopt it for its three statuses instead of growing a second near-identical
+  control. `.status-toggle`, `.status-toggle-form`, `.is-open` and `.is-resolved`
+  are gone — that is the breaking change if you styled them.
+- Each half is now its own target: `Open` reopens, `Resolved` resolves, via
+  `formaction` on two submit buttons in one form. Before, the whole pill was one
+  button that flipped whichever way it was not. The half that is already current
+  is inert, so clicking it can no longer log a reopen of an open chat. The
+  sliding highlight went with the rewrite — it never animated anyway, since
+  resolving reloads the page and the pill arrives already in its new position.
+  `POST /:id/resolve` and `POST /:id/reopen` are unchanged.
+
 ## 0.9.1
 
 - **The conversation heading reads as one block.** The visitor's email and locale

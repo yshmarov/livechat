@@ -101,7 +101,10 @@ class InboxTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'hello from the selected thread'
     assert_includes response.body, "message-#{message.id}"
     assert_includes response.body, 'Write your reply'
-    assert_includes response.body, 'status-toggle is-open'
+    # The status switch: open is the lit, inert segment; resolved submits.
+    assert_includes response.body, 'status-switch'
+    assert_includes response.body, 'class="status-open current"'
+    assert_includes response.body, "formaction=\"/livechat/#{conversation.id}/resolve\""
     assert message.reload.read?
   end
 

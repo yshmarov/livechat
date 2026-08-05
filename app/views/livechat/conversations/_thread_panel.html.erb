@@ -12,21 +12,24 @@
         <%= safe_join(context, ' · ') %>
       </p>
     </div>
-    <% if conversation.open? %>
-      <%= button_to resolve_conversation_path(conversation), method: :post,
-                    form_class: 'status-toggle-form',
-                    class: 'status-toggle is-open',
-                    aria: { label: t('livechat.dashboard.resolve', default: 'Resolve') } do %>
-        <span><%= t('livechat.statuses.open', default: 'Open') %></span>
-        <span><%= t('livechat.statuses.resolved', default: 'Resolved') %></span>
-      <% end %>
-    <% else %>
-      <%= button_to reopen_conversation_path(conversation), method: :post,
-                    form_class: 'status-toggle-form',
-                    class: 'status-toggle is-resolved',
-                    aria: { label: t('livechat.dashboard.reopen', default: 'Reopen') } do %>
-        <span><%= t('livechat.statuses.open', default: 'Open') %></span>
-        <span><%= t('livechat.statuses.resolved', default: 'Resolved') %></span>
+    <%# The shared status switch: the state it is in is lit and inert, the other
+        one submits to its own route via `formaction`. One form, no JS, and
+        clicking the lit half cannot log a reopen of an already-open chat. %>
+    <%= form_with url: resolve_conversation_path(conversation), method: :post, class: 'status-switch' do %>
+      <% if conversation.open? %>
+        <button type="button" class="status-open current" aria-current="true">
+          <%= t('livechat.statuses.open', default: 'Open') %>
+        </button>
+        <button formaction="<%= resolve_conversation_path(conversation) %>" class="status-resolved">
+          <%= t('livechat.statuses.resolved', default: 'Resolved') %>
+        </button>
+      <% else %>
+        <button formaction="<%= reopen_conversation_path(conversation) %>" class="status-open">
+          <%= t('livechat.statuses.open', default: 'Open') %>
+        </button>
+        <button type="button" class="status-resolved current" aria-current="true">
+          <%= t('livechat.statuses.resolved', default: 'Resolved') %>
+        </button>
       <% end %>
     <% end %>
   </div>
