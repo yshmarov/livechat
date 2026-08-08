@@ -15,5 +15,7 @@ class SeedsTest < ActiveSupport::TestCase
     refute_equal first_message_ids, Livechat::Message.order(:id).pluck(:id)
     assert_equal %w[open resolved], second.map(&:status).sort
     assert_equal 1, second.find(&:open?).unread_from_visitor_count
+    assert_includes second.find(&:open?).messages.last.body, 'Reply from the composer'
+    assert_includes second.find(&:resolved?).messages.find(&:agent?).body, 'set authorize_admin'
   end
 end

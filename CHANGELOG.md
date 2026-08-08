@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.10.1
+
+- **The demo inbox is now a live setup walkthrough.** The open conversation
+  teaches the visitor-to-agent reply loop, captured page and identity context,
+  and unread state. The resolved conversation records the production checklist:
+  render the tag, protect the staff inbox, and configure signed-in visitors.
+- `livechat:seed_demo` still rebuilds messages inside its two demo conversations
+  on every run, so replies or edits made in those threads are discarded. It
+  does not change real conversations.
+
 ## 0.10.0
 
 - **The open/resolved switch is now the family's shared component.** It looks the

@@ -5,46 +5,52 @@ module Livechat
     THREADS = [
       {
         visitor_token: 'livechat-demo-checkout',
-        visitor_label: 'Demo Customer',
+        visitor_label: 'Demo visitor · reply to this thread',
         visitor_email: 'customer@example.com',
-        page_url: '/checkout',
+        page_url: '/checkout?demo=livechat',
         locale: 'en',
         status: 'open',
         messages: [
           {
             author_type: 'visitor',
-            body: 'I am trying to finish checkout, but the payment button keeps spinning.',
+            body: 'I installed Livechat. What should I test first?',
             read_at: true
           },
           {
             author_type: 'agent',
             agent_id: 'livechat-demo-agent',
-            agent_label: 'Demo Support',
-            body: 'Thanks for the details. I am checking the payment logs now.',
+            agent_label: 'Demo support guide',
+            body: 'Open the chat widget in your app, send a message, then reply from this inbox. The page URL, ' \
+                  'locale, and configured visitor identity stay attached to the conversation.',
             read_at: true
           },
-          { author_type: 'visitor', body: 'The order number is #DEMO-1042.' }
+          {
+            author_type: 'visitor',
+            body: 'This last message is intentionally unread. Reply from the composer to complete the ' \
+                  'visitor-to-agent loop.'
+          }
         ]
       },
       {
         visitor_token: 'livechat-demo-resolved',
-        visitor_label: 'Demo Admin',
+        visitor_label: 'Demo admin · production checklist',
         visitor_email: 'admin@example.com',
-        page_url: '/settings/billing',
+        page_url: '/settings?demo=livechat',
         locale: 'en',
         status: 'resolved',
         messages: [
-          { author_type: 'visitor', body: 'Where can I download last month\'s invoice?' },
+          { author_type: 'visitor', body: 'What must I configure before this chat goes to production?' },
           {
             author_type: 'agent',
             agent_id: 'livechat-demo-agent',
-            agent_label: 'Demo Support',
-            body: 'Open Settings, then Billing, then click Download next to the invoice.',
+            agent_label: 'Demo support guide',
+            body: 'Render livechat_tag in the layout, set authorize_admin so only staff can read the inbox, ' \
+                  'and configure current_user when signed-in visitors should keep their identity across pages.',
             read_at: true
           },
           {
             author_type: 'system',
-            agent_label: 'Demo Support',
+            agent_label: 'Demo support guide',
             event: 'resolved'
           }
         ]
