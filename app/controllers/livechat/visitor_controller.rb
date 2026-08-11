@@ -90,7 +90,7 @@ module Livechat
         visitor_token: current_visitor_id ? visitor_token : ensure_visitor_token,
         visitor_label: visitor_label,
         visitor_email: (current_visitor.try(:email).presence if current_visitor),
-        page_url: params[:page_url].to_s.first(255).presence,
+        page_url: clean_page_url(params[:page_url]),
         locale: params[:locale].to_s.first(10).presence
       )
     end
@@ -105,7 +105,8 @@ module Livechat
     # "where are they stuck right now" is what an answering agent needs.
     def refresh_context(conversation)
       updates = {}
-      updates[:page_url] = params[:page_url].to_s.first(255) if params[:page_url].present?
+      page_url = clean_page_url(params[:page_url])
+      updates[:page_url] = page_url if page_url
       updates[:locale] = params[:locale].to_s.first(10) if params[:locale].present?
       conversation.update_columns(updates) if updates.any?
     end

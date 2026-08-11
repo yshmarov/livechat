@@ -33,6 +33,19 @@ class VisitorApiTest < ActionDispatch::IntegrationTest
     assert_equal 'http://example.com/billing', conversation.reload.page_url
   end
 
+  test 'page context keeps only a safe query-free HTTP location' do
+    post '/livechat/widget/messages',
+         params: { body: 'hello', page_url: 'https://example.com/billing?token=secret#card' }, as: :json
+
+    conversation = Livechat::Conversation.last
+    assert_equal 'https://example.com/billing', conversation.page_url
+
+    %w[javascript:alert(1) data:text/html,hello https://user:secret@example.com/private].each do |unsafe|
+      post '/livechat/widget/messages', params: { body: 'again', page_url: unsafe }, as: :json
+      assert_equal 'https://example.com/billing', conversation.reload.page_url
+    end
+  end
+
   test 'signed-in visitors are attributed and get no cookie' do
     sign_in!
     post '/livechat/widget/messages', params: { body: 'hello' }, as: :json

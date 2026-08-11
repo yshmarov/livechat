@@ -7,6 +7,11 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
   def txt = fixture_file_upload('notes.txt', 'text/plain')
   def audio = fixture_file_upload('notes.txt', 'audio/webm')
 
+  def svg
+    Rack::Test::UploadedFile.new(StringIO.new('<svg xmlns="http://www.w3.org/2000/svg"/>'),
+                                 'image/svg+xml', original_filename: 'image.svg')
+  end
+
   test 'a visitor message can carry files, and the JSON describes them' do
     post '/livechat/widget/messages', params: { body: 'see attached', files: [png, txt] }
     assert_response :created
@@ -92,6 +97,22 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
     assert_equal 'image/png', response.media_type
     assert_includes response.headers['Content-Disposition'], 'inline'
     assert_equal 'nosniff', response.headers['X-Content-Type-Options']
+    assert_equal 'bytes', response.headers['Accept-Ranges']
+    assert_includes response.headers['Cache-Control'], 'private'
+    assert_includes response.headers['Cache-Control'], 'no-store'
+  end
+
+  test 'an owning visitor can request an attachment byte range' do
+    post '/livechat/widget/messages', params: { body: 'listen', files: [audio] }
+    url = response.parsed_body['message']['attachments'].first['url']
+
+    get url, headers: { 'Range' => 'bytes=1-3' }
+
+    assert_response :partial_content
+    assert_equal 'bytes 1-3/23', response.headers['Content-Range']
+    assert_equal 'bytes', response.headers['Accept-Ranges']
+    assert_equal 3, response.body.bytesize
+    assert_includes response.headers['Cache-Control'], 'no-store'
   end
 
   test 'non-image attachments download rather than render inline' do
@@ -99,6 +120,16 @@ class AttachmentsTest < ActionDispatch::IntegrationTest
     url = response.parsed_body['message']['attachments'].first['url']
 
     get url
+    assert_response :ok
+    assert_includes response.headers['Content-Disposition'], 'attachment'
+  end
+
+  test 'an unsafe image type downloads instead of becoming an inline image' do
+    post '/livechat/widget/messages', params: { body: 'vector', files: [svg] }
+    attachment = response.parsed_body['message']['attachments'].first
+
+    assert_equal false, attachment['image']
+    get attachment['url']
     assert_response :ok
     assert_includes response.headers['Content-Disposition'], 'attachment'
   end

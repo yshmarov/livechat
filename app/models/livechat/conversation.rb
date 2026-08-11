@@ -19,6 +19,20 @@ module Livechat
 
     scope :recent_first, -> { order(last_activity_at: :desc, id: :desc) }
 
+    # Host-controlled retention. Only resolved threads whose last activity is
+    # older than the supplied cutoff are removed; open conversations are never
+    # deleted automatically. Destroying (rather than delete_all) lets Rails run
+    # the message and Active Storage attachment lifecycle. Returns the number
+    # of conversations destroyed so a scheduled job can report what it did.
+    def self.purge_resolved(older_than:)
+      destroyed = 0
+      where(status: 'resolved', last_activity_at: ...older_than).find_each do |conversation|
+        conversation.destroy!
+        destroyed += 1
+      end
+      destroyed
+    end
+
     STATUSES.each do |status|
       define_method(:"#{status}?") { self.status == status }
     end

@@ -108,8 +108,8 @@ module Livechat
         { id: file.id,
           name: file.filename.to_s,
           url: "#{base}/attachments/#{file.id}",
-          image: content_type.start_with?('image/'),
-          audio: content_type.start_with?('audio/'),
+          image: AttachmentPolicy.image?(content_type),
+          audio: AttachmentPolicy.audio?(content_type),
           size: file.byte_size }
       end
     end

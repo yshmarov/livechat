@@ -5,7 +5,7 @@ Instructions for coding agents. Two audiences:
 - **[Installing livechat into a Rails app](#installing-into-a-rails-app)** — you are working in a host app and were asked to add support chat, live chat, or an in-app inbox.
 - **[Working on the gem itself](#working-on-the-gem-itself)** — you are working in this repository.
 
-Requirements: Ruby >= 3.2, Rails >= 7.1. Active Storage only for file attachments. **No Redis and no Action Cable** — the transport is polling unless you opt in.
+Requirements: Ruby >= 3.2, Rails >= 7.1 and < 9. Active Storage only for file attachments. **No Redis and no Action Cable** — the transport is polling unless you opt in.
 
 If you are in a host app and this file is not in front of you, it ships inside the gem: `cat "$(bundle show livechat)/AGENTS.md"`.
 
@@ -104,6 +104,21 @@ Leave it off unless the app already has Action Cable working. Polling is not a d
 
 `config.attach_files` is on by default but **silently inert without Active Storage** in the host app (`rails active_storage:install`) — the widget keeps working, just without a paperclip. Caps: `max_attachments` (5), `max_attachment_size` (10 MB), `allowed_attachment_types` (nil = any). Files are served through the engine at `/livechat/attachments/:id`, gated per request — never a public blob URL. Do not build your own blob links.
 
+Every authorized agent can read every conversation; visitor reads are scoped to
+the signed-in id or guest cookie. There is no tenant-isolated agent inbox in
+1.x. No retention job runs automatically. Hosts should schedule their own
+cutoff and use the destroy lifecycle so messages and attachments follow it:
+
+```ruby
+Livechat::Conversation.purge_resolved(older_than: 90.days.ago)
+```
+
+For an account-erasure request, destroy that user's conversations with
+`where(visitor_id: user.id.to_s).find_each(&:destroy!)`. Do not use
+`delete_all` when attachments must be purged. Confirm storage jobs, backups,
+email notifications and hook destinations separately. The content-type
+allowlist is not malware scanning.
+
 ### Do not
 
 - **Do not copy the widget JavaScript into `app/javascript`, or add a `<script>` tag for it.** `livechat_tag` renders what is needed, and the engine serves the code with a content fingerprint. There is no build step and nothing for esbuild/importmap/Tailwind to know about.
@@ -168,6 +183,7 @@ is uncertain, explicitly prepend the configured Ruby, for example
 
 ```bash
 bundle exec rake test            # minitest, dummy app under test/dummy
+bundle exec rake test:system     # real headless-Chrome visitor/agent loop
 bundle exec rubocop              # must be clean
 BUNDLE_GEMFILE=gemfiles/rails_7.1.gemfile bundle exec rake test   # 7.1, 7.2, 8.0, 8.1 in gemfiles/
 ```

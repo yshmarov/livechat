@@ -111,4 +111,13 @@ class WidgetTagTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'data-livechat-message="I need help with order #123"'
     assert_includes response.body, '>Ask about order</button>'
   end
+
+  test 'the stable opener and JavaScript API keys stay exact' do
+    assert_includes Livechat::Widget.javascript,
+                    'window.Livechat = { open: openPanel, close: closePanel }'
+
+    get '/sample'
+    assert_includes response.body, 'data-livechat-open'
+    assert_includes response.body, 'data-livechat-message='
+  end
 end

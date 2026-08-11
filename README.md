@@ -50,7 +50,7 @@ demo messages instead of duplicating conversations.
 > The inbox defaults to **development only**. Set `authorize_agent` before you
 > deploy — see [Configure](#configure).
 
-Ruby >= 3.2 · Rails >= 7.1 · Active Storage only if you want file attachments.
+Ruby >= 3.2 · Rails >= 7.1, < 9 · Active Storage only if you want file attachments.
 
 Installing with a coding agent? Point it at [AGENTS.md](AGENTS.md) — the same
 steps in the order an agent needs them, plus the gates it tends to get wrong and
@@ -228,10 +228,11 @@ bin/rails active_storage:install && bin/rails db:migrate
 ```
 
 Visitors get a paperclip in the composer; agents get a file field on the reply
-form. Images render inline, other files as download links. Every file is served
+form. Safe image formats render inline, other files as download links. Every file is served
 through the engine's own route and gated the same way the chat is — an agent,
 or the visitor who owns that conversation — so nothing leaks through a
-guessable or long-lived blob URL.
+guessable or long-lived blob URL. Responses are private and `no-store`; audio
+supports byte ranges for playback and seeking.
 
 Where Active Storage isn't installed, the widget quietly stays text-only.
 
@@ -243,6 +244,38 @@ config.storage_service = :livechat_uploads
 ```
 
 </details>
+
+## Privacy, retention, and deletion
+
+Livechat stores conversation identity and context, message bodies and
+attribution, read/status timestamps, and optional attachments in the host
+application. Captured page URLs are limited to HTTP(S) and stored without
+credentials, query strings, or fragments. The engine does not send data to a
+Livechat service, but configured notification emails and message hooks can send
+message content, visitor context, and attachment filenames wherever the host
+chooses.
+
+Every authorized agent can read every conversation in this one shared inbox.
+Visitors can read only the conversation resolved from their signed-in id or
+guest cookie. Livechat does not provide tenant-isolated agent inboxes in 1.x;
+do not use one mount for mutually isolated tenant support teams.
+
+No record is deleted automatically. Delete one conversation (including its
+messages), all conversations for a user, or resolved history past a host-chosen
+cutoff explicitly:
+
+```ruby
+Livechat::Conversation.find(id).destroy!
+Livechat::Conversation.where(visitor_id: user.id.to_s).find_each(&:destroy!)
+Livechat::Conversation.purge_resolved(older_than: 90.days.ago)
+```
+
+Use `destroy!`, not `delete_all`, when attachments must follow Rails' Active
+Storage lifecycle. Confirm object-storage jobs, replicas, backups, notification
+emails, hook destinations, logs, and exports separately: deleting live database
+rows cannot retract those copies. `allowed_attachment_types` is an upload
+allowlist, not malware scanning; choose a restrictive list and storage policy
+for your application. See [SECURITY.md](SECURITY.md) for the full boundary.
 
 <details>
 <summary><b>Realtime with Action Cable</b></summary>
@@ -293,6 +326,36 @@ Contextual buttons are where a Rails app beats a generic support widget:
 </button>
 ```
 
+## Compatibility and public API
+
+The following are the model and integration contracts that 1.x will keep
+stable under semantic versioning:
+
+- `Livechat::Conversation`, including `STATUSES`, `TYPING_TTL`, its persisted
+  fields, `messages`, `recent_first`, `for_visitor`, `claim!`, posting and
+  read/status methods, `display_name`, and `purge_resolved`.
+- `Livechat::Message`, including `AUTHOR_TYPES`, `EVENTS`, `MAX_BODY_LENGTH`,
+  its persisted fields, optional `files`, documented scopes, author/read
+  predicates, `public_label`, `attached_files`, and `preview`.
+- `Livechat.configure`, `mount_livechat`, `livechat_tag`, `livechat_button`,
+  `window.Livechat.open/close`, `data-livechat-open`, and
+  `data-livechat-message`.
+- `config.on_visitor_message` and `config.on_agent_message`, each called with
+  the saved `Livechat::Message` documented by the initializer.
+
+`Conversation` and `Message` are intentionally distinct and will not become a
+generic `Post` during 1.x. Engine controllers, partials, CSS classes, generated
+HTML, and widget implementation objects are private. Incompatible changes to
+the public list above wait for a new major version; a deprecation normally
+ships first.
+
+### Upgrading from 0.x
+
+There is no migration, initializer change, constant alias, or model rename.
+Stored page URLs become query-free on the next visitor message, attachment
+responses stay on the same engine URL but now stream privately instead of being
+buffered, and Rails 9 is excluded until a compatible release is tested.
+
 ## Use cases
 
 - SaaS apps: answer billing, onboarding and account questions from inside the app.
@@ -313,6 +376,7 @@ worth of exactly that.
 
 ```bash
 bundle exec rake test
+bundle exec rake test:system
 bundle exec rubocop
 ```
 

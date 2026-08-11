@@ -3,6 +3,11 @@
 require 'test_helper'
 
 class ConversationTest < ActiveSupport::TestCase
+  test 'the stable status vocabulary stays exact' do
+    assert_equal %w[open resolved], Livechat::Conversation::STATUSES
+    assert_equal 8.seconds, Livechat::Conversation::TYPING_TTL
+  end
+
   test 'requires some visitor identity' do
     conversation = Livechat::Conversation.new
     assert_not conversation.valid?
@@ -115,5 +120,27 @@ class ConversationTest < ActiveSupport::TestCase
 
     conversation.update!(visitor_label: 'Grace')
     assert_equal 'Grace', conversation.display_name
+  end
+
+  test 'purge_resolved removes only resolved conversations older than the cutoff' do
+    old_resolved = start_conversation(token: 'old-resolved')
+    old_resolved.post_visitor_message!('old')
+    old_resolved.resolve_by!('Ada')
+    old_resolved.update_columns(last_activity_at: 100.days.ago)
+
+    recent_resolved = start_conversation(token: 'recent-resolved')
+    recent_resolved.post_visitor_message!('recent')
+    recent_resolved.resolve_by!('Ada')
+    recent_resolved.update_columns(last_activity_at: 2.days.ago)
+
+    old_open = start_conversation(token: 'old-open')
+    old_open.post_visitor_message!('still open')
+    old_open.update_columns(last_activity_at: 100.days.ago)
+
+    assert_equal 1, Livechat::Conversation.purge_resolved(older_than: 30.days.ago)
+    assert_not Livechat::Conversation.exists?(old_resolved.id)
+    assert Livechat::Conversation.exists?(recent_resolved.id)
+    assert Livechat::Conversation.exists?(old_open.id)
+    assert_not Livechat::Message.where(conversation_id: old_resolved.id).exists?
   end
 end

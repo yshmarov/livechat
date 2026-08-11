@@ -4,6 +4,7 @@ AllCops:
   SuggestExtensions: false
   Exclude:
     - "test/dummy/**/*"
+    - "test/tmp/**/*"
     - "bin/**/*"
     - "vendor/**/*"
     - "tmp/**/*"

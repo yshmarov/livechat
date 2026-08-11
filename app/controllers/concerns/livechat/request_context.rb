@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 module Livechat
   # Who is asking — visitor or agent — and the gates that answer it.
   #
@@ -53,6 +55,24 @@ module Livechat
       message = I18n.t('livechat.error_rate_limited',
                        default: 'Too many messages. Please wait a moment and try again.')
       render json: { errors: [message] }, status: :too_many_requests
+    end
+
+    # The widget sends window.location.href so an agent knows where the visitor
+    # got stuck. Store only a normal HTTP(S) location, never credentials,
+    # fragments, or query parameters that can carry tokens and customer data.
+    def clean_page_url(value)
+      raw = value.to_s
+      return if raw.blank? || raw.length > 2_048
+
+      uri = URI.parse(raw)
+      return unless %w[http https].include?(uri.scheme&.downcase)
+      return if uri.host.blank? || uri.userinfo.present?
+
+      uri.query = nil
+      uri.fragment = nil
+      uri.to_s.first(255)
+    rescue URI::InvalidURIError
+      nil
     end
 
     # Guests get a permanent random token — their key to the conversation

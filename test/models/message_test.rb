@@ -7,6 +7,12 @@ class MessageTest < ActiveSupport::TestCase
     @conversation = start_conversation
   end
 
+  test 'the stable message vocabulary and limit stay exact' do
+    assert_equal %w[visitor agent system], Livechat::Message::AUTHOR_TYPES
+    assert_equal %w[resolved reopened], Livechat::Message::EVENTS
+    assert_equal 5_000, Livechat::Message::MAX_BODY_LENGTH
+  end
+
   test 'visitor and agent messages need a body; system messages need an event' do
     assert_not @conversation.messages.new(author_type: 'visitor').valid?
     assert_not @conversation.messages.new(author_type: 'system').valid?

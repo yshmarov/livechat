@@ -4,6 +4,7 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require_relative 'dummy/config/environment'
 require 'rails/test_help'
+require 'rack/test'
 
 ActiveRecord::Schema.verbose = false
 ActiveRecord::Schema.define do
@@ -68,6 +69,26 @@ ActiveRecord::Schema.define do
   add_index :active_storage_variant_records,
             %i[blob_id variation_digest],
             name: :index_active_storage_variant_records_uniqueness, unique: true
+end
+
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :headless_chrome, screen_size: [1200, 900]
+
+  # Browser requests run through the app server on a separate connection, so
+  # their writes cannot live inside the test process's wrapping transaction.
+  self.use_transactional_tests = false
+
+  setup { purge_livechat_data! }
+  teardown { purge_livechat_data! }
+
+  private
+
+  def purge_livechat_data!
+    ActiveStorage::Attachment.delete_all
+    ActiveStorage::Blob.delete_all
+    Livechat::Message.delete_all
+    Livechat::Conversation.delete_all
+  end
 end
 
 module ActiveSupport

@@ -166,17 +166,20 @@ Initializer template ships every option commented with Devise examples (existing
 - Locale files `config/locales/livechat.<locale>.yml`, launch with the same 26 languages; every string via `I18n.t(scope: :livechat, default: <English>)`; RTL flag in widget config; locale-parity test.
 - Message bodies: plain text, length-capped (~5,000 chars), always HTML-escaped. No markdown v1 (XSS surface).
 - Rate limiting on public endpoints; visitor endpoints scoped strictly by signed cookie token — no enumerable conversation ids (UUID/obfuscated public ids).
-- Data retention: `Livechat::Conversation.purge_resolved(older_than:)` documented for host cron; no automatic deletion.
-- No data leaves the host app, period — that's the product.
+- Data retention: `Livechat::Conversation.purge_resolved(older_than:)` for host cron; no automatic deletion.
+- No data leaves the host app unless the host explicitly wires notification
+  email or message hooks; those destinations are part of the host's privacy
+  boundary, not a Livechat service.
 
 ## 13. Engine structure, install, testing, release
 
 Clone the proven skeleton:
 
-- `isolate_namespace Livechat`; helper included via `ActiveSupport.on_load(:action_view)`; gemspec: runtime dep `rails >= 7.1` only, Ruby `>= 3.2`, MFA required, trusted-publishing release workflow on `v*` tags.
+- `isolate_namespace Livechat`; helper included via `ActiveSupport.on_load(:action_view)`; gemspec: runtime dep `rails >= 7.1, < 9` only, Ruby `>= 3.2`, MFA required, trusted-publishing release workflow on `v*` tags.
 - Install generator: initializer copy + `migration_template` × 2 + route `mount Livechat::Engine => "/livechat"` + post-install `say` (migrate → add `<%= livechat_tag %>` before `</body>` → visit `/livechat`).
 - Testing: **Minitest** + `test/dummy` app (with fixed-nonce CSP for asserting nonce'd scripts — i18n-feedback trick), schema loaded in `test_helper`, config reset in setup/teardown. Model tests (`ActiveSupport::TestCase`), integration tests for widget endpoints + inbox authorization (`ActionDispatch::IntegrationTest`), system tests via `ApplicationSystemTestCase` + Capybara headless Chrome covering the full loop (widget open → send → appears in inbox → reply → appears in widget via poll). Run with `bin/rails test` / `rake test`. No RSpec.
-- CI matrix Ruby 3.2–3.4 × Rails 7.1–8.1 via `gemfiles/`; RuboCop; Keep-a-Changelog CHANGELOG; commit convention `<summary> (vX.Y.Z)`.
+- CI matrix Ruby 3.2–4.0 × Rails 7.1–8.1 via `gemfiles/`; hosted Chrome system
+  test; RuboCop and JavaScript syntax checks; Keep-a-Changelog CHANGELOG.
 
 ## 14. Milestones
 

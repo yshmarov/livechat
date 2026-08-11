@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module Livechat
-  # Included into the host's ActionView. Drop `<%= livechat_tag %>` before
-  # </body> in your layout; it renders nothing unless chat is enabled for the
-  # request. The widget shows a floating launcher (unless show_launcher is
-  # off) and also opens from any element carrying `data-livechat-open`, or
-  # from `window.Livechat.open()`.
+  # Included into the host's ActionView. Kept under lib and required before the
+  # engine registers its Action View load hook: a host initializer may load
+  # Action View before Rails sets up application autoloaders, when a helper
+  # living only under app/helpers is not yet a resolvable constant.
   module WidgetHelper
     def livechat_tag
       return unless Livechat.enabled?(request)
@@ -29,7 +28,7 @@ module Livechat
       data = (options.delete(:data) { {} } || {}).merge(livechat_open: '')
       data[:livechat_message] = message if message.present?
 
-      tag.button(label, type: 'button', data: data, **options)
+      tag.button(label, type: 'button', data:, **options)
     end
 
     private

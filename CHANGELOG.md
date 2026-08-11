@@ -1,5 +1,40 @@
 # Changelog
 
+## 1.0.0 - 2026-08-11
+
+- **The 1.x record names are settled.** `Livechat::Conversation` and
+  `Livechat::Message` are now documented as stable model constants rather than
+  being collapsed into a generic `Post`; the distinction preserves the thread
+  aggregate and the messages it owns.
+- **A real Chrome test now proves the core support loop:** a visitor opens the
+  widget and sends a message, an agent reads and answers it in the inbox, and
+  the same visitor sees the reply back in the widget. Capybara and Selenium are
+  development/test dependencies only.
+- **Attachments stay behind the conversation gate.** Full and byte-range data
+  now streams directly with a private, `no-store` cache policy after the
+  request is authorized. The URL is unchanged; audio playback gains seeking,
+  and no reusable Active Storage service URL leaves the engine.
+- Added `Livechat::Conversation.purge_resolved(older_than:)` for explicit host
+  retention jobs. It destroys only resolved conversations older than the
+  supplied cutoff, cascades through messages and the configured Active Storage
+  lifecycle, and returns the number destroyed. Nothing is deleted
+  automatically.
+- Added a security policy documenting stored visitor/message data, the shared
+  agent-inbox boundary, attachment risks, notifications, deletion, retention,
+  and private vulnerability reporting. Submitted page URLs now accept only
+  HTTP(S) and drop credentials, query strings, and fragments before storage,
+  keeping tokens out of the database and notification emails.
+- Hosts that load Action View from an initializer boot normally. The widget
+  helper is loaded from `lib` before the engine registers its Action View hook;
+  `livechat_tag` and `livechat_button` are unchanged.
+- Supported combinations are Ruby 3.2 through 4.0 and Rails 7.1 through 8.1;
+  Rails now has a `< 9` upper bound. Release validation runs the browser test,
+  lint and JavaScript checks, builds the gem, verifies RubyGems indexing, and
+  creates the GitHub Release.
+- Existing 0.x installs need no migration, initializer change, constant alias,
+  or model rename. The new Rails upper bound, query-free stored page URLs, and
+  direct attachment streaming behavior are the compatibility costs.
+
 ## 0.10.1
 
 - **The demo inbox is now a live setup walkthrough.** The open conversation

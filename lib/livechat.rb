@@ -3,6 +3,8 @@
 require 'livechat/version'
 require 'livechat/configuration'
 require 'livechat/widget'
+require 'livechat/widget_helper'
+require 'livechat/attachment_policy'
 require 'livechat/notifications'
 require 'livechat/seeds'
 require 'livechat/engine'

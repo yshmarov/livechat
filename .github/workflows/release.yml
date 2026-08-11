@@ -6,7 +6,11 @@
 #   repository: yshmarov/livechat, workflow: release.yml
 #
 # Release flow after that:
-#   git tag v0.x.y && git push origin v0.x.y
+#   git tag vX.Y.Z && git push origin vX.Y.Z
+#
+# We configure the OIDC credentials and then build + push directly, rather than
+# using rubygems/release-gem (which can publish successfully and then fail while
+# running the surrounding release task).
 name: Release
 
 on:
@@ -19,22 +23,31 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment: release
     permissions:
       contents: write
       id-token: write
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.4"
+          ruby-version: "4.0"
           bundler-cache: true
-      - name: Run tests before publishing
-        run: bundle exec rake test
       - name: Verify tag matches gem version
         run: |
           version="$(ruby -Ilib -r livechat/version -e 'print Livechat::VERSION')"
           test "$GITHUB_REF_NAME" = "v$version"
+      - name: Validate release
+        run: |
+          bundle exec rake test
+          bundle exec rake test:system
+          bundle exec rubocop
+          node --check lib/livechat/dashboard.js
+          node --check lib/livechat/widget.js
+          gem build livechat.gemspec
       - name: Check whether this version is already published
         id: release
         env:
@@ -58,5 +71,35 @@ jobs:
       - name: Build and push the gem
         if: steps.release.outputs.needed == 'true'
         run: |
-          gem build livechat.gemspec
           gem push livechat-*.gem
+      - name: Verify the published version
+        env:
+          GEM_NAME: livechat
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          for attempt in 1 2 3 4 5 6
+          do
+            if ruby -rjson -rnet/http -ruri -e '
+              name, version = ARGV
+              uri = URI("https://rubygems.org/api/v1/versions/#{name}.json")
+              versions = JSON.parse(Net::HTTP.get(uri))
+              exit(versions.any? { |item| item.fetch("number") == version } ? 0 : 1)
+            ' "$GEM_NAME" "$version"
+            then
+              exit 0
+            fi
+            echo "RubyGems has not indexed $GEM_NAME $version yet (attempt $attempt/6)."
+            sleep 5
+          done
+          exit 1
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1
+          then
+            echo "$GITHUB_REF_NAME already has a GitHub release."
+          else
+            gh release create "$GITHUB_REF_NAME" --verify-tag --generate-notes \
+              --title "livechat $GITHUB_REF_NAME"
+          fi

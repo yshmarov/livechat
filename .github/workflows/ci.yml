@@ -5,14 +5,19 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test (Ruby ${{ matrix.ruby }} / Rails ${{ matrix.rails }})
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.2", "3.3", "3.4"]
+        ruby: ["3.2", "3.3", "3.4", "4.0"]
         rails: ["7.1", "7.2", "8.0", "8.1"]
     env:
       BUNDLE_GEMFILE: gemfiles/rails_${{ matrix.rails }}.gemfile
@@ -25,14 +30,33 @@ jobs:
       - name: Run tests
         run: bundle exec rake test
 
-  lint:
-    name: RuboCop
+  system:
+    name: Browser tests (visitor to agent reply loop)
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.4"
+          ruby-version: "4.0"
+          bundler-cache: true
+      # ubuntu-latest ships google-chrome-stable; Selenium Manager pairs the driver.
+      - name: Run system tests
+        run: bundle exec rake test:system
+
+  lint:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
           bundler-cache: true
       - name: Run RuboCop
         run: bundle exec rubocop
+      - name: Check dashboard syntax
+        run: node --check lib/livechat/dashboard.js
+      - name: Check widget syntax
+        run: node --check lib/livechat/widget.js
