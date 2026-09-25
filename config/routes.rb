@@ -2,6 +2,7 @@
 
 Livechat::Engine.routes.draw do
   get 'widget.js', to: 'widgets#show', as: :widget
+  get 'embed.js', to: 'widgets#embed', as: :embed
   get 'dashboard.js', to: 'widgets#dashboard', as: :dashboard_script
   get 'dashboard.css', to: 'widgets#dashboard_stylesheet', as: :dashboard_stylesheet
 

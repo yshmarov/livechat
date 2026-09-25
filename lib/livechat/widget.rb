@@ -58,29 +58,54 @@ module Livechat
       # nonce gets refused; a same-origin src is covered by `'self'` on every
       # visit. `nonce:` is still stamped for hosts whose script-src has no
       # 'self'; pass nil when the app has no nonce.
-      def snippet(locale:, authenticated:, avatar_url: nil, nonce: nil)
-        json = config_json(locale:, authenticated:, avatar_url:)
+      def snippet(locale:, authenticated:, settings: nil, nonce: nil)
+        json = config_json(locale:, authenticated:, settings:)
         nonce_attr = nonce ? %( nonce="#{nonce}") : ''
-        src = "#{Livechat.config.mount_path.chomp('/')}/widget.js?v=#{fingerprint}"
 
         %(<script type="application/json" data-livechat-config>#{json}</script>) +
-          %(<script src="#{src}" defer#{nonce_attr} data-livechat-widget></script>)
+          %(<script src="#{script_src}" defer#{nonce_attr} data-livechat-widget></script>)
       end
 
-      def config_json(locale:, authenticated:, avatar_url: nil)
+      # The same two tags, assembled by the browser instead of by a Rails
+      # template. A page this app does not render — a static marketing site
+      # proxying the mount path through to Rails — gets the widget from one
+      # plain <script src>, and never reproduces the config block itself.
+      def embed_javascript(locale:, authenticated:, settings: nil)
+        <<~JS
+          /* livechat embed */
+          (function () {
+            if (window.__livechatEmbedded) return;
+            window.__livechatEmbedded = true;
+
+            var config = document.createElement("script");
+            config.type = "application/json";
+            config.setAttribute("data-livechat-config", "");
+            config.textContent = JSON.stringify(#{config_json(locale:, authenticated:, settings:)});
+            document.head.appendChild(config);
+
+            var widget = document.createElement("script");
+            widget.src = #{script_src.to_json};
+            widget.setAttribute("data-livechat-widget", "");
+            document.head.appendChild(widget);
+          })();
+        JS
+      end
+
+      def config_json(locale:, authenticated:, settings: nil)
         config = Livechat.config
+        settings ||= Livechat.settings_for(nil)
         payload = {
           endpoint: config.widget_endpoint,
           locale: locale.to_s,
           rtl: rtl?(locale),
           authenticated: authenticated ? true : false,
-          launcher: config.show_launcher ? true : false,
+          launcher: settings[:show_launcher] ? true : false,
           appName: Livechat.app_name,
-          avatarUrl: avatar_url,
-          accentColor: config.accent_color,
+          avatarUrl: settings[:avatar_url],
+          accentColor: settings[:accent_color],
           attachments: Livechat.attachments_enabled?,
           maxAttachments: config.max_attachments,
-          labels: labels
+          labels: labels(settings)
         }
         # Escape "</" so a value can't close the <script> block early.
         payload.to_json.gsub('</', '<\/')
@@ -88,16 +113,19 @@ module Livechat
 
       private
 
+      def script_src
+        "#{Livechat.config.mount_path.chomp('/')}/widget.js?v=#{fingerprint}"
+      end
+
       # Every user-facing string in the widget, resolved through Rails I18n so
       # the chat follows the app's current locale. Each lookup carries an
       # English default, so the widget stays fully worded even when a key is
       # missing for the active locale.
-      def labels
-        config = Livechat.config
+      def labels(settings)
         {
-          launcher: config.launcher_label.presence || t(:launcher, 'Chat with us'),
-          greeting: config.greeting.presence || t(:greeting, 'Hi! How can we help?'),
-          replyTime: config.reply_time_text.presence ||
+          launcher: settings[:launcher_label].presence || t(:launcher, 'Chat with us'),
+          greeting: settings[:greeting].presence || t(:greeting, 'Hi! How can we help?'),
+          replyTime: settings[:reply_time_text].presence ||
             t(:reply_time, 'We usually reply within a few hours.'),
           placeholder: t(:placeholder, 'Write a message…'),
           send: t(:send, 'Send'),

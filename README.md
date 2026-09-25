@@ -136,6 +136,7 @@ Everything is optional — a fresh install works with zero config. In
 | `avatar_url` | `nil` | Customer-facing avatar in the widget header; URL or per-request callable |
 | `accent_color` | `nil` | One hex restyles launcher, header, bubbles, send button |
 | `show_launcher` | `true` | `false` hides the bubble — bring your own entry point |
+| `allowed_embed_origins` | `[]` | Origins allowed to embed the widget on a page this app doesn't render |
 | `visitor_label` | name, else email | How a visitor is labelled in the inbox |
 | `agent_label` | name, else email | How an agent is labelled internally |
 | `agent_display_name` | the full label | What **visitors** see — trim it or anonymise it |
@@ -167,7 +168,9 @@ Livechat.configure do |config|
 end
 ```
 
-`avatar_url` can also choose branding from the current request:
+`avatar_url`, `greeting`, `reply_time_text`, `launcher_label`, `show_launcher`
+and `accent_color` each take a callable receiving the request, so one app can
+brand or word the widget per tenant — or per surface:
 
 ```ruby
 config.avatar_url = ->(request) { request.env["current_account"]&.support_avatar_url }
@@ -244,6 +247,54 @@ config.storage_service = :livechat_uploads
 ```
 
 </details>
+
+## On a site this app doesn't render
+
+Marketing sites are usually static and live on their own host, which is exactly
+where people ask presales questions. The widget can go there too, with one tag:
+
+```html
+<script src="/livechat/embed.js" defer></script>
+```
+
+`embed.js` carries the config block the layout helper would have rendered and
+pulls in the widget, so the static page never reproduces engine markup that a
+future release might change. Add `?locale=de` for a translated site.
+
+Two things have to be true.
+
+**The mount path must be same-origin with that site.** The widget sends
+`credentials: "same-origin"`, so a cross-origin script tag would load and then
+quietly fail to carry the visitor's cookie. Proxy `/livechat/*` from the static
+site through to Rails — one rule on a CDN, one `location` block in nginx — and
+the browser sees a single origin.
+
+**The embedding origin must be allowlisted**, because a static page cannot mint
+a CSRF token:
+
+```ruby
+config.allowed_embed_origins = ["https://example.com"]
+```
+
+A request from a listed origin skips forgery protection. What makes that safe is
+that `Origin` is set by the browser and cannot be forged by page script, so
+listing an origin grants nothing to any other site; the exemption covers only
+the widget's visitor endpoints and never the inbox; and a request with no
+`Origin` header at all is never treated as embedded, so a non-browser client
+gains nothing.
+
+Marketing visitors usually want a different greeting from signed-in users, and
+the same app serves both:
+
+```ruby
+config.greeting = lambda do |request|
+  if request.origin == "https://example.com"
+    "Questions before you buy? Ask away."
+  else
+    "Hi! How can we help?"
+  end
+end
+```
 
 ## Privacy, retention, and deletion
 
@@ -340,6 +391,9 @@ stable under semantic versioning:
 - `Livechat.configure`, `mount_livechat`, `livechat_tag`, `livechat_button`,
   `window.Livechat.open/close`, `data-livechat-open`, and
   `data-livechat-message`.
+- The `embed.js` endpoint under the mount path, including its `locale`
+  parameter. The markup it writes is private — embed the endpoint, not a copy
+  of its output.
 - `config.on_visitor_message` and `config.on_agent_message`, each called with
   the saved `Livechat::Message` documented by the initializer.
 

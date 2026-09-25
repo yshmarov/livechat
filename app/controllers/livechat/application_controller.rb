@@ -13,5 +13,14 @@ module Livechat
     include RequestContext
 
     protect_from_forgery with: :exception
+
+    private
+
+    # A page on an allowlisted embed origin is static and has no Rails session
+    # to mint a token from, so the Origin header stands in for one. Only this
+    # controller's descendants are affected — the inbox verifies as usual.
+    def verified_request?
+      Livechat.embedded?(request) || super
+    end
   end
 end

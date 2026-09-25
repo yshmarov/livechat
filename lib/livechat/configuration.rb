@@ -61,6 +61,9 @@ module Livechat
 
     # Widget copy. nil uses the localized defaults. reply_time_text is the
     # honest line under the greeting — "We usually reply within a few hours."
+    # A String, or a callable receiving the request: one app serving both an
+    # in-app widget and an embedded one on a marketing site needs to greet
+    # those visitors differently.
     attr_accessor :greeting, :reply_time_text, :launcher_label
 
     # Optional customer-facing avatar shown in the widget header. Use a URL
@@ -70,12 +73,28 @@ module Livechat
 
     # Brand color for the widget (launcher, header, visitor bubbles, send
     # button) as a hex value, e.g. "#7c3aed". The widget picks black or white
-    # text automatically for contrast. nil keeps the built-in blue.
+    # text automatically for contrast. nil keeps the built-in blue. A callable
+    # receiving the request works too.
     attr_accessor :accent_color
 
     # The floating launcher bubble. Set false to open the widget only from
-    # your own elements carrying `data-livechat-open`.
+    # your own elements carrying `data-livechat-open`. Also accepts a callable
+    # receiving the request, for a host that wants the bubble on one surface
+    # and its own opener on another.
     attr_accessor :show_launcher
+
+    # Origins allowed to embed the widget on pages this app does not render —
+    # a static marketing site that proxies `mount_path` through to this app,
+    # say. An Array of origins ("https://example.com"), or a callable
+    # receiving the request and returning one.
+    #
+    # Such a page cannot carry a Rails CSRF token, so a matching request is
+    # exempted from forgery protection. That exemption rests on the Origin
+    # header, which the browser sets and script cannot forge, and applies only
+    # to the widget's own visitor endpoints — never to the inbox. A request
+    # arriving without an Origin at all (curl, a server-side client) is never
+    # embedded and keeps the full check.
+    attr_accessor :allowed_embed_origins
 
     # Email addresses to notify when a visitor writes and nobody has read it —
     # an array, or a callable returning one. nil disables the built-in email.
@@ -140,6 +159,7 @@ module Livechat
       @avatar_url = nil
       @accent_color = nil
       @show_launcher = true
+      @allowed_embed_origins = []
       @agent_emails = nil
       @mailer_from = nil
       @on_visitor_message = ->(_message) {}

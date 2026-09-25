@@ -119,9 +119,24 @@ For an account-erasure request, destroy that user's conversations with
 email notifications and hook destinations separately. The content-type
 allowlist is not malware scanning.
 
+### Embedding on a static site
+
+A marketing site that proxies the mount path through to Rails gets the widget from one tag:
+
+```html
+<script src="/livechat/embed.js" defer></script>
+```
+
+Add `?locale=de` for a translated page. Two requirements, and both are load-bearing:
+
+1. **Same origin.** The widget sends `credentials: "same-origin"`, so a cross-origin `<script src>` loads and then silently fails to carry the visitor cookie. Proxy `/livechat/*` from the static site to Rails; do not point the tag at another host.
+2. **`config.allowed_embed_origins = ["https://example.com"]`.** A static page cannot mint a CSRF token, so a request from a listed origin is exempted. Safe because `Origin` is browser-set and unforgeable by page script, it covers only the visitor endpoints, and a request with no `Origin` is never treated as embedded.
+
+Give that surface its own wording with a callable — `config.greeting = ->(request) { ... }` keyed on `request.origin`.
+
 ### Do not
 
-- **Do not copy the widget JavaScript into `app/javascript`, or add a `<script>` tag for it.** `livechat_tag` renders what is needed, and the engine serves the code with a content fingerprint. There is no build step and nothing for esbuild/importmap/Tailwind to know about.
+- **Do not copy the widget JavaScript into `app/javascript`, or add a `<script>` tag for it.** `livechat_tag` renders what is needed (on a page Rails does not render, use `embed.js` above — still not a copy), and the engine serves the code with a content fingerprint. There is no build step and nothing for esbuild/importmap/Tailwind to know about.
 - **Do not rebuild the inbox, and do not edit views inside the gem.** To put it inside an admin you already have, set `config.base_controller_class = "Admin::BaseController"` — it inherits that controller's layout, helpers, authentication and request context. For the shell alone, `config.agent_layout = "admin/application"`. Both work with nothing else wired up: the inbox's own assets are declared by its views, not the layout.
 - **Do not add an Action Cable mount to "make chat realtime"** unless you also set `config.action_cable = true`. Polling is the default and is not broken.
 - **Do not set config outside the initializer.** `rate_limit` in particular is read when the controller class loads; assigning config per-request mutates it process-wide.
@@ -139,9 +154,10 @@ Everything is optional; a fresh install works with zero config. Full list with c
 | `current_user` | `nil` | Receives the request; nil means guest-by-cookie |
 | `visitor_label`, `agent_label` | name/email/to_s | Receive the user |
 | `agent_display_name` | the label unchanged | Receives the label; return "Support team" to keep agents anonymous |
-| `app_name`, `greeting`, `reply_time_text`, `launcher_label` | localized defaults | Widget copy |
-| `avatar_url`, `accent_color` | `nil` | Header avatar (URL or callable) and brand hex |
-| `show_launcher` | `true` | `false` = open only from your own elements |
+| `app_name`, `greeting`, `reply_time_text`, `launcher_label` | localized defaults | Widget copy. All but `app_name` also take a callable receiving the request |
+| `avatar_url`, `accent_color` | `nil` | Header avatar (URL or callable) and brand hex (also callable) |
+| `show_launcher` | `true` | `false` = open only from your own elements. Also takes a callable |
+| `allowed_embed_origins` | `[]` | Origins that may embed the widget on a page this app does not render |
 | `mailer_from` | `nil` | **Required for any email at all** |
 | `agent_emails` | `nil` | Array or callable |
 | `attach_files` | `true` | Needs Active Storage; inert without it |
@@ -167,6 +183,8 @@ Turbo Drive and strict nonce-based CSP work out of the box. 26 locales ship with
 | Messages only appear on refresh | Expected: polling is the default. `config.action_cable = true` (with `/cable` mounted) for push |
 | No attachment button | Active Storage not installed, or `attach_files = false` |
 | `undefined local variable current_user` in the initializer | A gate lambda treated its argument as a controller. It is a `request` |
+| Widget loads on a static site but every message 422s | The embedding origin is not in `allowed_embed_origins`. A static page has no CSRF token |
+| Widget on a static site never finds its thread | It is pointed at another origin. The widget sends `credentials: "same-origin"` — proxy the mount path instead of linking across hosts |
 
 ---
 

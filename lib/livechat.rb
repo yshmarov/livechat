@@ -30,6 +30,37 @@ module Livechat
       !!config.enabled.call(request)
     end
 
+    # Resolve a setting that may be a plain value or a per-request callable.
+    def resolve(value, request)
+      value.respond_to?(:call) ? value.call(request) : value
+    end
+
+    # The per-request widget settings a host may vary by surface. Resolved by
+    # the helper and by the embed script, so both routes see the same values.
+    def settings_for(request)
+      {
+        greeting: resolve(config.greeting, request),
+        reply_time_text: resolve(config.reply_time_text, request),
+        launcher_label: resolve(config.launcher_label, request),
+        show_launcher: resolve(config.show_launcher, request),
+        accent_color: resolve(config.accent_color, request),
+        avatar_url: resolve(config.avatar_url, request).to_s.presence
+      }
+    end
+
+    # Is this request coming from a page on an allowlisted external origin?
+    #
+    # Only ever true for a request the browser stamped with a matching Origin.
+    # A missing Origin is not a match: a non-browser client must not inherit a
+    # browser-guaranteed exemption.
+    def embedded?(request)
+      origin = request.origin.presence
+      return false unless origin
+
+      allowed = resolve(config.allowed_embed_origins, request)
+      Array(allowed).any? { |candidate| candidate.to_s.chomp('/') == origin.chomp('/') }
+    end
+
     # Can this request work the inbox? Checked by every inbox action.
     # The class Livechat::DashboardController inherits from. Resolved on every
     # call rather than memoized, so a host that reassigns base_controller_class

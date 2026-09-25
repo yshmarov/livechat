@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.1.0 - 2026-09-25
+
+- **The widget can now live on a site this app does not render.** A static
+  marketing site that proxies the mount path through to Rails loads the whole
+  widget from one tag — `<script src="/livechat/embed.js" defer>` — and never
+  reproduces the config block itself. `?locale=` picks the copy. The response is
+  never cached; the widget code it pulls in stays immutably cached as before.
+- Added `config.allowed_embed_origins`. A page served from a listed origin
+  cannot carry a Rails CSRF token, so a matching request is exempted from
+  forgery protection. The exemption rests on the `Origin` header, which the
+  browser sets and page script cannot forge; it covers only the widget's own
+  visitor endpoints, never the inbox; and a request that sends no `Origin` at
+  all — curl, a server-side client — is never treated as embedded.
+- `greeting`, `reply_time_text`, `launcher_label`, `show_launcher` and
+  `accent_color` each accept a callable receiving the request, the way
+  `avatar_url` already did. One app serving both an in-app widget and an
+  embedded one can greet each surface differently, and show the bubble on one
+  but not the other.
+
 ## 1.0.0 - 2026-08-11
 
 - **The 1.x record names are settled.** `Livechat::Conversation` and

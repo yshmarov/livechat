@@ -20,6 +20,27 @@ module Livechat
       serve(Widget.javascript, Widget.fingerprint)
     end
 
+    # Bootstraps the widget on a page this app does not render. Carries the
+    # config the layout helper would have rendered, so an external page needs
+    # one <script src> and nothing that has to keep up with this engine.
+    #
+    # Never cached: it reflects the current visitor and whatever copy the host
+    # resolves per request. The heavy widget.js it pulls in stays immutable.
+    def embed
+      body = if Livechat.enabled?(request)
+               I18n.with_locale(embed_locale) do
+                 Widget.embed_javascript(locale: I18n.locale,
+                                         authenticated: current_visitor.present?,
+                                         settings: Livechat.settings_for(request))
+               end
+             else
+               ''
+             end
+
+      response.headers['Cache-Control'] = 'no-store'
+      render plain: body, content_type: 'text/javascript'
+    end
+
     def dashboard
       serve(Widget.dashboard_javascript, Widget.dashboard_fingerprint, 'text/javascript')
     end
@@ -29,6 +50,14 @@ module Livechat
     end
 
     private
+
+    # An embedding site carries its own language; it asks for the matching
+    # copy with ?locale=. Anything the host does not actually have falls back
+    # rather than raising.
+    def embed_locale
+      requested = params[:locale].to_s
+      I18n.available_locales.map(&:to_s).include?(requested) ? requested : I18n.locale
+    end
 
     def serve(source, fingerprint, content_type = 'text/javascript')
       expires_in 1.year, public: true if params[:v] == fingerprint
