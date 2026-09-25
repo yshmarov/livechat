@@ -276,6 +276,18 @@ a CSRF token:
 config.allowed_embed_origins = ["https://example.com"]
 ```
 
+`Livechat.public_paths` lists the endpoints that need no Rails session — the
+widget script, the embed bootstrap, the visitor API and attachments. If your app
+touches the session on every request (a CSP nonce generator usually does), skip
+them there, or every visitor who merely loads a page leaves with a cookie:
+
+```ruby
+config.content_security_policy_nonce_generator = lambda do |request|
+  next if Livechat.public_paths.any? { |path| request.path.start_with?(path) }
+  request.session[:csp_nonce] ||= SecureRandom.hex(16)
+end
+```
+
 A request from a listed origin skips forgery protection. What makes that safe is
 that `Origin` is set by the browser and cannot be forged by page script, so
 listing an origin grants nothing to any other site; the exemption covers only

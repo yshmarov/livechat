@@ -30,6 +30,18 @@ module Livechat
       !!config.enabled.call(request)
     end
 
+    # The engine's public surface: the widget script, the embed bootstrap, the
+    # visitor API and the attachment route. All of them answer with JavaScript,
+    # JSON or a file, and none of them need a Rails session.
+    #
+    # Exposed because a host usually has session, CSP or caching rules written
+    # for its own HTML pages, and applying those here costs every visitor a
+    # cookie for a request that never had a use for one.
+    def public_paths
+      mount = config.mount_path.chomp('/')
+      ["#{mount}/widget.js", "#{mount}/embed.js", "#{mount}/widget/", "#{mount}/attachments/"]
+    end
+
     # Resolve a setting that may be a plain value or a per-request callable.
     def resolve(value, request)
       value.respond_to?(:call) ? value.call(request) : value

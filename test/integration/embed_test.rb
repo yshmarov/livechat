@@ -110,6 +110,14 @@ class EmbedTest < ActionDispatch::IntegrationTest
     assert Livechat.embedded?(request_from(EMBED_ORIGIN))
   end
 
+  test 'the public paths are the ones that need no session' do
+    assert_equal ['/livechat/widget.js', '/livechat/embed.js', '/livechat/widget/', '/livechat/attachments/'],
+                 Livechat.public_paths
+
+    Livechat.config.mount_path = '/support/'
+    assert_includes Livechat.public_paths, '/support/embed.js'
+  end
+
   private
 
   def json_headers(origin:)

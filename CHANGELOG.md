@@ -13,6 +13,10 @@
   browser sets and page script cannot forge; it covers only the widget's own
   visitor endpoints, never the inbox; and a request that sends no `Origin` at
   all — curl, a server-side client — is never treated as embedded.
+- Added `Livechat.public_paths`: the endpoints that answer with JavaScript, JSON
+  or a file and need no Rails session. Hosts that mint a CSP nonce (or anything
+  else) from the session per request can skip these, rather than handing a
+  cookie to every visitor who only ever loaded the page.
 - `greeting`, `reply_time_text`, `launcher_label`, `show_launcher` and
   `accent_color` each accept a callable receiving the request, the way
   `avatar_url` already did. One app serving both an in-app widget and an
