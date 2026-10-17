@@ -13,18 +13,19 @@
       </p>
     </div>
     <%# The shared status switch: the state it is in is lit and inert, the other
-        one submits to its own route via `formaction`. One form, no JS, and
-        clicking the lit half cannot log a reopen of an already-open chat. %>
-    <%= form_with url: resolve_conversation_path(conversation), method: :post, class: 'status-switch' do %>
+        one submits to its own route. The form action must match that route
+        so Rails binds its per-form CSRF token to the actual submission. %>
+    <% status_path = conversation.open? ? resolve_conversation_path(conversation) : reopen_conversation_path(conversation) %>
+    <%= form_with url: status_path, method: :post, local: true, class: 'status-switch' do %>
       <% if conversation.open? %>
         <button type="button" class="status-open current" aria-current="true">
           <%= t('livechat.statuses.open', default: 'Open') %>
         </button>
-        <button formaction="<%= resolve_conversation_path(conversation) %>" class="status-resolved">
+        <button type="submit" class="status-resolved">
           <%= t('livechat.statuses.resolved', default: 'Resolved') %>
         </button>
       <% else %>
-        <button formaction="<%= reopen_conversation_path(conversation) %>" class="status-open">
+        <button type="submit" class="status-open">
           <%= t('livechat.statuses.open', default: 'Open') %>
         </button>
         <button type="button" class="status-resolved current" aria-current="true">
@@ -70,7 +71,7 @@
     <%# One bordered composer box (matches the visitor widget): the reply on top,
         a toolbar row below with tools on the left and send on the right. %>
     <%= form_with url: conversation_messages_path(conversation), method: :post,
-                  multipart: true, class: 'reply',
+                  multipart: true, local: true, class: 'reply',
                   data: {
                     record_audio: t('livechat.dashboard.record_audio', default: 'Record audio'),
                     stop_recording: t('livechat.dashboard.stop_recording', default: 'Stop recording'),

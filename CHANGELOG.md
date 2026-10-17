@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.1 - 2026-10-18
+
+- Bind the inbox status form's CSRF token to the actual resolve or reopen
+  destination. Status changes and replies use local forms so older host apps
+  do not require Rails UJS to supply their tokens; CSRF checks stay enabled.
+- Return focus to the agent composer after a reply, including Ctrl/Cmd+Enter
+  in the split-pane inbox. One form-destination marker is kept in per-tab
+  session storage for the next navigation; message bodies are not stored.
+  Ordinary inbox visits keep their existing focus behavior.
+
 ## 1.2.0 - 2026-10-18
 
 - Add Rails edge CI and experimental Ruby 4.0+ Ractor request support. The host
