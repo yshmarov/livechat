@@ -12,7 +12,7 @@ id:
     email_placeholder: "anda@contoh.com"
     email_save: "Simpan"
     email_saved: "Kami juga akan membalas melalui email."
-    event_resolved: "Percakapan selesai"
+    event_resolved: "Selesai untuk saat ini. Kirim pesan lagi kapan pun Anda membutuhkan bantuan."
     event_reopened: "Percakapan dibuka kembali"
     error_send: "Tidak dapat mengirim. Silakan coba lagi."
     error_rate_limited: "Terlalu banyak pesan. Mohon tunggu sebentar dan coba lagi."

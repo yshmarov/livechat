@@ -12,7 +12,7 @@
     email_placeholder: "you@example.com"
     email_save: "保存"
     email_saved: "我们也会通过邮件回复您。"
-    event_resolved: "对话已解决"
+    event_resolved: "问题暂时已解决。需要帮助时，随时再发消息。"
     event_reopened: "对话已重新打开"
     error_send: "发送失败，请重试。"
     error_rate_limited: "消息过多，请稍等片刻再重试。"

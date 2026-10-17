@@ -12,7 +12,7 @@ tr:
     email_placeholder: "siz@ornek.com"
     email_save: "Kaydet"
     email_saved: "Ayrıca e-postayla da yanıtlayacağız."
-    event_resolved: "Görüşme çözüldü"
+    event_resolved: "Şimdilik çözüldü. Yardıma ihtiyacınız olduğunda tekrar mesaj gönderin."
     event_reopened: "Görüşme yeniden açıldı"
     error_send: "Gönderilemedi. Lütfen tekrar deneyin."
     error_rate_limited: "Çok fazla mesaj. Lütfen biraz bekleyip tekrar deneyin."

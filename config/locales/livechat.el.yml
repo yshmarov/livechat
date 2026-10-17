@@ -12,7 +12,7 @@ el:
     email_placeholder: "you@example.com"
     email_save: "Αποθήκευση"
     email_saved: "Θα απαντήσουμε επίσης μέσω email."
-    event_resolved: "Η συνομιλία επιλύθηκε"
+    event_resolved: "Το θέμα λύθηκε προς το παρόν. Στείλτε νέο μήνυμα όποτε χρειαστείτε βοήθεια."
     event_reopened: "Η συνομιλία άνοιξε ξανά"
     error_send: "Δεν ήταν δυνατή η αποστολή. Δοκιμάστε ξανά."
     error_rate_limited: "Πάρα πολλά μηνύματα. Περιμένετε λίγο και δοκιμάστε ξανά."

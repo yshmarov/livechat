@@ -34,5 +34,24 @@ class WidgetSystemTest < ApplicationSystemTestCase
     within '#lvc-panel' do
       assert_selector '.lvc-msg.lvc-agent', text: 'We found it and fixed the account.'
     end
+
+    visit "/livechat?conversation_id=#{conversation.id}"
+    within('.status-switch') { click_button 'Resolved' }
+    assert_selector '.status-resolved.current'
+
+    visit '/sample'
+    assert_selector '#lvc-panel', visible: true
+    within '#lvc-panel' do
+      assert_selector '.lvc-system', text: 'Resolved for now. Send another message whenever you need help.'
+      fill_in 'Write a message…', with: 'Another question: can I change my email?'
+      click_button 'Send'
+      assert_selector '.lvc-msg.lvc-visitor', text: 'Another question: can I change my email?'
+      assert_selector '.lvc-msg.lvc-agent', text: 'We found it and fixed the account.'
+    end
+
+    assert conversation.reload.open?
+    assert_equal conversation.id, Livechat::Conversation.last.id
+    assert_equal 1, Livechat::Conversation.count
+    assert_equal 'Another question: can I change my email?', conversation.messages.last.body
   end
 end

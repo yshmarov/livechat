@@ -12,7 +12,7 @@ it:
     email_placeholder: "tu@esempio.com"
     email_save: "Salva"
     email_saved: "Ti risponderemo anche via e-mail."
-    event_resolved: "Conversazione risolta"
+    event_resolved: "Risolto per il momento. Invia un altro messaggio quando hai bisogno di aiuto."
     event_reopened: "Conversazione riaperta"
     error_send: "Invio non riuscito. Riprova."
     error_rate_limited: "Troppi messaggi. Attendi un momento e riprova."

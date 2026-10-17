@@ -12,7 +12,7 @@ nl:
     email_placeholder: "jij@voorbeeld.nl"
     email_save: "Opslaan"
     email_saved: "We antwoorden ook per e-mail."
-    event_resolved: "Gesprek opgelost"
+    event_resolved: "Voor nu opgelost. Stuur gerust een nieuw bericht als je hulp nodig hebt."
     event_reopened: "Gesprek heropend"
     error_send: "Versturen is niet gelukt. Probeer het opnieuw."
     error_rate_limited: "Te veel berichten. Wacht even en probeer het opnieuw."

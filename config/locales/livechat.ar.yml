@@ -12,7 +12,7 @@ ar:
     email_placeholder: "you@example.com"
     email_save: "حفظ"
     email_saved: "سنرد أيضًا عبر البريد الإلكتروني."
-    event_resolved: "تم حل المحادثة"
+    event_resolved: "تم الحل حاليًا. أرسل رسالة أخرى متى احتجت إلى مساعدة."
     event_reopened: "تمت إعادة فتح المحادثة"
     error_send: "تعذر الإرسال. يرجى المحاولة مرة أخرى."
     error_rate_limited: "رسائل كثيرة جدًا. يرجى الانتظار قليلًا والمحاولة مرة أخرى."

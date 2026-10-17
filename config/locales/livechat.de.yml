@@ -12,7 +12,7 @@ de:
     email_placeholder: "sie@beispiel.de"
     email_save: "Speichern"
     email_saved: "Wir antworten auch per E-Mail."
-    event_resolved: "Unterhaltung gelöst"
+    event_resolved: "Vorerst erledigt. Schreib uns jederzeit wieder, wenn du Hilfe brauchst."
     event_reopened: "Unterhaltung wieder geöffnet"
     error_send: "Senden fehlgeschlagen. Bitte versuchen Sie es erneut."
     error_rate_limited: "Zu viele Nachrichten. Bitte warten Sie einen Moment und versuchen Sie es erneut."

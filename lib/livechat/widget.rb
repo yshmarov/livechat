@@ -136,7 +136,7 @@ module Livechat
           emailPlaceholder: t(:email_placeholder, 'you@example.com'),
           emailSave: t(:email_save, 'Save'),
           emailSaved: t(:email_saved, 'We will also reply by email.'),
-          eventResolved: t(:event_resolved, 'Conversation resolved'),
+          eventResolved: t(:event_resolved, 'Resolved for now. Send another message whenever you need help.'),
           eventReopened: t(:event_reopened, 'Conversation reopened'),
           errorSend: t(:error_send, 'Could not send. Please try again.'),
           unreadAria: t(:unread_aria, 'unread messages'),
