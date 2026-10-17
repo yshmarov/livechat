@@ -9,9 +9,9 @@ module Livechat
   # Rails app regardless of its CSS or JS setup. It lives under lib/ (not
   # app/assets/) so a host that runs an asset pipeline never ingests it.
   module Widget
-    SOURCE = File.expand_path('widget.js', __dir__)
-    DASHBOARD_SOURCE = File.expand_path('dashboard.js', __dir__)
-    DASHBOARD_STYLESHEET_SOURCE = File.expand_path('dashboard.css', __dir__)
+    SOURCE = File.expand_path('widget.js', __dir__).freeze
+    DASHBOARD_SOURCE = File.expand_path('dashboard.js', __dir__).freeze
+    DASHBOARD_STYLESHEET_SOURCE = File.expand_path('dashboard.css', __dir__).freeze
 
     # Right-to-left scripts, so the chat renders mirrored for those locales.
     # Matched on the language subtag, so region variants ("ar-EG") count too.

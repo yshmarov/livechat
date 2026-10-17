@@ -2,6 +2,7 @@
 
 require 'livechat/version'
 require 'livechat/configuration'
+require 'livechat/ractor_support'
 require 'livechat/widget'
 require 'livechat/widget_helper'
 require 'livechat/attachment_policy'

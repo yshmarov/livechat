@@ -468,3 +468,9 @@ touch your own CSS — and migrations that follow your app's `primary_key_type`.
 ## License
 
 MIT.
+
+## Rails edge and Ractors
+
+Rails edge is tested alongside Rails 7.1–8.1. Experimental Ruby 4.0+ Ractor hosting
+requires additional upstream dependencies and freezes configuration at startup.
+See [the Ractor hosting guide](docs/ractors.md) for callbacks, requirements and checks.

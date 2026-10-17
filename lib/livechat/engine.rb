@@ -2,7 +2,18 @@
 
 module Livechat
   class Engine < ::Rails::Engine
+    initializer 'livechat.ractor_middleware' do |app|
+      app.middleware.insert_before 0, RactorSupport::Middleware
+    end
+
     isolate_namespace Livechat
+
+    initializer 'livechat.ractorize', before: 'action_controller.ractorize' do
+      if Rails::Application.method_defined?(:ractorize!)
+        Engine.routes.singleton_class.prepend(RactorSupport::MountedRoutes)
+      end
+      ActiveSupport.on_load(:before_ractorize) { Livechat::RactorSupport.prepare! }
+    end
 
     rake_tasks do
       load File.expand_path('../tasks/livechat_tasks.rake', __dir__)

@@ -33,9 +33,8 @@ module Livechat
       destroyed
     end
 
-    STATUSES.each do |status|
-      define_method(:"#{status}?") { self.status == status }
-    end
+    def open? = status == 'open'
+    def resolved? = status == 'resolved'
 
     # The visitor's ongoing thread. Signed-in identity wins; guests are found
     # by their cookie token (only unclaimed threads — a token that has been

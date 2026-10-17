@@ -9,7 +9,7 @@ module Livechat
     before_action :claim_guest_conversations
 
     if respond_to?(:rate_limit) && Livechat.config.rate_limit
-      rate_limit(**Livechat.config.rate_limit,
+      Livechat::RactorSupport.rate_limit(self, **Livechat.config.rate_limit,
                  only: %i[create email],
                  with: -> { render_rate_limited })
     end

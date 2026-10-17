@@ -35,9 +35,9 @@ module Livechat
 
     after_create_commit :on_created
 
-    AUTHOR_TYPES.each do |type|
-      define_method(:"#{type}?") { author_type == type }
-    end
+    def visitor? = author_type == 'visitor'
+    def agent? = author_type == 'agent'
+    def system? = author_type == 'system'
 
     def read? = read_at.present?
 
@@ -154,8 +154,8 @@ module Livechat
     def broadcast_new_message
       return unless Livechat.action_cable_enabled?
 
-      ActionCable.server.broadcast("livechat:conversation:#{conversation_id}", { nudge: id })
-      ActionCable.server.broadcast('livechat:inbox', { nudge: id })
+      RactorSupport.broadcast("livechat:conversation:#{conversation_id}", { nudge: id })
+      RactorSupport.broadcast('livechat:inbox', { nudge: id })
     rescue StandardError => e
       Rails.logger.error("[livechat] cable broadcast failed: #{e.class}: #{e.message}")
     end

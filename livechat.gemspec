@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
     'app/**/*',
     'config/**/*',
     'lib/**/*',
+    'docs/**/*',
     'MIT-LICENSE',
     'Rakefile',
     'README.md',

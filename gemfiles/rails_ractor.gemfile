@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+eval_gemfile 'rails_edge.gemfile'
+
+# Rails' experimental ractorize! needs Rack main and unreleased I18n support.
+# https://github.com/ruby-i18n/i18n/pull/741 (pinned for reproducibility).
+gem 'i18n', github: 'Shopify/i18n', ref: '58aa1dcd3e04c34831e1c2ec06c83391559c7c91'
+gem 'rack', github: 'rack/rack', branch: 'main'

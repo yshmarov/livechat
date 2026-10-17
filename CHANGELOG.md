@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.2.0 - 2026-10-18
+
+- Add Rails edge CI and experimental Ruby 4.0+ Ractor request support. The host
+  must opt into `Rails.application.ractorize!` and use the upstream Rack/I18n
+  dependencies documented in `docs/ractors.md`.
+- Exercise actual multipart uploads and private downloads in worker Ractors
+  when Active Storage is installed, alongside the optional-dependency-free host.
+- Exercise signed Action Cable stream tokens and worker-originated broadcasts;
+  broadcasts are coordinated with the main Cable server.
+- Prepare immutable widget assets and a frozen configuration snapshot at
+  Ractorization. Callbacks still run for each request, with isolated captures;
+  callbacks that capture mutable state fail at boot with the setting name.
+  Normal Rails boots retain mutable configuration and lazy asset loading.
+- Bridge framework operations that are not yet Ractor safe (mounted URL
+  generation, digests/key derivation and attribute factories) to the main
+  Ractor. This adds dispatch overhead in Ractor mode; it is compatibility
+  support, not a claim of improved throughput. Existing Rails 7.1–8.1 installs
+  need no migration or initializer changes.
+
 ## 1.1.0 - 2026-09-25
 
 - **The widget can now live on a site this app does not render.** A static
