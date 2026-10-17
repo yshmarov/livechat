@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.2 - 2026-10-18
+
+- Clarify the widget's resolved message in all 26 locales: visitors can send
+  another message whenever they need help. Follow-ups keep the same thread
+  and history; different questions still share one open/resolved status.
+  The longer guidance can wrap across more than one line in the timeline.
+
 ## 1.2.1 - 2026-10-18
 
 - Bind the inbox status form's CSRF token to the actual resolve or reopen

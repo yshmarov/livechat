@@ -96,6 +96,11 @@ the things it should not do. It ships inside the gem, so
    resolve it when done. A visitor writing again reopens it.
 4. The visitor sees the reply in the widget, or by email when they're gone.
 
+Each visitor has one ongoing conversation. Resolving it marks the current
+exchange as handled; the visitor can send another message at any time to
+reopen that same thread, with the history intact. Different questions share
+one open/resolved status.
+
 **Realtime is polling, on purpose:** ~4s while the panel is open, ~30s in the
 background, nothing at all for visitors who never wrote. No Action Cable, no
 Redis, no infrastructure. At support-chat volume you will not notice; your ops

@@ -12,7 +12,7 @@ hi:
     email_placeholder: "you@example.com"
     email_save: "सहेजें"
     email_saved: "हम ईमेल से भी जवाब देंगे।"
-    event_resolved: "बातचीत सुलझा दी गई"
+    event_resolved: "फ़िलहाल समस्या हल हो गई है। जब भी मदद चाहिए, फिर से संदेश भेजें।"
     event_reopened: "बातचीत फिर से खोली गई"
     error_send: "भेजा नहीं जा सका। कृपया फिर से कोशिश करें।"
     error_rate_limited: "बहुत सारे संदेश। कृपया थोड़ी देर रुककर फिर से कोशिश करें।"

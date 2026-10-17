@@ -12,7 +12,7 @@ lb:
     email_placeholder: "you@example.com"
     email_save: "Späicheren"
     email_saved: "Mir äntweren och per E-Mail."
-    event_resolved: "Gespréich geléist"
+    event_resolved: "Fir de Moment geléist. Schéckt eng nei Noriicht, wann Dir Hëllef braucht."
     event_reopened: "Gespréich nees opgemaach"
     error_send: "Konnt net geschéckt ginn. Probéiert w.e.g. nach eng Kéier."
     error_rate_limited: "Ze vill Noriichten. Waart w.e.g. e Moment a probéiert nach eng Kéier."

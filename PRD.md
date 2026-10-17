@@ -104,6 +104,12 @@ Model niceties carried over: `messages_with_headers` grouping (show author heade
 - Unread badge on the launcher when agent replies arrived since last open.
 - Anonymous visitors are prompted (non-blocking) for an email after their first message.
 
+**Conversation lifecycle:** one ongoing thread per visitor. Resolving marks
+an exchange as handled while leaving the composer available. A new visitor
+message reopens the same thread and preserves its history. The widget's
+resolved message explicitly invites the visitor to write again. All topics in
+that thread share one open/resolved state.
+
 **Identity:**
 
 - Signed-in: `current_user` lambda (request → user), `visitor_label` lambda for display — identical mechanism to feedback_engine.

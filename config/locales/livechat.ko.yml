@@ -12,7 +12,7 @@ ko:
     email_placeholder: "you@example.com"
     email_save: "저장"
     email_saved: "이메일로도 답변드리겠습니다."
-    event_resolved: "대화가 해결되었습니다"
+    event_resolved: "일단 해결되었습니다. 도움이 필요하면 언제든 다시 메시지를 보내 주세요."
     event_reopened: "대화가 다시 열렸습니다"
     error_send: "전송하지 못했습니다. 다시 시도해 주세요."
     error_rate_limited: "메시지가 너무 많습니다. 잠시 후 다시 시도해 주세요."

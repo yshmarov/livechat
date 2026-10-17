@@ -12,7 +12,7 @@ bn:
     email_placeholder: "you@example.com"
     email_save: "সংরক্ষণ করুন"
     email_saved: "আমরা ইমেইলেও উত্তর দেব।"
-    event_resolved: "কথোপকথন সমাধান হয়েছে"
+    event_resolved: "আপাতত সমাধান হয়েছে। সাহায্যের প্রয়োজন হলে আবার বার্তা পাঠান।"
     event_reopened: "কথোপকথন আবার খোলা হয়েছে"
     error_send: "পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
     error_rate_limited: "অনেক বেশি বার্তা। একটু অপেক্ষা করে আবার চেষ্টা করুন।"
