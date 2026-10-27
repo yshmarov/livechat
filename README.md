@@ -470,6 +470,10 @@ the same host hooks (`base_controller_class` to inherit your admin's controller,
 two-pane layout, colour tokens and components in all five, scoped so it cannot
 touch your own CSS — and migrations that follow your app's `primary_key_type`.
 
+## Affiliation
+
+An independent open-source Rails engine. Not affiliated with or endorsed by the company behind livechat.com.
+
 ## License
 
 MIT.
