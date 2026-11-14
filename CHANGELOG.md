@@ -23,8 +23,23 @@
 - Costs: one new public, session-bearing route under the mount path, so a host
   rule matching everything under it (an embed proxy, a CSP or cache rule) now
   covers an HTML page too. One new locale key, `open_page`, in all 26
-  locales. No migration. The widget now removes a stale copy of its root that
-  a restored Turbo snapshot carries, before mounting a fresh one.
+  locales. The chat page needs no migration. The widget now removes a stale
+  copy of its root that a restored Turbo snapshot carries, before mounting a
+  fresh one.
+- Messages get a foreign key to their conversation. Fresh installs create
+  it; existing installs add it with
+  `bin/rails generate livechat:foreign_key && bin/rails db:migrate`. Every
+  deletion in the engine already went through `destroy`, so nothing changes in
+  normal use, but a bulk `delete_all` on conversations used to leave their
+  messages behind and now raises instead. On PostgreSQL the generated
+  migration adds the key unvalidated and validates it in a second statement,
+  so it does not block writes and strong_migrations accepts it.
+- Costs of the key: a host that deletes conversations with `delete_all` must
+  delete their messages first or use `destroy`. The migration fails if
+  messages already point at a deleted conversation; the generator prints the
+  query that finds them. Elsewhere than PostgreSQL it is a plain
+  `add_foreign_key`, which on MySQL can rebuild and lock `livechat_messages`
+  while it runs: run it at a quiet moment on a large table.
 
 ## 1.3.0 - 2026-11-14
 

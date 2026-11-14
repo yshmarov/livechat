@@ -23,7 +23,8 @@ class CreateLivechatTables < ActiveRecord::Migration<%= migration_version %>
     create_table :livechat_messages<%= primary_key_type_option %> do |t|
       # index: false — the (conversation_id, id) index below already covers
       # lookups by conversation_id, being a leftmost prefix of it.
-      t.references :conversation, null: false, index: false<%= foreign_key_type_option %>
+      t.references :conversation, null: false, index: false<%= foreign_key_type_option %>,
+                   foreign_key: { to_table: :livechat_conversations }
       t.string :author_type, null: false
       t.string :agent_id
       t.string :agent_label

@@ -143,4 +143,16 @@ class ConversationTest < ActiveSupport::TestCase
     assert Livechat::Conversation.exists?(old_open.id)
     assert_not Livechat::Message.where(conversation_id: old_resolved.id).exists?
   end
+
+  # Every deletion path in the engine goes through destroy, which removes the
+  # messages first. The foreign key stops a bulk delete_all from leaving
+  # messages behind for a conversation that no longer exists.
+  test 'the database refuses to orphan messages' do
+    conversation = start_conversation(token: 'orphan-check')
+    conversation.post_visitor_message!('hello')
+
+    assert_raises(ActiveRecord::InvalidForeignKey) do
+      Livechat::Conversation.where(id: conversation.id).delete_all
+    end
+  end
 end

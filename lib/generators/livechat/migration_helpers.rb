@@ -38,6 +38,18 @@ module Livechat
         config = Rails.configuration.generators
         config.options[config.orm][:primary_key_type]
       end
+
+      # Adding a foreign key to a table that already holds rows validates every
+      # row while it locks out writes. On PostgreSQL the key can go in
+      # unvalidated and be validated in a second statement that does not block
+      # writes, which is also the only shape strong_migrations accepts. That
+      # second statement must run outside the migration's transaction.
+      #
+      # Decided at generate time, like the key type, so the migration holds
+      # plain code rather than an adapter check.
+      def postgresql?
+        ActiveRecord::Base.connection_db_config.adapter.to_s.include?('postg')
+      end
     end
   end
 end

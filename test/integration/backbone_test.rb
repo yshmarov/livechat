@@ -3,6 +3,7 @@
 require 'test_helper'
 require 'rails/generators'
 require 'generators/livechat/install/install_generator'
+require 'generators/livechat/foreign_key/foreign_key_generator'
 
 # The invariants shared across this family of engines. Each one exists because
 # breaking it produced a real failure in a host app, and each was invisible to
@@ -205,6 +206,16 @@ class BackboneGeneratorTest < Rails::Generators::TestCase
     end
   end
 
+  # The table name cannot be inferred from :conversation, so the key is named
+  # explicitly; without it nothing stops a message outliving its conversation.
+  test 'messages carry a foreign key to conversations' do
+    run_generator
+
+    assert_migration 'db/migrate/create_livechat_tables.rb' do |migration|
+      assert_match 'foreign_key: { to_table: :livechat_conversations }', migration
+    end
+  end
+
   # `t.references` indexes by default, and (conversation_id) is a leftmost prefix
   # of (conversation_id, id) — so the automatic one was dead weight. A B-tree
   # serves any leftmost prefix.
@@ -243,5 +254,53 @@ class BackboneGeneratorTest < Rails::Generators::TestCase
     yield
   ensure
     config.options[config.orm][:primary_key_type] = previous
+  end
+end
+
+# Upgrades an install made before the key existed. On PostgreSQL the key goes in
+# unvalidated and is validated separately outside a transaction, so writes keep
+# flowing and strong_migrations accepts it. The dummy app is SQLite, so the
+# PostgreSQL shape is forced per run.
+class ForeignKeyGeneratorTest < Rails::Generators::TestCase
+  tests Livechat::Generators::ForeignKeyGenerator
+  destination File.expand_path('../tmp/foreign_key', __dir__)
+  setup :prepare_destination
+
+  test 'adds the key unvalidated, then validates it, on PostgreSQL' do
+    run_generator_on :postgresql
+
+    assert_migration 'db/migrate/add_livechat_messages_conversation_foreign_key.rb' do |migration|
+      assert_match 'disable_ddl_transaction!', migration
+      assert_match 'column: :conversation_id, validate: false', migration
+      assert_match 'validate_foreign_key :livechat_messages, :livechat_conversations', migration
+    end
+    assert_ruby migration_path
+  end
+
+  test 'adds a plain key in a transaction elsewhere' do
+    run_generator_on :sqlite3
+
+    assert_migration 'db/migrate/add_livechat_messages_conversation_foreign_key.rb' do |migration|
+      refute_match 'disable_ddl_transaction!', migration
+      refute_match 'validate', migration
+      assert_match 'add_foreign_key :livechat_messages, :livechat_conversations, column: :conversation_id', migration
+    end
+    assert_ruby migration_path
+  end
+
+  private
+
+  def run_generator_on(adapter)
+    instance = generator
+    instance.define_singleton_method(:postgresql?) { adapter == :postgresql }
+    quietly { instance.invoke_all }
+  end
+
+  def migration_path
+    Dir[File.join(destination_root, 'db/migrate/*_add_livechat_messages_conversation_foreign_key.rb')].sole
+  end
+
+  def assert_ruby(path)
+    assert RubyVM::InstructionSequence.compile(File.read(path)), "#{path} is not valid Ruby"
   end
 end
