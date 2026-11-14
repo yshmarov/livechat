@@ -54,4 +54,25 @@ class WidgetSystemTest < ApplicationSystemTestCase
     assert_equal 1, Livechat::Conversation.count
     assert_equal 'Another question: can I change my email?', conversation.messages.last.body
   end
+
+  test 'an opener that names its badge classes gets them in place of the built-in style' do
+    Livechat.config.attach_files = false
+
+    visit '/sample'
+    find('#lvc-launcher').click
+    within '#lvc-panel' do
+      fill_in 'Write a message…', with: 'Is anyone there?'
+      click_button 'Send'
+      assert_selector '.lvc-msg.lvc-visitor', text: 'Is anyone there?'
+    end
+    find('#lvc-close').click
+
+    Livechat::Conversation.last.post_agent_message!(body: 'Yes, how can we help?', agent_id: '1', agent_label: 'Ada')
+    visit '/sample'
+
+    styled = find('#styled-opener .lvc-opener-badge.host-badge', text: '1')
+    plain = find('#custom-opener .lvc-opener-badge', text: '1')
+    assert_equal 'rgba(0, 0, 0, 0)', styled.evaluate_script('getComputedStyle(this).backgroundColor')
+    assert_equal 'rgb(220, 38, 38)', plain.evaluate_script('getComputedStyle(this).backgroundColor')
+  end
 end

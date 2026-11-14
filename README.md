@@ -372,12 +372,22 @@ to a stream the server signed for it. Under a strict CSP, allow the socket with
 | `window.Livechat.open()` / `.close()` | `open("Hi, I need help with…")` prefills the box — never over a visitor's draft |
 | `data-livechat-open` | Any element opens the panel on click |
 | `data-livechat-message="…"` | Prefill from that element — great for contextual buttons |
+| `data-livechat-badge-class="…"` | Classes for that element's unread badge, in place of the built-in style |
 | `<%= livechat_button %>` | A plain, unstyled opener button |
 | `<%= livechat_button("Ask about this order", message: "I need help with order ##{@order.id}") %>` | Open and prefill in one helper |
 | `config.show_launcher = false` | Hide the bubble entirely |
 
 While replies are unread, every `data-livechat-open` element carries a small
 count badge — so hiding the launcher never hides the answer.
+
+The badge has a plain red style of its own. To match your design system, name
+your own classes on the opener; the built-in style then steps aside:
+
+```erb
+<button data-livechat-open data-livechat-badge-class="badge badge-error badge-xs ms-auto">
+  Contact support
+</button>
+```
 
 Contextual buttons are where a Rails app beats a generic support widget:
 

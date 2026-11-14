@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.0 - 2026-11-14
+
+- Add `data-livechat-badge-class` to `data-livechat-open` elements. The unread
+  badge on that opener gets the host's classes and none of the built-in style,
+  so a Tailwind or daisyUI app can use its own badge without overriding ours.
+  The built-in style is injected outside any cascade layer, so before this a
+  host had to outrank it with a more specific selector of its own. Openers
+  without the attribute look and behave as before.
+
 ## 1.2.2 - 2026-10-18
 
 - Clarify the widget's resolved message in all 26 locales: visitors can send
