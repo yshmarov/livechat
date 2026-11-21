@@ -485,6 +485,20 @@ HTML, and widget implementation objects are private. Incompatible changes to
 the public list above wait for a new major version; a deprecation normally
 ships first.
 
+### Upgrading to 1.4
+
+The chat page needs nothing. One optional migration gives
+`livechat_messages` the foreign key fresh installs now create, so a bulk
+`delete_all` on conversations can no longer leave their messages behind:
+
+```bash
+bin/rails generate livechat:foreign_key && bin/rails db:migrate
+```
+
+On PostgreSQL it goes in without blocking writes. It fails if messages
+already point at a deleted conversation; the generator prints the query that
+finds them.
+
 ### Upgrading from 0.x
 
 There is no migration, initializer change, constant alias, or model rename.
