@@ -67,7 +67,23 @@ class ChatPageSystemTest < ApplicationSystemTestCase
     assert_equal '', page.evaluate_script('document.body.style.position')
     page.execute_script('window.scrollTo(0, 1000)')
     assert_operator page.evaluate_script('window.scrollY'), :>, 0
+
+    # Inside a host page the chat stays a card, unlike the phone popover...
+    assert_equal '14px', panel_style('borderTopLeftRadius')
+    assert_equal '1px', panel_style('borderTopWidth')
+
+    # ...while the engine's page, which is the whole screen, goes edge to edge.
+    visit '/livechat/chat'
+    assert_selector '[data-livechat-chat] #lvc-panel'
+    assert_equal '0px', panel_style('borderTopLeftRadius')
+    assert_equal '0px', panel_style('borderTopWidth')
   ensure
     page.driver.browser.execute_cdp('Emulation.clearDeviceMetricsOverride')
+  end
+
+  private
+
+  def panel_style(property)
+    page.evaluate_script("getComputedStyle(document.getElementById('lvc-panel')).#{property}")
   end
 end

@@ -14,7 +14,13 @@
     body { background: #f6f7f9; display: flex; justify-content: center; }
     .lvc-chat-page { width: 100%; max-width: 760px; height: 100dvh; padding: 24px; box-sizing: border-box; }
     @media (prefers-color-scheme: dark) { body { background: #111418; } }
-    @media (max-width: 480px) { .lvc-chat-page { padding: 0; } }
+    /* On a phone this page is the whole screen, so the chat goes edge to edge.
+       One class more than the widget's own card rule, so it wins whatever the
+       order the two stylesheets land in. */
+    @media (max-width: 480px) {
+      .lvc-chat-page { padding: 0; }
+      .lvc-chat-page #lvc-root.lvc-inline #lvc-panel { border: none; border-radius: 0; }
+    }
   </style>
 </head>
 <body>
