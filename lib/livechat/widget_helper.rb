@@ -31,6 +31,18 @@ module Livechat
       tag.button(label, type: 'button', data:, **options)
     end
 
+    # The chat itself, in your page instead of floating over it: the visitor's
+    # own conversation, filling this element. Give it a height (or put it in a
+    # container that has one). The bubble stays away while it is on the page.
+    # Like livechat_button, it is only the element — livechat_tag in your
+    # layout brings the widget that fills it.
+    def livechat_chat(**options)
+      return unless Livechat.enabled?(request)
+
+      data = (options.delete(:data) { {} } || {}).merge(livechat_chat: '')
+      tag.div(data:, **options)
+    end
+
     private
 
     def livechat_visitor

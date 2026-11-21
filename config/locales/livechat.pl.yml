@@ -29,6 +29,7 @@ pl:
     attachment_error: "Nie udało się wysłać niektórych plików."
     expand: "Powiększ"
     collapse: "Zmniejsz"
+    open_page: "Otwórz jako stronę"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Zbyt wiele plików (maks. %{count})."

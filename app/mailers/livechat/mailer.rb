@@ -26,6 +26,7 @@ module Livechat
     def new_agent_reply(message)
       @message = message
       @conversation = message.conversation
+      @chat_url = chat_url(@conversation)
       assign_unread_digest(message, @conversation.messages.from_agent)
 
       mail from: Livechat.config.mailer_from,
@@ -48,6 +49,59 @@ module Livechat
         conversation, host: host, **default_url_options.except(:host),
                       script_name: Livechat.config.mount_path.chomp('/')
       )
+    rescue StandardError
+      nil
+    end
+
+    # Where the visitor continues: the chat page, on the origin they wrote
+    # from. That origin is where their guest cookie lives — a marketing site
+    # proxying the mount path is a different origin from the app's own host,
+    # and a link to the app's host would open an empty chat there. A page of
+    # the host's own (chat_path outside the mount) prefers the mailer host,
+    # since only the mount path is proxied. Without the chat page, it is the
+    # page they last wrote from, as before.
+    #
+    # A signed-in visitor keeps that last page when the target is the engine's
+    # page: theirs is usually behind the host's login, which takes a
+    # signed-out reader through sign-in and back to their thread. The engine's
+    # page can't ask the host to sign anyone in, and would show them an empty
+    # guest chat instead.
+    def chat_url(conversation)
+      path = Livechat.chat_path
+      return conversation.page_url unless path
+      return path if path.match?(%r{\Ahttps?://}i)
+      if conversation.visitor_id.present? && conversation.page_url.present? &&
+         path == Livechat.config.engine_chat_path
+        return conversation.page_url
+      end
+
+      origins = [origin_of(conversation.page_url), mailer_origin]
+      origins.reverse! unless path.start_with?(Livechat.config.engine_chat_path)
+      origin = origins.compact.first
+      return unless origin
+
+      url = "#{origin}#{path}"
+      locale = conversation.locale.presence
+      return url unless locale
+
+      separator = path.include?('?') ? '&' : '?'
+      "#{url}#{separator}locale=#{URI.encode_www_form_component(locale)}"
+    end
+
+    def origin_of(url)
+      uri = URI.parse(url.to_s)
+      return unless uri.host && %w[http https].include?(uri.scheme)
+
+      URI::Generic.build(scheme: uri.scheme, host: uri.host, port: uri.port == uri.default_port ? nil : uri.port).to_s
+    rescue URI::InvalidURIError
+      nil
+    end
+
+    def mailer_origin
+      options = ActionMailer::Base.default_url_options.merge(default_url_options)
+      return unless options[:host]
+
+      ActionDispatch::Http::URL.full_url_for(options.slice(:host, :protocol, :port).merge(path: '')).chomp('/')
     rescue StandardError
       nil
     end

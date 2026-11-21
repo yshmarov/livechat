@@ -23,7 +23,10 @@ users have had a reasonable opportunity to upgrade.
 The widget and visitor endpoints are controlled by `config.enabled`; the agent
 inbox is separately protected by `authorize_agent` and fails closed outside
 development until the host grants access. A visitor can read only the
-conversation resolved from their signed-in id or opaque guest cookie. Every
+conversation resolved from their signed-in id or opaque guest cookie. The chat
+page (`<mount_path>/chat`) is a public page under the same gate and the same
+rule: its URL names no conversation, so possessing the link grants nothing.
+Every
 authorized agent can read and answer every conversation in the mounted inbox.
 Livechat 1.x does not provide tenant-isolated agent inboxes.
 

@@ -29,6 +29,7 @@ th:
     attachment_error: "ไม่สามารถส่งไฟล์บางไฟล์ได้"
     expand: "ขยาย"
     collapse: "ย่อ"
+    open_page: "เปิดเป็นหน้าเต็ม"
     typing: "%{name} is typing..."
     attachments:
       too_many: "ไฟล์มากเกินไป (สูงสุด %{count})"

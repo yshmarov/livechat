@@ -29,6 +29,7 @@ hr:
     attachment_error: "Neke datoteke nije bilo moguće poslati."
     expand: "Povećaj"
     collapse: "Smanji"
+    open_page: "Otvori kao stranicu"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Previše datoteka (najviše %{count})."

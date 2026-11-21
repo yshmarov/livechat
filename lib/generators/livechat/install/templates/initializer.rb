@@ -95,6 +95,11 @@ Livechat.configure do |config|
   # config.action_cable = true
   # config.action_cable_url = "/cable"
 
+  # The chat as a page of its own, at /livechat/chat by default: a URL the
+  # visitor can bookmark, opened from the panel and the reply email. Point it
+  # at a page of yours rendering `livechat_chat`, or false to turn it off.
+  # config.chat_path = "/support"
+
   # Default mount path used by `mount_livechat`.
   # Override only if you mount the engine manually.
   # config.mount_path = "/livechat"

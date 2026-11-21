@@ -29,6 +29,7 @@ ar:
     attachment_error: "تعذر إرسال بعض الملفات."
     expand: "تكبير"
     collapse: "تصغير"
+    open_page: "فتح كصفحة"
     typing: "%{name} is typing..."
     attachments:
       too_many: "ملفات كثيرة جدًا (بحد أقصى %{count})."

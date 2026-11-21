@@ -29,6 +29,7 @@ nl:
     attachment_error: "Sommige bestanden konden niet worden verzonden."
     expand: "Vergroten"
     collapse: "Verkleinen"
+    open_page: "Openen als pagina"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Te veel bestanden (max. %{count})."

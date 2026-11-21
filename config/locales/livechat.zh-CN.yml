@@ -29,6 +29,7 @@
     attachment_error: "部分文件无法发送。"
     expand: "放大"
     collapse: "缩小"
+    open_page: "以页面打开"
     typing: "%{name} is typing..."
     attachments:
       too_many: "文件过多（最多 %{count} 个）。"

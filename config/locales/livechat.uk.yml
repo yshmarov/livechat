@@ -29,6 +29,7 @@ uk:
     attachment_error: "Деякі файли не вдалося надіслати."
     expand: "Розгорнути"
     collapse: "Згорнути"
+    open_page: "Відкрити на окремій сторінці"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Забагато файлів (максимум %{count})."

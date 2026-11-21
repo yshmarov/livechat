@@ -29,6 +29,7 @@ el:
     attachment_error: "Ορισμένα αρχεία δεν ήταν δυνατό να σταλούν."
     expand: "Μεγέθυνση"
     collapse: "Σμίκρυνση"
+    open_page: "Άνοιγμα ως σελίδα"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Πάρα πολλά αρχεία (έως %{count})."

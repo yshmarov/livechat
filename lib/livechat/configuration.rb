@@ -143,6 +143,16 @@ module Livechat
     # this in sync with the `mount` line in your routes.
     attr_accessor :mount_path
 
+    # The chat as a page of its own — a URL a visitor can bookmark, that the
+    # reply email links to, and that the panel's "open as a page" icon opens.
+    # It shows whoever loads it their own conversation, resolved the same way
+    # the widget resolves it (signed-in id or guest cookie); the URL never
+    # names a conversation. nil serves the engine's page at
+    # `<mount_path>/chat`. A path or URL of your own (a page rendering
+    # `livechat_chat` in your layout) takes its place, and the engine's page
+    # redirects there. false turns the page off.
+    attr_accessor :chat_path
+
     def initialize
       @app_name = nil
       @enabled = ->(_request) { true }
@@ -166,6 +176,7 @@ module Livechat
       @on_agent_message = ->(_message) {}
       @rate_limit = { to: 30, within: 60 }
       @mount_path = '/livechat'
+      @chat_path = nil
       @attach_files = true
       @storage_service = nil
       @max_attachments = 5
@@ -176,6 +187,9 @@ module Livechat
     end
 
     def widget_endpoint = "#{mount_path.chomp('/')}/widget"
+
+    # The engine's own chat page, whatever chat_path says.
+    def engine_chat_path = "#{mount_path.chomp('/')}/chat"
 
     def agent_email_list
       list = agent_emails

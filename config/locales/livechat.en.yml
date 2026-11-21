@@ -29,6 +29,7 @@ en:
     attachment_error: "Some files could not be sent."
     expand: "Expand"
     collapse: "Collapse"
+    open_page: "Open as a page"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Too many files (max %{count})."

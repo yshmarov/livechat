@@ -43,6 +43,24 @@ module Livechat
       ["#{mount}/widget.js", "#{mount}/embed.js", "#{mount}/widget/", "#{mount}/attachments/"]
     end
 
+    # Where the visitor's chat lives as a page, or nil when chat_path is false.
+    # Link to it from your own nav:
+    #
+    #   link_to "Support chat", Livechat.chat_path(locale: I18n.locale)
+    #
+    # The engine's page doesn't run your locale switching, so pass the locale
+    # for any app that isn't single-language.
+    def chat_path(locale: nil)
+      path = case config.chat_path
+             when false then return
+             when nil then config.engine_chat_path
+             else config.chat_path.to_s
+             end
+      return path if locale.blank?
+
+      "#{path}#{path.include?('?') ? '&' : '?'}locale=#{URI.encode_www_form_component(locale.to_s)}"
+    end
+
     # Resolve a setting that may be a plain value or a per-request callable.
     def resolve(value, request)
       value.respond_to?(:call) ? value.call(request) : value

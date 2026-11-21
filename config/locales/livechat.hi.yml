@@ -29,6 +29,7 @@ hi:
     attachment_error: "कुछ फ़ाइलें भेजी नहीं जा सकीं।"
     expand: "बड़ा करें"
     collapse: "छोटा करें"
+    open_page: "पेज के रूप में खोलें"
     typing: "%{name} is typing..."
     attachments:
       too_many: "बहुत सारी फ़ाइलें (अधिकतम %{count})।"

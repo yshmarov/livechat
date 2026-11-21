@@ -29,6 +29,7 @@ vi:
     attachment_error: "Không thể gửi một số tệp."
     expand: "Mở rộng"
     collapse: "Thu gọn"
+    open_page: "Mở dưới dạng trang"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Quá nhiều tệp (tối đa %{count})."

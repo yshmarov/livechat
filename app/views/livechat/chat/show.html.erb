@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>"<%= ' dir="rtl"'.html_safe if Livechat::Widget.rtl?(I18n.locale) %>>
+<head>
+  <meta charset="utf-8">
+  <title><%= Livechat.app_name %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <%# A personal page: whoever loads it sees their own chat. Nothing to index. %>
+  <meta name="robots" content="noindex">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%# Only the page frame. The chat styles itself, as it does on any page. %>
+  <style<%= %( nonce="#{content_security_policy_nonce}").html_safe if content_security_policy_nonce %>>
+    html, body { height: 100%; margin: 0; }
+    body { background: #f6f7f9; display: flex; justify-content: center; }
+    .lvc-chat-page { width: 100%; max-width: 760px; height: 100dvh; padding: 24px; box-sizing: border-box; }
+    @media (prefers-color-scheme: dark) { body { background: #111418; } }
+    @media (max-width: 480px) { .lvc-chat-page { padding: 0; } }
+  </style>
+</head>
+<body>
+  <%= livechat_chat class: 'lvc-chat-page' %>
+  <%= livechat_tag %>
+</body>
+</html>

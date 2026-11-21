@@ -29,6 +29,7 @@ lb:
     attachment_error: "E puer Dateie konnten net geschéckt ginn."
     expand: "Vergréisseren"
     collapse: "Verklengeren"
+    open_page: "Als Säit opmaachen"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Ze vill Dateien (max %{count})."
