@@ -181,6 +181,8 @@ Turbo Drive and strict nonce-based CSP work out of the box. 26 locales ship with
 | --- | --- |
 | `NameError` for one of your own helpers in the inbox | `isolate_namespace` scopes `helper` to the engine. Use `config.base_controller_class` so the inbox inherits your helpers, rather than `agent_layout` alone. |
 | `NotNullViolation` attaching a file on a uuid-keyed app | The tables were generated bigint. Set `primary_key_type` in `config.generators` before installing, or migrate them to uuid. |
+| `livechat:foreign_key` migration fails on an existing key | It is an upgrade generator for installs made before the key existed; a fresh install already has it |
+| `livechat:foreign_key` migration fails validating the key | Messages point at a deleted conversation. Find them with `Livechat::Message.where.not(conversation_id: Livechat::Conversation.select(:id))` |
 | `/livechat` returns 403 "Set Livechat.config.authorize_agent to grant access" | Exactly what it says: still at the development-only default |
 | No bubble on the page | `livechat_tag` missing from the rendered layout, `config.enabled` false, or `show_launcher = false` with no opener of your own |
 | No notification emails | `mailer_from` not set — `agent_emails` alone does nothing |

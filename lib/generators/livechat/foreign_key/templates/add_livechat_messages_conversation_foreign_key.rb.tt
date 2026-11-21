@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+class AddLivechatMessagesConversationForeignKey < ActiveRecord::Migration<%= migration_version %>
+<% if postgresql? -%>
+  disable_ddl_transaction!
+
+  def change
+    add_foreign_key :livechat_messages, :livechat_conversations, column: :conversation_id, validate: false
+    reversible { |direction| direction.up { validate_foreign_key :livechat_messages, :livechat_conversations } }
+  end
+<% else -%>
+  def change
+    add_foreign_key :livechat_messages, :livechat_conversations, column: :conversation_id
+  end
+<% end -%>
+end
