@@ -29,6 +29,7 @@ bn:
     attachment_error: "কিছু ফাইল পাঠানো যায়নি।"
     expand: "বড় করুন"
     collapse: "ছোট করুন"
+    open_page: "পৃষ্ঠা হিসেবে খুলুন"
     typing: "%{name} is typing..."
     attachments:
       too_many: "অনেক বেশি ফাইল (সর্বোচ্চ %{count})।"

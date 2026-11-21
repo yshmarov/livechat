@@ -29,6 +29,7 @@ ro:
     attachment_error: "Unele fișiere nu au putut fi trimise."
     expand: "Mărește"
     collapse: "Micșorează"
+    open_page: "Deschide ca pagină"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Prea multe fișiere (max. %{count})."

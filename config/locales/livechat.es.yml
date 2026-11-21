@@ -29,6 +29,7 @@ es:
     attachment_error: "No se pudieron enviar algunos archivos."
     expand: "Ampliar"
     collapse: "Reducir"
+    open_page: "Abrir como página"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Demasiados archivos (máx. %{count})."

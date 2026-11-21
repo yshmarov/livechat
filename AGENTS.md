@@ -77,8 +77,11 @@ Then in the running app: load any page, confirm the bubble appears bottom-right,
 | The launcher bubble | On by default. `config.show_launcher = false` to remove it |
 | Your own element | `<%= livechat_button %>`, or any element with `data-livechat-open` |
 | JavaScript | `window.Livechat.open()` |
+| A page of its own | `/livechat/chat` — link it with `Livechat.chat_path(locale: I18n.locale)` |
 
 A visitor has **one conversation**, not a queue of tickets — writing again reopens the same thread. Signed-in visitors keep it across devices (keyed by user id); guests are tracked by cookie.
+
+**The chat as a page.** `/livechat/chat` shows the visitor's conversation filling the window; the panel's icon and the reply email link to it. It names no conversation — it resolves the visitor exactly like the widget — so do not add an id or token to that URL. If the user wants it inside their own layout, render `<%= livechat_chat style: "height: 70vh" %>` in one of their pages (it is only the element; the layout's `livechat_tag` fills it) and set `config.chat_path = "/that/page"`. `config.chat_path = false` removes the page and the icon.
 
 ### Email notifications need two settings, not one
 
@@ -166,6 +169,7 @@ Everything is optional; a fresh install works with zero config. Full list with c
 | `allowed_attachment_types` | `nil` | Content-type allowlist |
 | `action_cable`, `action_cable_url` | `false`, `"/cable"` | Opt-in push |
 | `rate_limit` | `{ to: 30, within: 60 }` | Rails 7.2+; ignored on 7.1. `nil` disables |
+| `chat_path` | `<mount_path>/chat` | The chat as a page; a path of the host's own page rendering `livechat_chat`, or `false` |
 | `mount_path` | `"/livechat"` | Keep in sync with `mount_livechat at:` |
 | `on_visitor_message`, `on_agent_message` | no-ops | Run inline after save — Slack, Noticed, push |
 
@@ -182,6 +186,8 @@ Turbo Drive and strict nonce-based CSP work out of the box. 26 locales ship with
 | No notification emails | `mailer_from` not set — `agent_emails` alone does nothing |
 | Messages only appear on refresh | Expected: polling is the default. `config.action_cable = true` (with `/cable` mounted) for push |
 | No attachment button | Active Storage not installed, or `attach_files = false` |
+| `livechat_chat` renders an empty box | `livechat_tag` is not in the layout — the helper is only the element the widget fills |
+| The chat in a page is stuck at 420px tall | Its element has no height, so the minimum applies. Give it one (`style: "height: 70vh"`) or a container that has one |
 | `undefined local variable current_user` in the initializer | A gate lambda treated its argument as a controller. It is a `request` |
 | Widget loads on a static site but every message 422s | The embedding origin is not in `allowed_embed_origins`. A static page has no CSRF token |
 | Widget on a static site never finds its thread | It is pointed at another origin. The widget sends `credentials: "same-origin"` — proxy the mount path instead of linking across hosts |

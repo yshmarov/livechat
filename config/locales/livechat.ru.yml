@@ -29,6 +29,7 @@ ru:
     attachment_error: "Некоторые файлы не удалось отправить."
     expand: "Развернуть"
     collapse: "Свернуть"
+    open_page: "Открыть на отдельной странице"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Слишком много файлов (макс. %{count})."

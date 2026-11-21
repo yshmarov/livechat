@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.4.0 - 2026-11-21
+
+- Add the chat as a page. `<mount_path>/chat` (default `/livechat/chat`) shows
+  the visitor their own conversation filling the window, so a visitor has a
+  URL for their chat: link it from your nav with `Livechat.chat_path`. The URL
+  names no conversation. It is resolved from the signed-in id or guest cookie,
+  like the widget, so a forwarded link shows a stranger only their own empty
+  chat. Guests keep it only in the browser that holds their cookie.
+- Add `livechat_chat`, the same chat filling an element of your own page and
+  layout, and `config.chat_path` to point everything at that page (the
+  engine's page then redirects there) or `false` to turn the page off.
+- The widget panel gets an "open as a page" icon. For guests, the reply
+  email's "Continue the conversation" link opens the chat page on the origin
+  they last wrote from, instead of that page itself. Signed-in visitors keep
+  the link to their last page, which can send them through the host's sign-in;
+  the engine's page cannot, and would show a signed-out reader an empty chat.
+  A host `chat_path` is linked for everyone. Messages written on the chat page
+  do not overwrite the "where they got stuck" page URL.
+- `Livechat.chat_path(locale:)` adds the language to a nav link: the engine's
+  page does not run the host's locale switching.
+- Costs: one new public, session-bearing route under the mount path, so a host
+  rule matching everything under it (an embed proxy, a CSP or cache rule) now
+  covers an HTML page too. One new locale key, `open_page`, in all 26
+  locales. No migration. The widget now removes a stale copy of its root that
+  a restored Turbo snapshot carries, before mounting a fresh one.
+
 ## 1.3.0 - 2026-11-14
 
 - Add `data-livechat-badge-class` to `data-livechat-open` elements. The unread

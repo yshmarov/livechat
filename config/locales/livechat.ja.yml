@@ -29,6 +29,7 @@ ja:
     attachment_error: "一部のファイルを送信できませんでした。"
     expand: "拡大"
     collapse: "縮小"
+    open_page: "ページとして開く"
     typing: "%{name} is typing..."
     attachments:
       too_many: "ファイルが多すぎます(最大%{count}件)。"

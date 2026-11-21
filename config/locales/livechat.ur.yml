@@ -29,6 +29,7 @@ ur:
     attachment_error: "کچھ فائلیں نہیں بھیجی جا سکیں۔"
     expand: "بڑا کریں"
     collapse: "چھوٹا کریں"
+    open_page: "صفحے کے طور پر کھولیں"
     typing: "%{name} is typing..."
     attachments:
       too_many: "بہت زیادہ فائلیں (زیادہ سے زیادہ %{count})۔"

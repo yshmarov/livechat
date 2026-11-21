@@ -29,6 +29,7 @@ de:
     attachment_error: "Einige Dateien konnten nicht gesendet werden."
     expand: "Vergrößern"
     collapse: "Verkleinern"
+    open_page: "Als Seite öffnen"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Zu viele Dateien (max. %{count})."

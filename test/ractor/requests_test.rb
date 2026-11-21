@@ -15,6 +15,9 @@ at_exit { FileUtils.remove_entry(ractor_directory) }
 require 'rails'
 require 'active_record/railtie'
 require 'action_controller/railtie'
+# Explicit: the host below sets config.active_job, and Rails edge no longer
+# loads Active Job's railtie through Action Mailer's.
+require 'active_job/railtie'
 require 'active_storage/engine' if ENV['RACTOR_MEDIA'] == '1'
 require 'action_mailer/railtie'
 require 'action_cable/engine' if ENV['RACTOR_CABLE'] == '1'

@@ -23,6 +23,10 @@ Livechat::Engine.routes.draw do
   # digits-only one would have made the tables bigint-only (see below).
   get 'attachments/:id', to: 'attachments#show', as: :attachment
 
+  # The visitor's chat as a page. No id: like the widget, it shows whoever
+  # loads it their own conversation. Above the catch-all for the same reason.
+  get 'chat', to: 'chat#show', as: :chat
+
   # The inbox. Flat, human URLs: the mount path IS the conversation list.
   # No `id: /\d+/` constraint: it made these routes bigint-only, which forced the
   # tables to be bigint too, and a uuid-keyed host could then never attach a file

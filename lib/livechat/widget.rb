@@ -105,10 +105,15 @@ module Livechat
           accentColor: settings[:accent_color],
           attachments: Livechat.attachments_enabled?,
           maxAttachments: config.max_attachments,
+          chatUrl: Livechat.chat_path,
           labels: labels(settings)
         }
         # Escape "</" so a value can't close the <script> block early.
         payload.to_json.gsub('</', '<\/')
+      end
+
+      def rtl?(locale)
+        RTL_LANGUAGES.include?(locale.to_s.downcase.split(/[-_]/).first)
       end
 
       private
@@ -153,16 +158,13 @@ module Livechat
           attachmentError: t(:attachment_error, 'Some files could not be sent.'),
           expand: t(:expand, 'Expand'),
           collapse: t(:collapse, 'Collapse'),
+          openPage: t(:open_page, 'Open as a page'),
           typing: t(:typing, '%{name} is typing...', name: t(:team, 'Support'))
         }
       end
 
       def t(key, default, **args)
         I18n.t(key, scope: :livechat, default: default, **args)
-      end
-
-      def rtl?(locale)
-        RTL_LANGUAGES.include?(locale.to_s.downcase.split(/[-_]/).first)
       end
     end
   end

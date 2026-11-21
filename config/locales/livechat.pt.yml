@@ -29,6 +29,7 @@ pt:
     attachment_error: "Não foi possível enviar alguns arquivos."
     expand: "Ampliar"
     collapse: "Reduzir"
+    open_page: "Abrir como página"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Muitos arquivos (máx. %{count})."

@@ -29,6 +29,7 @@ id:
     attachment_error: "Beberapa file tidak dapat dikirim."
     expand: "Perbesar"
     collapse: "Perkecil"
+    open_page: "Buka sebagai halaman"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Terlalu banyak file (maks. %{count})."

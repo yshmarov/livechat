@@ -29,6 +29,7 @@ bg:
     attachment_error: "Някои файлове не можаха да бъдат изпратени."
     expand: "Уголеми"
     collapse: "Смали"
+    open_page: "Отвори като страница"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Твърде много файлове (макс. %{count})."

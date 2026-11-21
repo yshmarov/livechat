@@ -62,6 +62,7 @@ the things it should not do. It ships inside the gem, so
 |               |                                                                          |
 | ------------- | ------------------------------------------------------------------------ |
 | **Widget**    | Chat bubble, expandable panel, drafts preserved, unread badges            |
+| **Chat page** | The same chat as a page with a URL — for your nav and the reply email     |
 | **Inbox**     | Open / resolved tabs, search across everything, who-worked-what column    |
 | **Team**      | Any teammate answers any thread; every reply signed with its author       |
 | **Email**     | Both directions — one per unread stretch, not one per message             |
@@ -157,6 +158,7 @@ Everything is optional — a fresh install works with zero config. In
 | `action_cable` | `false` | Opt into push delivery |
 | `action_cable_url` | `"/cable"` | Match your `mount ActionCable...` |
 | `rate_limit` | `{ to: 30, within: 1.minute }` | Per-IP throttle (Rails 7.2+). `nil` disables |
+| `chat_path` | `<mount_path>/chat` | The chat as a page. A path of your own, or `false` for none — see [The chat as a page](#the-chat-as-a-page) |
 | `mount_path` | `"/livechat"` | Keep in sync with `mount` in `routes.rb` |
 
 A typical initializer:
@@ -376,6 +378,7 @@ to a stream the server signed for it. Under a strict CSP, allow the socket with
 | `<%= livechat_button %>` | A plain, unstyled opener button |
 | `<%= livechat_button("Ask about this order", message: "I need help with order ##{@order.id}") %>` | Open and prefill in one helper |
 | `config.show_launcher = false` | Hide the bubble entirely |
+| `<%= livechat_chat %>` | The chat filling an element of your page — see below |
 
 While replies are unread, every `data-livechat-open` element carries a small
 count badge — so hiding the launcher never hides the answer.
@@ -404,6 +407,56 @@ Contextual buttons are where a Rails app beats a generic support widget:
 </button>
 ```
 
+## The chat as a page
+
+The bubble is for asking from where you are. Some visitors want the chat
+somewhere they can go back to — a Support link in your nav, a tab of its own,
+the link in the reply email. That is `/livechat/chat`: the visitor's
+conversation filling the window, the same thread the bubble opens.
+
+```erb
+<%= link_to "Support chat", Livechat.chat_path(locale: I18n.locale) %>
+```
+
+The engine's page doesn't run your app's locale switching, hence `locale:`.
+The panel has an icon that opens it, passing the language along by itself.
+
+**The URL is the same for everyone.** Like the widget, the page finds the
+visitor's conversation from their signed-in id or guest cookie, never from
+the URL, so a forwarded link shows a stranger their own empty chat and
+nothing else. It also means the page shows a thread only to a browser that
+already carries the visitor's identity: a signed-in session, or the guest
+cookie of the browser they wrote from. The engine's page can't send anyone to
+your sign-in, so a signed-out user who opens it sees an empty chat.
+
+That is why the reply email's "Continue the conversation" link goes to the
+chat page for guests, but to the last page they wrote from for signed-in
+visitors — your page asks them to sign in, and the thread is there after. With
+`chat_path` pointing at a page of your own (which can require sign-in), the
+email links that page for everyone.
+
+The engine's page is deliberately bare: your app name, the chat, nothing of
+your layout. To have the chat inside your own layout and navigation, render
+it in a page of yours and point `chat_path` there — the panel's icon and the
+email follow, and `/livechat/chat` redirects to it:
+
+```erb
+<%# app/views/support/show.html.erb %>
+<%= livechat_chat style: "height: 70vh" %>
+```
+
+```ruby
+config.chat_path = "/support"   # or false: no chat page, no icon
+```
+
+`livechat_chat` is only the element; the `livechat_tag` already in your layout
+fills it. Give it a height, or put it in something that has one. While it is on
+the page the bubble stays away, and every `data-livechat-open` element there
+moves focus into it.
+
+Messages written on the chat page don't count as "the page they were on" for
+your team — the inbox keeps showing the last page where they used the bubble.
+
 ## Compatibility and public API
 
 The following are the model and integration contracts that 1.x will keep
@@ -416,8 +469,10 @@ stable under semantic versioning:
   its persisted fields, optional `files`, documented scopes, author/read
   predicates, `public_label`, `attached_files`, and `preview`.
 - `Livechat.configure`, `mount_livechat`, `livechat_tag`, `livechat_button`,
-  `window.Livechat.open/close`, `data-livechat-open`, and
-  `data-livechat-message`.
+  `livechat_chat`, `Livechat.chat_path`, `window.Livechat.open/close`,
+  `data-livechat-open`, and `data-livechat-message`.
+- The chat page under the mount path (`chat`), including its `locale`
+  parameter.
 - The `embed.js` endpoint under the mount path, including its `locale`
   parameter. The markup it writes is private — embed the endpoint, not a copy
   of its output.

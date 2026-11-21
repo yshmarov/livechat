@@ -29,6 +29,7 @@ tr:
     attachment_error: "Bazı dosyalar gönderilemedi."
     expand: "Büyüt"
     collapse: "Küçült"
+    open_page: "Sayfa olarak aç"
     typing: "%{name} is typing..."
     attachments:
       too_many: "Çok fazla dosya (en fazla %{count})."
